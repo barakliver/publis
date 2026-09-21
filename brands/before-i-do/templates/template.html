@@ -47,7 +47,12 @@ function autoSize(text, base) {
   return base * 0.58;
 }
 
-window.render = function (item) {
+window.render = function (item, pos) {
+  /* `pos` describes where this slide sits in its carousel:
+     {index, total}. A single-image post passes total <= 1. */
+  const idx   = pos ? pos.index : 0;
+  const total = pos ? pos.total : 1;
+  const isCarousel = total > 1;
   const isStory = item.format === 'story';
   const W = 1080;
   const H = isStory ? 1920 : 1350;
@@ -110,6 +115,18 @@ window.render = function (item) {
     }
   }
 
+  /* Carousel furniture: progress dots on every slide, a swipe hint on the first. */
+  if (isCarousel) {
+    let dots = '';
+    for (let i = 0; i < total; i++) dots += `<i class="${i === idx ? 'on' : ''}"></i>`;
+    parts.push(`<div class="dots">${dots}</div>`);
+    if (idx === 0) {
+      parts.push(`<div class="swipe" style="font-size:${Math.max(32, headSize * 0.30)}px">
+        <span>החליקו</span><span class="chev"></span>
+      </div>`);
+    }
+  }
+
   /* Wordmark, always bottom centre. Dark backgrounds need the white cut. */
   const onDark = (layout === 'dark' || layout === 'photo');
   const mark =
@@ -120,7 +137,7 @@ window.render = function (item) {
   parts.push(`<img class="wordmark" src="${ASSETS}${mark}">`);
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isCarousel ? ' has-dots' : ''}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --gap-top:${isStory ? 112 : 118}px;
                  --gap-bottom:${isStory ? 372 : 378}px;
@@ -129,7 +146,10 @@ window.render = function (item) {
                  --heart-top:${isStory ? '3.2%' : '4.1%'};
                  --wordmark-bottom:${isStory ? '3.6%' : '4.6%'};
                  --badge-top:${isStory ? '11.5%' : '14.5%'};
-                 --content-shift:${isStory ? '-7%' : '-2%'}">
+                 --content-shift:${isStory ? '-7%' : (isCarousel ? '-5%' : '-2%')};
+                 --dots-bottom:${isStory ? '10.2%' : '13.4%'};
+                 --swipe-bottom:${isStory ? '14.4%' : '18.0%'};
+                 --cta-bottom-dots:18.0%">
        ${parts.join('')}
      </div>`;
 

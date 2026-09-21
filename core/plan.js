@@ -42,19 +42,24 @@ function buildRound(brandId, week) {
   const items = [];
 
   // Posts: fill day by day, one per configured time slot.
+  // A post is always a slides[] array - a single image is just a carousel of
+  // one, so nothing downstream needs two code paths.
   content.posts.forEach((post, i) => {
     const day = Math.floor(i / s.post_times.length);
     const slot = i % s.post_times.length;
     const date = addDays(monday, day);
+    const { slides, ...rest } = post;
     items.push({
       id: `post-${String(i + 1).padStart(2, '0')}`,
       format: 'post',
+      type: (slides && slides.length > 1) ? 'carousel' : 'single',
       channel: 'instagram',
       date: ymd(date),
       day_he: HEB_DAYS[day % 7],
       time: s.post_times[slot],
       status: 'draft',
-      ...post,
+      ...rest,
+      slides: slides || [{ layout: post.layout, headline: post.headline, subline: post.subline }],
     });
   });
 
@@ -71,7 +76,9 @@ function buildRound(brandId, week) {
       day_he: HEB_DAYS[day % 7],
       time: s.story_times[slot],
       status: 'draft',
+      type: 'single',
       ...story,
+      slides: [story],
     });
   });
 
@@ -91,6 +98,8 @@ function buildRound(brandId, week) {
       posts: content.posts.length,
       stories: content.stories.length,
       manual: items.filter((i) => i.manual).length,
+      carousels: items.filter((i) => i.type === 'carousel').length,
+      slides: items.reduce((n, i) => n + i.slides.length, 0),
     },
     items,
   };
@@ -109,8 +118,10 @@ if (require.main === module) {
   }
   const { round, outDir } = buildRound(brandId, week);
   console.log(
-    `  planned ${round.counts.posts} posts + ${round.counts.stories} stories ` +
-    `(${round.counts.manual} need manual publishing)\n  -> ${outDir}/round.json`
+    `  planned ${round.counts.posts} posts (${round.counts.carousels} carousels) ` +
+    `+ ${round.counts.stories} stories\n` +
+    `  ${round.counts.slides} slides to render, ${round.counts.manual} need manual publishing\n` +
+    `  -> ${outDir}/round.json`
   );
 }
 

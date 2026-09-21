@@ -31,22 +31,32 @@ async function renderRound(brandId, roundDir) {
   await page.goto('file://' + templatePath, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
 
+  const total = round.items.reduce((n, it) => n + it.slides.length, 0);
   let done = 0;
   for (const item of round.items) {
-    const size = await page.evaluate((it) => window.render(it), item);
-    await page.setViewportSize({ width: size.w, height: size.h });
-    await page.evaluate(() => document.fonts.ready);
+    item.images = [];
+    for (let i = 0; i < item.slides.length; i++) {
+      // Slide-level fields win; the item carries the shared ones (format, cta).
+      const slide = { format: item.format, ...item.slides[i] };
+      const pos = { index: i, total: item.slides.length };
+      const size = await page.evaluate(([sl, ps]) => window.render(sl, ps), [slide, pos]);
+      await page.setViewportSize({ width: size.w, height: size.h });
+      await page.evaluate(() => document.fonts.ready);
 
-    const file = path.join(imagesDir, `${item.id}.png`);
-    await page.locator('#canvas').screenshot({ path: file });
-    item.image = `images/${item.id}.png`;
-    done++;
-    process.stdout.write(`\r  rendered ${done}/${round.items.length}`);
+      const name = item.slides.length > 1
+        ? `${item.id}-${String(i + 1).padStart(2, '0')}.png`
+        : `${item.id}.png`;
+      await page.locator('#canvas').screenshot({ path: path.join(imagesDir, name) });
+      item.images.push(`images/${name}`);
+      done++;
+      process.stdout.write(`\r  rendered ${done}/${total}`);
+    }
+    item.image = item.images[0];   // the cover, for previews
   }
 
   await browser.close();
   fs.writeFileSync(path.join(roundPath, 'round.json'), JSON.stringify(round, null, 2));
-  process.stdout.write(`\r  rendered ${done}/${round.items.length} images\n`);
+  process.stdout.write(`\r  rendered ${done}/${total} images\n`);
   return done;
 }
 

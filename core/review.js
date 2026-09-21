@@ -149,6 +149,10 @@ h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
 /* ---------- item ---------- */
 .item {
   display: grid; grid-template-columns: 132px 1fr; gap: 14px;
+}
+.item.carousel { display: block; }
+.item.carousel .strip { margin-bottom: 11px; }
+.item {
   background: var(--surface); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 13px;
   margin-top: 12px; box-shadow: var(--shadow);
@@ -160,9 +164,25 @@ h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
 .shot {
   width: 132px; border-radius: 9px; overflow: hidden;
   border: 1px solid var(--line-soft); background: var(--sunken);
-  cursor: zoom-in; display: block; padding: 0;
+  cursor: zoom-in; display: block; padding: 0; flex: none;
 }
 .shot img { display: block; width: 100%; height: auto; max-height: 188px; object-fit: contain; }
+
+/* A carousel's slides scroll sideways in their own track, so the page
+   itself never scrolls horizontally. */
+.strip {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.strip .shot { scroll-snap-align: start; position: relative; }
+.strip .n {
+  position: absolute; inset-block-start: 5px; inset-inline-end: 5px;
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  color: var(--surface); font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 99px; font-variant-numeric: tabular-nums;
+}
+.strip::-webkit-scrollbar { height: 5px; }
+.strip::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
 
 .meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
 .chip {
@@ -294,7 +314,8 @@ const nameCache = new Map();
 $('ttl').textContent = round.brand_name + ' · שבוע ' + round.week.split('-W')[1] + '/' + round.week.split('-W')[0];
 $('rng').textContent =
   fmtDate(round.starts) + ' – ' + fmtDate(round.ends) + ' · ' +
-  round.counts.posts + ' פוסטים, ' + round.counts.stories + ' סטורי';
+  round.counts.posts + ' פוסטים (' + round.counts.slides + ' שקפים), ' +
+  round.counts.stories + ' סטורי';
 
 function fmtDate(iso) {
   const [y, m, d] = iso.split('-');
@@ -308,17 +329,31 @@ function fmtTime(iso) {
 
 /* ---------- render ---------- */
 function itemHTML(it) {
-  const kind = it.format === 'story' ? 'סטורי' : 'פוסט';
-  const body = it.dilemma
-    ? it.dilemma[0] + ' <span style="opacity:.55">או</span> ' + it.dilemma[1]
-    : esc(it.headline || '');
+  const cover = (it.slides && it.slides[0]) || it;
+  const kind = it.format === 'story' ? 'סטורי'
+             : it.type === 'carousel' ? 'קרוסלה · ' + it.slides.length + ' שקפים'
+             : 'פוסט';
+  const body = cover.dilemma
+    ? esc(cover.dilemma[0]) + ' <span style="opacity:.55">או</span> ' + esc(cover.dilemma[1])
+    : esc(cover.headline || '');
   const caption = it.caption ? esc(it.caption) : '';
   const long = caption.length > 150;
 
-  return '<article class="item" id="it-' + it.id + '" data-state="">' +
-    '<button class="shot" data-zoom="' + esc(it.image) + '">' +
-      '<img src="' + esc(it.image) + '" alt="" loading="lazy">' +
-    '</button>' +
+  const shots = (it.images && it.images.length ? it.images : [it.image]);
+  const isCar = shots.length > 1;
+
+  const strip = isCar
+    ? '<div class="strip">' + shots.map((src, i) =>
+        '<button class="shot" data-zoom="' + esc(src) + '">' +
+          '<img src="' + esc(src) + '" alt="" loading="lazy">' +
+          '<span class="n">' + (i + 1) + '</span>' +
+        '</button>').join('') + '</div>'
+    : '<button class="shot" data-zoom="' + esc(shots[0]) + '">' +
+        '<img src="' + esc(shots[0]) + '" alt="" loading="lazy">' +
+      '</button>';
+
+  return '<article class="item' + (isCar ? ' carousel' : '') + '" id="it-' + it.id + '" data-state="">' +
+    strip +
     '<div>' +
       '<div class="meta">' +
         '<span class="chip time">' + esc(it.time) + '</span>' +

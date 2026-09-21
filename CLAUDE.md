@@ -86,6 +86,22 @@ installed at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. Never run
 
 ---
 
+## Carousels
+
+Every post is a `slides` array; a single image is a carousel of one, so
+nothing downstream needs two code paths. `render.js` writes
+`post-NN-SS.png` per slide and puts the list on `item.images`.
+
+The template draws the furniture: progress dots on every slide (running
+left-to-right, matching Instagram's own indicator) and a swipe hint on slide
+one. The bottom zone is crowded - the wordmark reaches about 11.5% up from the
+bottom, so dots sit at 13.4% and the call to action at 18%. Move one, check
+the others.
+
+Shape a carousel so slide one earns the swipe and the last one asks for
+something. Four to six slides; one idea per slide, short enough to read
+without stopping. Instagram stories have no carousel - stories stay single.
+
 ## Writing for this brand
 
 - Address both partners. Hebrew second-person singular uses the dotted form the

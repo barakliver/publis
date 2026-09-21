@@ -225,3 +225,45 @@ html, body {
 }
 [data-layout="statement"] .story-cta,
 [data-layout="dilemma"]   .story-cta { color: var(--blue); }
+
+
+/* --- Carousel -------------------------------------------------------- */
+/* Dots sit above the wordmark on every slide, so a reader can see at a
+   glance how much is left. The active dot is solid; the rest are ghosted. */
+.dots {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: var(--dots-bottom, 9.4%);
+  z-index: 3;
+  display: flex; gap: 14px;
+  direction: ltr;   /* Instagram draws its own dots LTR; match them */
+}
+.dots i {
+  display: block;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--blue); opacity: .26;
+}
+.dots i.on { opacity: 1; }
+[data-layout="dark"]  .dots i,
+[data-layout="photo"] .dots i { background: var(--white); }
+
+/* Swipe hint, slide one only. */
+.swipe {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: var(--swipe-bottom, 13.6%);
+  z-index: 3;
+  display: flex; align-items: center; gap: .48em;
+  font-weight: 700; color: var(--blue); opacity: .72;
+}
+[data-layout="dark"]  .swipe,
+[data-layout="photo"] .swipe { color: var(--white); opacity: .85; }
+.swipe .chev {
+  width: .46em; height: .46em;
+  border-left: .11em solid currentColor;
+  border-bottom: .11em solid currentColor;
+  transform: rotate(45deg);       /* points left, the way the deck advances */
+}
+
+/* With dots present the call to action rides higher. */
+.canvas.has-dots .cta { bottom: var(--cta-bottom-dots, 14.6%); }
