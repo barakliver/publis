@@ -41,17 +41,24 @@ function bidi(s) {
     (m) => '<bdi dir="ltr">' + m + '</bdi>');
 }
 
-/* Type scale, calibrated against the printed card: a two-line headline fills
-   roughly a fifth of the canvas height. Shorter lines get bigger, not looser. */
+/* Type scale. The image carries one idea, so it is set to be read at a
+   thumb's distance while scrolling - a short line fills most of the width and
+   a long one still lands well above body size. Shorter lines get bigger, not
+   looser. The curve falls off gently: nothing here is long enough to justify
+   small type, and the dots coming off the bottom gave the block more room. */
+/* Keep a piece of furniture in proportion to the headline without letting a
+   very short hook inflate it. */
+function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
+
 function autoSize(text, base) {
   const n = String(text || '').length;
-  if (n <= 18)  return base * 1.30;
-  if (n <= 30)  return base * 1.14;
+  if (n <= 18)  return base * 1.34;
+  if (n <= 30)  return base * 1.18;
   if (n <= 45)  return base;
-  if (n <= 62)  return base * 0.88;
-  if (n <= 85)  return base * 0.76;
-  if (n <= 115) return base * 0.66;
-  return base * 0.58;
+  if (n <= 62)  return base * 0.90;
+  if (n <= 85)  return base * 0.80;
+  if (n <= 115) return base * 0.71;
+  return base * 0.63;
 }
 
 
@@ -75,8 +82,8 @@ window.render = function (item, pos) {
   const H = isStory ? 1920 : 1350;
   const layout = item.layout || 'statement';
 
-  const headSize = autoSize(item.headline, isStory ? 96 : 100);
-  const subSize  = Math.max(38, headSize * 0.46);
+  const headSize = autoSize(item.headline, isStory ? 118 : 124);
+  const subSize  = Math.max(46, headSize * 0.47);
 
   const parts = [];
 
@@ -101,14 +108,14 @@ window.render = function (item, pos) {
   /* Optional price badge */
   if (item.badge) {
     parts.push(
-      `<div class="badge" style="font-size:${Math.max(34, headSize * 0.34)}px">${bidi(item.badge)}</div>`
+      `<div class="badge" style="font-size:${clamp(headSize * 0.34, 36, 52)}px">${bidi(item.badge)}</div>`
     );
   }
 
   /* Body */
   const body = [];
   if (item.dilemma) {
-    const optSize = autoSize(item.dilemma.join(' '), isStory ? 90 : 94);
+    const optSize = autoSize(item.dilemma.join(' '), isStory ? 110 : 114);
     body.push(`<div class="dilemma">
       <div class="option" style="font-size:${optSize}px">${bidi(item.dilemma[0])}</div>
       <div class="or" style="font-size:${optSize * 1.02}px">או</div>
@@ -127,28 +134,28 @@ window.render = function (item, pos) {
   /* Call to action */
   if (item.cta) {
     if (isStory) {
-      parts.push(`<div class="story-cta" style="font-size:${Math.max(38, headSize * 0.36)}px">
+      parts.push(`<div class="story-cta" style="font-size:${clamp(headSize * 0.36, 40, 56)}px">
         ${bidi(item.cta)}<span class="arrow"></span>
       </div>`);
     } else {
       const ghost = (layout === 'statement' || layout === 'dilemma') ? ' ghost' : '';
-      parts.push(`<div class="cta${ghost}" style="font-size:${Math.max(36, headSize * 0.34)}px">${bidi(item.cta)}</div>`);
+      parts.push(`<div class="cta${ghost}" style="font-size:${clamp(headSize * 0.34, 38, 52)}px">${bidi(item.cta)}</div>`);
     }
   }
 
-  /* Engagement marks, on every slide. */
-  parts.push(SOCIAL);
+  /* Engagement marks, on the LAST slide only - that is the slide doing the
+     asking. Drawn on all of them they stopped reading as a prompt. A single
+     image and a story are their own last slide, so they keep them. */
+  const isLast = idx === total - 1;
+  if (isLast) parts.push(SOCIAL);
 
-  /* Carousel furniture: progress dots on every slide, a swipe hint on the first. */
-  if (isCarousel) {
-    let dots = '';
-    for (let i = 0; i < total; i++) dots += `<i class="${i === idx ? 'on' : ''}"></i>`;
-    parts.push(`<div class="dots">${dots}</div>`);
-    if (idx === 0) {
-      parts.push(`<div class="swipe" style="font-size:${Math.max(32, headSize * 0.30)}px">
-        <span>החליקו</span><span class="chev"></span>
-      </div>`);
-    }
+  /* Carousel furniture: a swipe hint on the first slide. No progress dots -
+     Instagram draws its own indicator over the image, and a second row
+     underneath it read as a mistake. */
+  if (isCarousel && idx === 0) {
+    parts.push(`<div class="swipe" style="font-size:${clamp(headSize * 0.29, 34, 44)}px">
+      <span>החליקו</span><span class="chev"></span>
+    </div>`);
   }
 
   /* Wordmark, bottom centre. An image where the brand has one, otherwise
@@ -164,11 +171,11 @@ window.render = function (item, pos) {
   if (file) {
     parts.push(`<img class="wordmark" src="${esc(file)}">`);
   } else if (BRAND.name) {
-    parts.push(`<div class="wordmark-text" style="font-size:${Math.max(30, headSize * 0.30)}px">${esc(BRAND.name)}</div>`);
+    parts.push(`<div class="wordmark-text" style="font-size:${clamp(headSize * 0.30, 30, 46)}px">${esc(BRAND.name)}</div>`);
   }
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isCarousel ? ' has-dots' : ''}${BRAND.mark ? '' : ' no-mark'}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
                  --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};
@@ -181,13 +188,12 @@ window.render = function (item, pos) {
                  --heart-top:${isStory ? '3.2%' : '4.1%'};
                  --wordmark-bottom:${isStory ? '2.8%' : '3.4%'};
                  --badge-top:${isStory ? '11.5%' : '14.5%'};
-                 --content-shift:${isStory ? '-11%' : (isCarousel ? '-9%' : '-7%')};
+                 --content-shift:${isStory ? '-9%' : '-6%'};
                  --social-bottom:${isStory ? '9.4%' : '12.2%'};
                  --social-size:${isStory ? '40px' : '46px'};
                  --social-gap:${isStory ? '30px' : '34px'};
-                 --dots-bottom:${isStory ? '14.2%' : '18.0%'};
-                 --swipe-bottom:${isStory ? '17.8%' : '22.0%'};
-                 --cta-bottom-dots:22.0%">
+                 --swipe-bottom:${isStory ? '11.0%' : '13.2%'};
+                 --cta-bottom-social:${isStory ? '13.0%' : '19.0%'}">
        ${parts.join('')}
      </div>`;
 

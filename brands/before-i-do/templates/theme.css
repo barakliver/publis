@@ -4,6 +4,15 @@
    Changing a colour here changes every image the system renders.
    --------------------------------------------------------------------------- */
 
+/* Rubik is the brand's speaking voice set in type: rounded terminals, open
+   counters, nothing of the form-letter about it. Assistant stays behind it as
+   a fallback and for any brand that has not been moved over. */
+@font-face {
+  font-family: 'Rubik';
+  src: url('../assets/fonts/Rubik.ttf') format('truetype-variations');
+  font-weight: 300 900;
+  font-display: block;
+}
 @font-face {
   font-family: 'Assistant';
   src: url('../assets/fonts/Assistant.ttf') format('truetype-variations');
@@ -35,7 +44,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
-  font-family: 'Assistant', 'Heebo', sans-serif;
+  font-family: 'Rubik', 'Assistant', 'Heebo', sans-serif;
   direction: rtl;               /* correct Hebrew ordering - non-negotiable */
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
@@ -120,13 +129,12 @@ html, body {
 [data-layout="photo"]     .wordmark { width: 34%; }
 [data-layout="photo"]     .wordmark { filter: drop-shadow(0 2px 10px rgba(0,0,0,.5)); }
 [data-layout="photo"]     .social svg { filter: drop-shadow(0 1px 6px rgba(0,0,0,.5)); }
-[data-layout="photo"]     .dots i { box-shadow: 0 1px 6px rgba(0,0,0,.5); }
 
 /* --- Text block ------------------------------------------------------- */
 .content {
   position: relative;
   z-index: 2;
-  width: 80%;
+  width: 84%;
   margin-top: var(--content-shift, -2%);
   text-align: center;
   display: flex;
@@ -136,15 +144,18 @@ html, body {
   gap: 0.55em;
 }
 
+/* 600 rather than 700: at this size Rubik's bold reads as a shout, and the
+   voice is a friend talking, not a poster. Tracking stays near zero - Rubik
+   is already tight, and pulling it in crowds the Hebrew. */
 .headline {
-  font-weight: 700;
-  line-height: 1.20;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.005em;
   text-wrap: balance;
 }
 .subline {
   font-weight: 400;
-  line-height: 1.45;
+  line-height: 1.38;
   text-wrap: balance;
   opacity: .95;
 }
@@ -162,13 +173,13 @@ html, body {
 /* --- The "A or B" dilemma, the brand's signature device --------------- */
 .dilemma { display: flex; flex-direction: column; align-items: center; gap: 0.30em; }
 .dilemma .option {
-  font-weight: 600; line-height: 1.20;
-  letter-spacing: -0.02em;
+  font-weight: 600; line-height: 1.16;
+  letter-spacing: -0.005em;
   color: var(--blue);
   text-wrap: balance;
 }
 .dilemma .or {
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0;
   color: var(--blue);
   line-height: 1;
@@ -236,24 +247,8 @@ html, body {
 
 
 /* --- Carousel -------------------------------------------------------- */
-/* Dots sit above the wordmark on every slide, so a reader can see at a
-   glance how much is left. The active dot is solid; the rest are ghosted. */
-.dots {
-  position: absolute;
-  left: 50%; transform: translateX(-50%);
-  bottom: var(--dots-bottom, 15.8%);
-  z-index: 3;
-  display: flex; gap: 14px;
-  direction: ltr;   /* Instagram draws its own dots LTR; match them */
-}
-.dots i {
-  display: block;
-  width: 13px; height: 13px; border-radius: 50%;
-  background: var(--blue); opacity: .26;
-}
-.dots i.on { opacity: 1; }
-[data-layout="dark"]  .dots i,
-[data-layout="photo"] .dots i { background: var(--white); }
+/* No progress dots. Instagram draws its own indicator over the image, and a
+   second row of them underneath it read as a printing error. */
 
 /* Swipe hint, slide one only. */
 .swipe {
@@ -273,14 +268,17 @@ html, body {
   transform: rotate(45deg);       /* points left, the way the deck advances */
 }
 
-/* With dots present the call to action rides higher. */
-.canvas.has-dots .cta { bottom: var(--cta-bottom-dots, 14.6%); }
+/* The call to action rides above the engagement row where that row is drawn,
+   and drops into the space it leaves where it is not. */
+.canvas.has-social .cta { bottom: var(--cta-bottom-social, 19.0%); }
 
 
 /* --- Engagement row --------------------------------------------------
-   Instagram's own like / comment / send / save marks, drawn on every slide
-   just above the wordmark. They read as a prompt, not as chrome, so they sit
-   at partial strength and never compete with the headline. */
+   Instagram's own like / comment / send / save marks, drawn just above the
+   wordmark on the LAST slide only - that is where the ask belongs, and on
+   every slide they stopped reading as a prompt and started reading as
+   furniture. They sit at partial strength and never compete with the
+   headline. */
 .social {
   position: absolute;
   left: 50%; transform: translateX(-50%);

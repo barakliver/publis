@@ -105,11 +105,10 @@ Every post is a `slides` array; a single image is a carousel of one, so
 nothing downstream needs two code paths. `render.js` writes
 `post-NN-SS.png` per slide and puts the list on `item.images`.
 
-The template draws the furniture: progress dots on every slide (running
-left-to-right, matching Instagram's own indicator) and a swipe hint on slide
-one. The bottom zone is crowded - the wordmark reaches about 11.5% up from the
-bottom, so dots sit at 13.4% and the call to action at 18%. Move one, check
-the others.
+The template draws one piece of furniture: a swipe hint on slide one. There
+are **no progress dots** - Instagram draws its own indicator over the image,
+and a second row under it read as a printing error. They were removed at the
+client's word; do not put them back.
 
 Shape a carousel so slide one earns the swipe and the last one asks for
 something. Four to six slides; one idea per slide, short enough to read
@@ -237,10 +236,26 @@ burned into the top of the frame; the template draws its own.
 
 ## Engagement marks
 
-Every slide carries Instagram's like / comment / send / save marks above the
-wordmark, drawn inline as SVG. The bottom stack, from the bottom up:
-wordmark 3.4%, marks 12.2%, dots 18%, swipe hint and call to action 22%.
-Move one, check the rest - they were colliding twice before this spacing.
+Instagram's like / comment / send / save marks, drawn inline as SVG, sit above
+the wordmark on the **last slide only** - that is the slide doing the asking,
+and on every slide they stopped reading as a prompt and started reading as
+chrome. A single image and a story are their own last slide, so they keep them.
+
+The bottom stack, from the bottom up: wordmark 3.4%, marks 12.2%, call to
+action 19% on the last slide; swipe hint 13.2% on the first. Move one, check
+the rest - they were colliding twice before this spacing.
+
+## Type
+
+`Rubik` (variable, `assets/fonts/Rubik.ttf`) sets every image: rounded
+terminals and open counters, so the page sounds like the voice rather than
+like a form. Headlines are 600, not 700 - at this size the bold reads as a
+shout. Assistant and Heebo stay behind it as fallbacks.
+
+The scale in `autoSize()` is deliberately large - the image carries one idea
+and has to land at a thumb's distance while scrolling. Anything sized off the
+headline (the pill, the badge, the wordmark in type) goes through `clamp()`,
+or a three-word hook inflates the whole bottom of the frame.
 
 ## Writing for this brand
 

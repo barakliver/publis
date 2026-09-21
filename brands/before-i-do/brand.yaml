@@ -50,7 +50,7 @@ visual:
     white: "#FFFFFF"
 
   fonts:
-    hebrew: "Assistant"    # assets/fonts/Assistant.ttf
+    hebrew: "Rubik"        # assets/fonts/Rubik.ttf - rounder, less formal
     fallback: "Heebo"
 
   assets:
