@@ -117,6 +117,8 @@ without stopping. Instagram stories have no carousel - stories stay single.
 - `review.html` — the Artifact build. Shared database, live marks, needs a
   Claude account. Published to the fixed artifact URL above.
 - `index.html` — the static build for GitHub Pages. **No account, no sign-in.**
+  Installs to a phone home screen as an app (`manifest.webmanifest`, icons at
+  the repo root) and serves `download.zip` from beside itself.
   Marks live in the reviewer's own browser (localStorage, every access
   wrapped) and go back to the team through a WhatsApp message the page
   composes: `wa.me/<brand whatsapp>` prefilled with the reviewer's name, the
@@ -128,6 +130,22 @@ week to week. `.nojekyll` stops Pages from filtering files.
 
 Pages is served from the repository root, so a round's images are already
 reachable at their own path - never duplicate them into a docs folder.
+
+## The Monday job
+
+`.github/workflows/weekly-round.yml` runs every Monday 04:00 UTC and on
+demand. It writes next week's content, builds the round, and pushes it, so the
+approval page and the download are ready before anyone opens their phone.
+Nothing is scheduled or published - the round still waits for approval.
+
+`core/write.js` writes the content from `persona` and `rules` in brand.yaml
+plus the last three weeks already on disk, so it does not repeat itself. Model
+`claude-opus-5`, streamed, output validated (count, banned words, slide
+shape) with one corrective retry before it gives up. Roughly $0.30 a week.
+
+It needs `ANTHROPIC_API_KEY` in the repository's Actions secrets. Without it
+that step fails softly and the job reuses the newest content file under a new
+week - a round still lands, it is just a repeat.
 
 ## Handing a round off
 

@@ -46,6 +46,10 @@ function buildPage(round, mode = 'artifact') {
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Before I Do">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="../../../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../../../icons/icon-180.png">
+<link rel="icon" href="../../../icons/icon-192.png">
 `
     : '';
   const shellHead = isStatic
@@ -305,6 +309,14 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
 .send-wa:disabled { opacity: .45; cursor: default; }
 .send-wa:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .copied { font-size: 12px; color: var(--ok); font-weight: 700; }
+.dl {
+  display: block; margin-top: 8px; text-align: center;
+  font-size: 13px; font-weight: 700; text-decoration: none;
+  padding: 9px 14px; border-radius: 99px;
+  border: 1px solid var(--brand); color: var(--brand); background: var(--surface);
+}
+.dl:hover { background: var(--sunken); }
+.dl:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 </style>
 ${shellHead}
 ${shellMid}
@@ -323,6 +335,7 @@ ${shellMid}
       <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
       <button class="send-wa" id="sendwa">שליחה בוואטסאפ</button>
     </div>
+    <a class="dl" id="dl" href="download.zip" download>⬇︎ הורדת כל התמונות והטקסטים</a>
     <div class="who"><span class="dot off"></span><span id="livetxt">הסימונים נשמרים במכשיר הזה</span></div>
     ` : `
     <div class="who"><span class="dot off" id="livedot"></span><span id="livetxt">מתחבר…</span></div>
@@ -339,7 +352,9 @@ ${shellMid}
     <ul>
       ${isStatic
         ? `<li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
-           <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>`
+           <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>
+           <li><b>הורדת כל התמונות והטקסטים</b> נותנת קובץ ZIP מסודר לפי ימים — זה מה שמעלים ממנו לאינסטגרם.</li>
+           <li><b>להתקנה כאפליקציה:</b> בספארי — שתף ← הוסף למסך הבית. באנדרואיד — ⋮ ← הוסף למסך הבית.</li>`
         : `<li>כל סימון והערה נשמרים מיד ונראים לכל מי שפתח את הדף.</li>`}
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
       <li>פריט עם <span style="color:var(--flag);font-weight:700">העלאה ידנית</span> נושא סטיקר לינק או סקר. אינסטגרם לא מאפשרת לפרסם אותו דרך API — תגיע התראה לנייד בזמן הפרסום.</li>
@@ -595,6 +610,12 @@ $('sendwa').addEventListener('click', sendReport);
 $('me').addEventListener('change', () => {
   try { localStorage.setItem(KEY + ':me', $('me').value); } catch { /* ignore */ }
 });
+
+/* The zip sits next to the page on the hosted build. Opened from a local
+   file it will not be there, so the button hides itself rather than 404. */
+fetch('download.zip', { method: 'HEAD' })
+  .then((r) => { if (!r.ok) $('dl').hidden = true; })
+  .catch(() => { $('dl').hidden = true; });
 
 load();
 $('me').value = myName === 'אני' ? '' : myName;

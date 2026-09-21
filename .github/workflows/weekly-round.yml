@@ -1,0 +1,97 @@
+name: Weekly round
+
+# Every Monday, build next week's round and push it. The approval page and
+# the hand-off zip are ready before anyone opens their phone.
+#
+# 04:00 UTC is 06:00 in Israel during daylight saving, 07:00 otherwise. Cron
+# has no timezone, so the hour shifts by one across the year - which does not
+# matter for a job whose output is reviewed later that day.
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      week:
+        description: 'ISO week to build, e.g. 2026-W41. Blank means next week.'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install
+        run: |
+          npm ci --omit=optional || npm install
+          npx playwright install --with-deps chromium
+
+      - name: Work out which week to build
+        id: week
+        run: |
+          if [ -n "${{ inputs.week }}" ]; then
+            echo "week=${{ inputs.week }}" >> "$GITHUB_OUTPUT"
+          else
+            # The round being built is the week that starts next Monday.
+            echo "week=$(date -u -d 'next monday' +%G-W%V)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write the content
+        id: write
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node core/write.js before-i-do "${{ steps.week.outputs.week }}"
+
+      - name: Fall back to the most recent content when generation is unavailable
+        if: steps.write.outcome != 'success'
+        run: |
+          WEEK="${{ steps.week.outputs.week }}"
+          DIR=brands/before-i-do/content
+          if [ -f "$DIR/$WEEK.js" ]; then
+            echo "Content for $WEEK already exists - using it."
+          else
+            LATEST=$(ls "$DIR"/*.js | sort | tail -1)
+            echo "::warning::No generated content. Reusing $LATEST for $WEEK."
+            sed "s/week: *'[^']*'/week: '$WEEK'/; s/\"week\": *\"[^\"]*\"/\"week\": \"$WEEK\"/" \
+              "$LATEST" > "$DIR/$WEEK.js"
+          fi
+
+      - name: Build the round
+        run: |
+          WEEK="${{ steps.week.outputs.week }}"
+          node test/bidi.test.js
+          node core/plan.js    before-i-do "$WEEK"
+          node core/render.js  before-i-do "rounds/before-i-do/$WEEK"
+          node core/review.js  before-i-do "rounds/before-i-do/$WEEK"
+          node core/package.js before-i-do "rounds/before-i-do/$WEEK"
+
+      - name: Publish the download next to the page
+        run: |
+          WEEK="${{ steps.week.outputs.week }}"
+          mv "rounds/before-i-do/$WEEK/BeforeIDo-$WEEK.zip" \
+             "rounds/before-i-do/$WEEK/download.zip"
+
+      - name: Commit
+        run: |
+          WEEK="${{ steps.week.outputs.week }}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Weekly round $WEEK
+
+          Built by the Monday job: content, images, approval page and the
+          hand-off download. Nothing is scheduled or published - the round
+          waits for approval."
+            git push
+          fi
