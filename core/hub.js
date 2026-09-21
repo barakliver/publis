@@ -1,4 +1,94 @@
-<!doctype html>
+/**
+ * hub.js - builds the front door.
+ *
+ * One page listing every business, each with its current round. This is what
+ * the team installs on their phone; the per-round pages hang off it. It reads
+ * whatever is under brands/, so adding a business really is adding a folder.
+ *
+ *   node core/hub.js
+ */
+
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
+
+const ROOT = path.resolve(__dirname, '..');
+
+/** Every brand folder, with its latest built round if it has one. */
+function surveyBrands() {
+  const brandsDir = path.join(ROOT, 'brands');
+  if (!fs.existsSync(brandsDir)) return [];
+
+  return fs.readdirSync(brandsDir)
+    .filter((d) => fs.existsSync(path.join(brandsDir, d, 'brand.yaml')))
+    .map((id) => {
+      const brand = yaml.load(fs.readFileSync(path.join(brandsDir, id, 'brand.yaml'), 'utf8'));
+      const roundsDir = path.join(ROOT, 'rounds', id);
+      const weeks = fs.existsSync(roundsDir)
+        ? fs.readdirSync(roundsDir)
+            .filter((w) => fs.existsSync(path.join(roundsDir, w, 'round.json')))
+            .sort()
+        : [];
+      const week = weeks[weeks.length - 1] || null;
+
+      let counts = null;
+      if (week) {
+        const r = JSON.parse(fs.readFileSync(path.join(roundsDir, week, 'round.json'), 'utf8'));
+        counts = r.counts;
+      }
+      return {
+        id,
+        name: brand.brand?.name || id,
+        company: brand.brand?.company || '',
+        kind: brand.brand?.kind || '',
+        setup: brand.setup_needed || null,
+        colors: brand.visual?.colors || {},
+        week, weeks, counts,
+      };
+    })
+    .sort((a, b) => (b.week ? 1 : 0) - (a.week ? 1 : 0) || a.name.localeCompare(b.name));
+}
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function card(b) {
+  const blue = b.colors.blue || '#4E6BA5';
+  const red = b.colors.red || '#F64C3B';
+
+  if (!b.week) {
+    return `<article class="biz waiting">
+      <span class="swatch" style="--a:${esc(blue)};--b:${esc(red)}"></span>
+      <div class="biz-in">
+        <h2>${esc(b.name)}</h2>
+        ${b.company ? `<p class="sub">${esc(b.company)}</p>` : ''}
+        <p class="need">${esc(b.setup || 'עוד אין סבב. צריך להשלים את פרטי המותג.')}</p>
+      </div>
+    </article>`;
+  }
+
+  const c = b.counts || {};
+  return `<a class="biz" href="rounds/${esc(b.id)}/${esc(b.week)}/">
+      <span class="swatch" style="--a:${esc(blue)};--b:${esc(red)}"></span>
+      <div class="biz-in">
+        <h2>${esc(b.name)}</h2>
+        ${b.company ? `<p class="sub">${esc(b.company)}</p>` : ''}
+        <p class="stat">
+          <b>${esc(b.week.replace('-W', ' · שבוע '))}</b><br>
+          ${c.posts || 0} קרוסלות · ${c.stories || 0} סטורי
+        </p>
+      </div>
+      <span class="go">‹</span>
+    </a>`;
+}
+
+function buildHub() {
+  const brands = surveyBrands();
+  const live = brands.filter((b) => b.week);
+
+  const html = `<!doctype html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -73,41 +163,15 @@ header p{margin:5px 0 0;color:var(--ink-soft);font-size:14px}
     <p>כל העסקים במקום אחד. נבנה מחדש כל שבת בערב.</p>
   </header>
 
-  <section class="group">
+  ${live.length ? `<section class="group">
     <h3>פעילים</h3>
-    <a class="biz" href="rounds/before-i-do/2026-W40/">
-      <span class="swatch" style="--a:#4E6BA5;--b:#F64C3B"></span>
-      <div class="biz-in">
-        <h2>Before I Do</h2>
-        <p class="sub">Liver Production</p>
-        <p class="stat">
-          <b>2026 · שבוע 40</b><br>
-          21 קרוסלות · 14 סטורי
-        </p>
-      </div>
-      <span class="go">‹</span>
-    </a>
-  </section>
+    ${live.map(card).join('\n    ')}
+  </section>` : ''}
 
-  <section class="group">
+  ${brands.filter((b) => !b.week).length ? `<section class="group">
     <h3>ממתינים להשלמת פרטים</h3>
-    <article class="biz waiting">
-      <span class="swatch" style="--a:#4E6BA5;--b:#F64C3B"></span>
-      <div class="biz-in">
-        <h2>TODO - שם הקונדיטוריה</h2>
-        
-        <p class="need">צריך: שם, לוגו, צבעים, מה נמכר, מחירים, קהל, ואינסטגרם</p>
-      </div>
-    </article>
-    <article class="biz waiting">
-      <span class="swatch" style="--a:#4E6BA5;--b:#F64C3B"></span>
-      <div class="biz-in">
-        <h2>ליור הפקות</h2>
-        <p class="sub">Liver Production</p>
-        <p class="need">צריך: מה בדיוק נמכר, טווח מחירים, קהל, וקו ויזואלי (או שנשתמש באותו אחד)</p>
-      </div>
-    </article>
-  </section>
+    ${brands.filter((b) => !b.week).map(card).join('\n    ')}
+  </section>` : ''}
 
   <section class="foot">
     <b>איך זה עובד</b>
@@ -121,3 +185,18 @@ header p{margin:5px 0 0;color:var(--ink-soft);font-size:14px}
 </div>
 </body>
 </html>
+`;
+
+  fs.writeFileSync(path.join(ROOT, 'index.html'), html);
+  return { brands, live: live.length };
+}
+
+if (require.main === module) {
+  const r = buildHub();
+  console.log(`  hub -> index.html (${r.live} live, ${r.brands.length - r.live} waiting)`);
+  for (const b of r.brands) {
+    console.log(`     ${b.week ? '●' : '○'} ${b.name}${b.week ? `  ${b.week}` : ''}`);
+  }
+}
+
+module.exports = { buildHub, surveyBrands };

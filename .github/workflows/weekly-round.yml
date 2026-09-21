@@ -1,14 +1,14 @@
 name: Weekly round
 
-# Every Monday, build next week's round and push it. The approval page and
-# the hand-off zip are ready before anyone opens their phone.
+# Saturday evening: build next week's round and push it, so the team opens
+# Sunday to a round that is already waiting.
 #
-# 04:00 UTC is 06:00 in Israel during daylight saving, 07:00 otherwise. Cron
-# has no timezone, so the hour shifts by one across the year - which does not
-# matter for a job whose output is reviewed later that day.
+# 15:00 UTC is 18:00 in Israel through the summer and 17:00 once the clocks
+# go back. Cron has no timezone, so the hour shifts by one across the year -
+# which does not matter for a round nobody reads until the next morning.
 on:
   schedule:
-    - cron: '0 4 * * 1'
+    - cron: '0 15 * * 6'
   workflow_dispatch:
     inputs:
       week:
@@ -39,7 +39,7 @@ jobs:
           if [ -n "${{ inputs.week }}" ]; then
             echo "week=${{ inputs.week }}" >> "$GITHUB_OUTPUT"
           else
-            # The round being built is the week that starts next Monday.
+            # Built on Saturday for the week starting the day after tomorrow.
             echo "week=$(date -u -d 'next monday' +%G-W%V)" >> "$GITHUB_OUTPUT"
           fi
 
@@ -71,13 +71,7 @@ jobs:
           node core/plan.js    before-i-do "$WEEK"
           node core/render.js  before-i-do "rounds/before-i-do/$WEEK"
           node core/review.js  before-i-do "rounds/before-i-do/$WEEK"
-          node core/package.js before-i-do "rounds/before-i-do/$WEEK"
-
-      - name: Publish the download next to the page
-        run: |
-          WEEK="${{ steps.week.outputs.week }}"
-          mv "rounds/before-i-do/$WEEK/BeforeIDo-$WEEK.zip" \
-             "rounds/before-i-do/$WEEK/download.zip"
+          node core/hub.js
 
       - name: Commit
         run: |

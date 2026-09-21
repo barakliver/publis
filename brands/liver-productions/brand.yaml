@@ -1,0 +1,81 @@
+# ---------------------------------------------------------------------------
+# Liver Productions - the wedding production business itself, not the deck.
+#
+# SCAFFOLD. The fields marked TODO are the ones only Barak can answer; until
+# they are filled the hub shows this business as waiting and no round is built.
+# ---------------------------------------------------------------------------
+
+id: liver-productions
+
+setup_needed: "צריך: מה בדיוק נמכר, טווח מחירים, קהל, וקו ויזואלי (או שנשתמש באותו אחד)"
+
+brand:
+  name: "ליור הפקות"
+  company: "Liver Production"
+  kind: "הפקת אירועים"
+  tagline: "TODO"
+  website: ""
+  instagram: ""
+  whatsapp: "+972526604320"
+  contact_phone: "052-660-4320"
+
+product:
+  what: "TODO - הפקת חתונות ואירועים. איזה שירותים בדיוק?"
+  purpose: "TODO"
+  price_launch: 0        # TODO - או להסיר אם אין מחיר מפורסם
+  price_regular: 0
+  launch_ends: ""
+
+audience:
+  primary: "TODO - זוגות שמחפשים מפיק.ה? חברות? שניהם?"
+  secondary: ""
+  pain: "TODO"
+
+# The visual language is shared with Before I Do until told otherwise - same
+# company, same hand. Replace the colours here to give it its own look.
+visual:
+  colors:
+    blue: "#4E6BA5"
+    blue_light: "#7F9ACE"
+    red: "#F64C3B"
+    cream: "#FFF9F3"
+    white: "#FFFFFF"
+  fonts:
+    hebrew: "Assistant"
+    fallback: "Heebo"
+  assets:
+    heart: "assets/heart.png"
+    wordmark_brand: "assets/wordmark-liver-production.png"
+    wordmark_company: "assets/wordmark-liver-production.png"
+  sizes:
+    post:  { w: 1080, h: 1350 }
+    story: { w: 1080, h: 1920 }
+
+persona:
+  name: "TODO - אותה דני, או קול אחר?"
+  who: "TODO"
+  stance: "TODO"
+
+language:
+  primary: "he"
+  gendering: "dotted"
+  address: "plural"
+  emoji: "moderate"
+
+rules:
+  forbidden_words: ["היום המושלם", "קסום", "חלומי", "אגדה"]
+  required:
+    - "כל טקסט בעברית תקנית"
+
+schedule:
+  timezone: "Asia/Jerusalem"
+  posts_per_day: 1
+  stories_per_day: 1
+  post_times:  ["19:30"]
+  story_times: ["20:30"]
+  approval_lead_days: 2
+  mix: { pain: 2, value: 3, identity: 2, social_proof: 2, sell: 1 }
+
+channels:
+  instagram: true
+  facebook: false

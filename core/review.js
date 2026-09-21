@@ -50,6 +50,7 @@ function buildPage(round, mode = 'artifact') {
 <link rel="manifest" href="../../../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../../../icons/icon-180.png">
 <link rel="icon" href="../../../icons/icon-192.png">
+<script src="../../../vendor/jszip.min.js"></script>
 `
     : '';
   const shellHead = isStatic
@@ -317,6 +318,49 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
 }
 .dl:hover { background: var(--sunken); }
 .dl:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* ---------- per-item tools: download, edit ---------- */
+.tools { display: flex; gap: 7px; margin-top: 9px; flex-wrap: wrap; }
+.tool {
+  font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  padding: 6px 12px; border-radius: 99px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+}
+.tool:hover { border-color: var(--brand); color: var(--brand); }
+.tool:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.tool[aria-expanded="true"] { border-color: var(--brand); color: var(--brand); background: var(--sunken); }
+.tool.busy { opacity: .55; cursor: progress; }
+
+/* The caption is edited in place - what you see is what gets copied. */
+.cap-edit {
+  width: 100%; font: inherit; font-size: 13.5px; line-height: 1.5;
+  padding: 9px 10px; border-radius: 9px; border: 1px solid var(--brand);
+  background: var(--ground); color: var(--ink); resize: vertical; min-height: 120px;
+}
+.edited-flag {
+  font-size: 11px; font-weight: 700; color: var(--brand);
+  border: 1px solid var(--brand); border-radius: 99px; padding: 1.5px 7px;
+}
+
+/* Slide text: pick a slide, fix its wording. The picture is rebuilt later. */
+.slides-edit { margin-top: 9px; border-top: 1px solid var(--line-soft); padding-top: 9px; }
+.slide-tabs { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.slide-tab {
+  font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+}
+.slide-tab[aria-selected="true"] { border-color: var(--brand); color: var(--brand); background: var(--sunken); }
+.slide-tab.changed { border-color: var(--brand); color: var(--brand); }
+.slide-tab.changed::after { content: '•'; }
+.slide-fields { display: flex; flex-direction: column; gap: 6px; }
+.slide-fields label { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); }
+.slide-fields input {
+  font: inherit; font-size: 13.5px; padding: 7px 10px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--ground); color: var(--ink);
+}
+.slide-fields input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.hint { font-size: 11.5px; color: var(--ink-faint); margin-top: 5px; }
 </style>
 ${shellHead}
 ${shellMid}
@@ -335,7 +379,6 @@ ${shellMid}
       <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
       <button class="send-wa" id="sendwa">שליחה בוואטסאפ</button>
     </div>
-    <a class="dl" id="dl" href="download.zip" download>⬇︎ הורדת כל התמונות והטקסטים</a>
     <div class="who"><span class="dot off"></span><span id="livetxt">הסימונים נשמרים במכשיר הזה</span></div>
     ` : `
     <div class="who"><span class="dot off" id="livedot"></span><span id="livetxt">מתחבר…</span></div>
@@ -353,7 +396,8 @@ ${shellMid}
       ${isStatic
         ? `<li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
            <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>
-           <li><b>הורדת כל התמונות והטקסטים</b> נותנת קובץ ZIP מסודר לפי ימים — זה מה שמעלים ממנו לאינסטגרם.</li>
+           <li><b>הורדה</b> בכל פריט נותנת את הקרוסלה שלו עם הטקסט — זה מה שמעלים לאינסטגרם.</li>
+           <li><b>עריכת טקסט</b> משנה את הכיתוב מיד, וזה מה שיירד בהורדה. <b>תיקון שקפים</b> נכנס לתמונה בבנייה הבאה.</li>
            <li><b>להתקנה כאפליקציה:</b> בספארי — שתף ← הוסף למסך הבית. באנדרואיד — ⋮ ← הוסף למסך הבית.</li>`
         : `<li>כל סימון והערה נשמרים מיד ונראים לכל מי שפתח את הדף.</li>`}
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
@@ -372,6 +416,7 @@ ${shellMid}
 const DATA = ${data};
 const { round, days, PILLAR_HE } = DATA;
 
+const ISSTATIC = ${isStatic};
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -441,6 +486,20 @@ function itemHTML(it) {
         '<button class="btn ok"  data-act="approved" data-id="' + it.id + '" aria-pressed="false">✓ מאשר</button>' +
         '<button class="btn fix" data-act="fix"      data-id="' + it.id + '" aria-pressed="false">✕ צריך תיקון</button>' +
       '</div>' +
+      (ISSTATIC ? (
+        '<div class="tools">' +
+          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדה</button>' +
+          '<button class="tool" data-copy="' + it.id + '">העתקת טקסט</button>' +
+          '<button class="tool" data-editcap="' + it.id + '" aria-expanded="false">עריכת טקסט</button>' +
+          (isCar ? '<button class="tool" data-editslides="' + it.id + '" aria-expanded="false">תיקון שקפים</button>' : '') +
+          '<span id="flag-' + it.id + '"></span>' +
+        '</div>' +
+        '<div class="cap-wrap" id="capw-' + it.id + '" hidden>' +
+          '<textarea class="cap-edit" id="cap-edit-' + it.id + '"></textarea>' +
+          '<p class="hint">הטקסט הערוך הוא מה שיירד בהורדה ובהעתקה.</p>' +
+        '</div>' +
+        '<div class="slides-edit" id="sl-' + it.id + '" hidden></div>'
+      ) : '') +
       '<div class="notes" id="nt-' + it.id + '"></div>' +
       '<div class="add">' +
         '<textarea id="ta-' + it.id + '" rows="1" placeholder="הערה — מה לשנות?"></textarea>' +
@@ -556,6 +615,194 @@ function addNote(id) {
   paint(id);
 }
 
+
+/* ---------- editing ------------------------------------------------------
+   Two kinds of edit, and they behave differently on purpose:
+   - the CAPTION is live. What you type is what the copy button and the
+     download hand over, because the caption is plain text either way.
+   - SLIDE text is a correction. The picture is rendered from it upstream, so
+     a fix here rides the next build; until then the slide still shows the old
+     wording. Saying so in the UI beats letting someone think it redrew. */
+
+function edits(id) {
+  const s = state.get(id) || {};
+  return s.edits || {};
+}
+
+function setEdit(id, patch) {
+  const cur = state.get(id) || { notes: [] };
+  state.set(id, { ...cur, edits: { ...(cur.edits || {}), ...patch } });
+  save();
+  paintEdited(id);
+}
+
+function itemById(id) { return round.items.find((i) => i.id === id); }
+
+/** The caption as it stands now: edited if it was, original otherwise. */
+function captionOf(id) {
+  const e = edits(id);
+  return e.caption != null ? e.caption : (itemById(id).caption || '');
+}
+
+function paintEdited(id) {
+  const e = edits(id);
+  const n = (e.caption != null ? 1 : 0) + Object.keys(e.slides || {}).length;
+  const flag = $('flag-' + id);
+  if (flag) flag.innerHTML = n ? '<span class="edited-flag">' + n + ' שינויים</span>' : '';
+
+  document.querySelectorAll('#sl-' + id + ' .slide-tab').forEach((tab) => {
+    tab.classList.toggle('changed', !!(e.slides || {})[tab.dataset.slide]);
+  });
+}
+
+function toggleCaption(id) {
+  const wrap = $('capw-' + id);
+  const btn = document.querySelector('[data-editcap="' + id + '"]');
+  const open = wrap.hidden;
+  wrap.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  if (!open) return;
+
+  const ta = $('cap-edit-' + id);
+  ta.value = captionOf(id);
+  ta.oninput = () => setEdit(id, { caption: ta.value });
+  ta.focus();
+}
+
+function toggleSlides(id) {
+  const box = $('sl-' + id);
+  const btn = document.querySelector('[data-editslides="' + id + '"]');
+  const open = box.hidden;
+  box.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  if (!open) return;
+
+  const item = itemById(id);
+  box.innerHTML =
+    '<div class="slide-tabs">' +
+      item.slides.map((_, i) =>
+        '<button class="slide-tab" data-slide="' + i + '" data-for="' + id + '"' +
+        ' aria-selected="false">' + (i + 1) + '</button>').join('') +
+    '</div>' +
+    '<div class="slide-fields" id="sf-' + id + '"></div>' +
+    '<p class="hint">תיקון כאן נכנס לתמונה בבנייה הבאה. עד אז השקף מראה את הנוסח הישן.</p>';
+
+  paintEdited(id);
+  openSlide(id, 0);
+}
+
+function openSlide(id, idx) {
+  const item = itemById(id);
+  const slide = item.slides[idx] || {};
+  const saved = (edits(id).slides || {})[idx] || {};
+
+  document.querySelectorAll('#sl-' + id + ' .slide-tab').forEach((t) => {
+    t.setAttribute('aria-selected', String(Number(t.dataset.slide) === idx));
+  });
+
+  const fields = slide.dilemma
+    ? [['a', 'אפשרות א', slide.dilemma[0]], ['b', 'אפשרות ב', slide.dilemma[1]]]
+    : [['headline', 'כותרת', slide.headline || ''], ['subline', 'תת־כותרת', slide.subline || '']];
+
+  $('sf-' + id).innerHTML = fields.map(([key, label, val]) =>
+    '<label for="f-' + id + '-' + idx + '-' + key + '">' + esc(label) + '</label>' +
+    '<input id="f-' + id + '-' + idx + '-' + key + '" data-k="' + key + '" value="' +
+      esc(saved[key] != null ? saved[key] : val) + '">'
+  ).join('');
+
+  $('sf-' + id).querySelectorAll('input').forEach((inp) => {
+    inp.oninput = () => {
+      const all = { ...(edits(id).slides || {}) };
+      const one = { ...(all[idx] || {}) };
+      one[inp.dataset.k] = inp.value;
+
+      // An edit that matches the original is not an edit - drop it, so the
+      // change count and the export stay honest.
+      const orig = slide.dilemma
+        ? { a: slide.dilemma[0], b: slide.dilemma[1] }
+        : { headline: slide.headline || '', subline: slide.subline || '' };
+      for (const k of Object.keys(one)) if (one[k] === (orig[k] || '')) delete one[k];
+
+      if (Object.keys(one).length) all[idx] = one; else delete all[idx];
+      setEdit(id, { slides: all });
+    };
+  });
+}
+
+/* ---------- download one item -------------------------------------------- */
+async function downloadItem(id, btn) {
+  const item = itemById(id);
+  const imgs = (item.images && item.images.length) ? item.images : [item.image];
+  const base = item.id + (item.manual ? '-MANUAL' : '');
+
+  // One image: hand it over directly rather than wrapping it in a zip.
+  if (imgs.length === 1 && !window.JSZip) return saveBlob(await (await fetch(imgs[0])).blob(), base + '.png');
+
+  if (!window.JSZip) { alert('אין חיבור לאינטרנט — נסו שוב'); return; }
+
+  btn.classList.add('busy');
+  btn.disabled = true;
+  try {
+    const zip = new JSZip();
+    const folder = zip.folder(base);
+    for (let i = 0; i < imgs.length; i++) {
+      const blob = await (await fetch(imgs[i])).blob();
+      folder.file(imgs.length > 1 ? 'slide-' + (i + 1) + '.png' : base + '.png', blob);
+    }
+    folder.file('caption.txt', captionText(item));
+    saveBlob(await zip.generateAsync({ type: 'blob' }), base + '.zip');
+  } catch (err) {
+    alert('ההורדה נכשלה. בדקו חיבור ונסו שוב.');
+  } finally {
+    btn.classList.remove('busy');
+    btn.disabled = false;
+  }
+}
+
+function captionText(item) {
+  return [
+    (item.format === 'story' ? 'סטורי' : 'פוסט') + ' · יום ' + item.day_he + ' · ' + item.time,
+    item.manual ? '⚠️ העלאה ידנית — יש סטיקר לינק או סקר.' : '',
+    '-'.repeat(46),
+    captionOf(item.id),
+    '',
+    item.hashtags || '',
+  ].filter(Boolean).join('\\n');
+}
+
+function saveBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function copyCaption(id, btn) {
+  const text = captionText(itemById(id));
+  try {
+    await navigator.clipboard.writeText(text);
+    const was = btn.textContent;
+    btn.textContent = 'הועתק ✓';
+    setTimeout(() => { btn.textContent = was; }, 1600);
+  } catch {
+    prompt('העתיקו:', text);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const dl = e.target.closest('[data-dl]');
+  if (dl) { downloadItem(dl.dataset.dl, dl); return; }
+  const cp = e.target.closest('[data-copy]');
+  if (cp) { copyCaption(cp.dataset.copy, cp); return; }
+  const ec = e.target.closest('[data-editcap]');
+  if (ec) { toggleCaption(ec.dataset.editcap); return; }
+  const es = e.target.closest('[data-editslides]');
+  if (es) { toggleSlides(es.dataset.editslides); return; }
+  const tab = e.target.closest('.slide-tab');
+  if (tab) { openSlide(tab.dataset.for, Number(tab.dataset.slide)); return; }
+});
+
 /* ---------- handing the review back ---------- */
 function buildReport() {
   const name = ($('me').value || '').trim();
@@ -566,24 +813,43 @@ function buildReport() {
 
   let ok = 0, fix = 0, untouched = 0;
   const problems = [];
+
   for (const it of round.items) {
-    const s = state.get(it.id);
-    if (!s || !s.status) { untouched++; continue; }
-    if (s.status === 'approved' && !(s.notes || []).length) { ok++; continue; }
+    const s = state.get(it.id) || {};
+    const e = s.edits || {};
+    const slideKeys = Object.keys(e.slides || {});
+    const hasEdits = e.caption != null || slideKeys.length > 0;
+    const notes = s.notes || [];
+
+    if (!s.status && !hasEdits && !notes.length) { untouched++; continue; }
     if (s.status === 'approved') ok++; else fix++;
+
+    // Clean approvals need no line - the counts already say it.
+    if (s.status === 'approved' && !hasEdits && !notes.length) continue;
 
     const cover = (it.slides && it.slides[0]) || it;
     const title = cover.dilemma ? cover.dilemma.join(' / ') : (cover.headline || '');
     const kind = it.format === 'story' ? 'סטורי' : 'פוסט';
-    problems.push(
-      (s.status === 'fix' ? '✕ ' : '✓ ') +
-      it.id + ' · יום ' + it.day_he + ' ' + it.time + ' · ' + kind + '\\n' +
-      '   ' + title +
-      (s.notes || []).map((n) => '\\n   ↳ ' + n.text).join('')
-    );
+    const mark = s.status === 'approved' ? '✓' : s.status === 'fix' ? '✕' : '✎';
+
+    const parts = [
+      mark + ' ' + it.id + ' · יום ' + it.day_he + ' ' + it.time + ' · ' + kind,
+      '   ' + title,
+    ];
+    for (const n of notes) parts.push('   ↳ ' + n.text);
+    for (const i of slideKeys.sort((a, b) => a - b)) {
+      const f = e.slides[i];
+      parts.push('   שקף ' + (Number(i) + 1) + ': ' +
+        Object.entries(f).map(([k, v]) => k + ' → "' + v + '"').join(' | '));
+    }
+    if (e.caption != null) {
+      parts.push('   טקסט הפוסט נערך:');
+      parts.push('   ' + e.caption.split('\\n').join('\\n   '));
+    }
+    problems.push(parts.join('\\n'));
   }
 
-  lines.push('✓ מאושר: ' + ok + '   ✕ צריך תיקון: ' + fix + '   ○ לא נבדק: ' + untouched);
+  lines.push('✓ מאושר: ' + ok + '   ✕/✎ לטיפול: ' + fix + '   ○ לא נבדק: ' + untouched);
   if (problems.length) { lines.push(''); lines.push(problems.join('\\n\\n')); }
   else { lines.push(''); lines.push('אין הערות — הכול מאושר.'); }
   return lines.join('\\n');
@@ -611,15 +877,9 @@ $('me').addEventListener('change', () => {
   try { localStorage.setItem(KEY + ':me', $('me').value); } catch { /* ignore */ }
 });
 
-/* The zip sits next to the page on the hosted build. Opened from a local
-   file it will not be there, so the button hides itself rather than 404. */
-fetch('download.zip', { method: 'HEAD' })
-  .then((r) => { if (!r.ok) $('dl').hidden = true; })
-  .catch(() => { $('dl').hidden = true; });
-
 load();
 $('me').value = myName === 'אני' ? '' : myName;
-for (const it of round.items) paint(it.id);
+for (const it of round.items) { paint(it.id); paintEdited(it.id); }
 progress();
 ` : `/* ---------- shared store ---------- */
 /* The same artifact URL carries a new round every week, so each round gets
@@ -722,18 +982,6 @@ if (require.main === module) {
     fs.writeFileSync(out, buildPage(round, mode));
     console.log(`  ${mode.padEnd(8)} -> ${out} (${(fs.statSync(out).size / 1024).toFixed(0)} KB)`);
   }
-  console.log(`  entry    -> index.html now points at ${updateEntryPoint(brandId, round.week)}`);
 }
 
-/** Repoint the permanent GitHub Pages entry at a round. */
-function updateEntryPoint(brandId, week) {
-  const root = path.resolve(__dirname, '..');
-  const file = path.join(root, 'index.html');
-  const target = `rounds/${brandId}/${week}/`;
-  const html = fs.readFileSync(file, 'utf8')
-    .replace(/rounds\/[^/]+\/[^/]+\//g, target);
-  fs.writeFileSync(file, html);
-  return target;
-}
-
-module.exports = { buildPage, updateEntryPoint };
+module.exports = { buildPage };

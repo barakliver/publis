@@ -73,7 +73,8 @@ test/                  bidi.test.js
 node core/plan.js    before-i-do 2026-W40      # dates and times
 node core/render.js  before-i-do rounds/before-i-do/2026-W40   # images
 node core/review.js  before-i-do rounds/before-i-do/2026-W40   # approval pages
-node core/package.js before-i-do rounds/before-i-do/2026-W40   # hand-off zip
+node core/package.js before-i-do rounds/before-i-do/2026-W40   # hand-off zip (optional)
+node core/hub.js                                               # the front door
 node test/bidi.test.js
 ```
 
@@ -131,10 +132,37 @@ week to week. `.nojekyll` stops Pages from filtering files.
 Pages is served from the repository root, so a round's images are already
 reachable at their own path - never duplicate them into a docs folder.
 
-## The Monday job
+## The hub
 
-`.github/workflows/weekly-round.yml` runs every Monday 04:00 UTC and on
-demand. It writes next week's content, builds the round, and pushes it, so the
+`core/hub.js` writes the root `index.html`: every business under `brands/`,
+each linking to its latest built round. It owns that file - `review.js` must
+not touch it. A brand with no round yet shows as waiting, with the
+`setup_needed` line from its `brand.yaml` saying what is missing.
+
+Businesses currently scaffolded: `liver-productions` and `konditoria`, both
+with TODO fields only Barak can fill.
+
+## Editing in the app
+
+The static build carries two kinds of edit, and they behave differently on
+purpose:
+
+- **Caption** — live. What is typed is what the copy button and the download
+  hand over, because a caption is plain text on both sides.
+- **Slide text** — a correction. The image is rendered upstream from it, so a
+  fix rides the next build; the slide keeps the old wording until then. The
+  UI says so rather than letting anyone think it redrew.
+
+Both ride the WhatsApp export, with the slide fixes listed per slide.
+
+Per-item download zips that carousel's slides plus its caption, using a
+JSZip vendored at `vendor/jszip.min.js` — not a CDN, so it works offline and
+has no third-party dependency. There is deliberately no whole-week download.
+
+## The Saturday job
+
+`.github/workflows/weekly-round.yml` runs every Saturday 15:00 UTC (18:00 in
+Israel through the summer, 17:00 once the clocks go back) and on demand. It writes next week's content, builds the round, and pushes it, so the
 approval page and the download are ready before anyone opens their phone.
 Nothing is scheduled or published - the round still waits for approval.
 
