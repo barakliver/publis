@@ -290,6 +290,8 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
       <li>פריט עם <span style="color:var(--flag);font-weight:700">העלאה ידנית</span> נושא סטיקר לינק או סקר. אינסטגרם לא מאפשרת לפרסם אותו דרך API — תגיע התראה לנייד בזמן הפרסום.</li>
       <li>שום דבר לא מתוזמן ולא מתפרסם עד אישור מפורש.</li>
+      <li><b>הדף הזה קבוע.</b> כל שבוע הסבב החדש מופיע כאן באותה כתובת —
+          שווה להוסיף אותו למסך הבית (בספארי: שתף ← הוסף למסך הבית).</li>
     </ul>
   </section>
 </div>
@@ -437,7 +439,11 @@ document.addEventListener('click', (e) => {
 $('zoom').addEventListener('click', () => $('zoom').close());
 
 /* ---------- shared store ---------- */
-function docFor(id) { return db.doc('review/' + id); }
+/* The same artifact URL carries a new round every week, so each round gets
+   its own subtree. Without this, next week's post-01 would open already
+   carrying this week's approval. */
+function roundCol() { return db.collection('rounds/' + round.week + '/items'); }
+function docFor(id) { return roundCol().doc(id); }
 
 async function setStatus(id, status) {
   const cur = state.get(id) || { notes: [] };
@@ -492,7 +498,7 @@ function showOffline(err) {
   $('livedot').classList.remove('off');
   $('livetxt').textContent = 'מחובר' + (myName !== 'אני' ? ' · ' + myName : '') + ' — כל שינוי נשמר לכולם';
 
-  db.collection('review').onSnapshot(async (snap) => {
+  roundCol().onSnapshot(async (snap) => {
     const ids = new Set();
     for (const doc of snap.docs) {
       const d = doc.data() || {};

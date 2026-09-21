@@ -80,6 +80,13 @@ Then publish `review.html` as an Artifact with `capabilities: {db:{}, user:{scop
 and the `images/` folder passed as supporting `files`. The team approves there;
 the marks and comments are readable back out of the artifact's database.
 
+**Always republish to the SAME artifact URL** (currently
+`https://claude.ai/artifact/J5G1c7D98mtNnUqKDS8pQR`, via `url` from another
+conversation). The team has it on their phone home screens, so a new URL each
+week would strand them. Approvals are namespaced per round under
+`rounds/<week>/items/<id>`, so the weeks do not bleed into each other.
+Pass the previous round's image paths as `null` in `files` to remove them.
+
 Chromium renders the images because it lays out Hebrew correctly. It is already
 installed at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. Never run
 `playwright install`.
