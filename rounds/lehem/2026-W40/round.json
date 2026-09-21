@@ -2,12 +2,21 @@
   "brand": "lehem",
   "brand_name": "לחם",
   "whatsapp": "",
+  "kind": "מאפייה · קונדיטוריה · בית קפה",
+  "instagram": "lehem.bakery",
+  "colors": {
+    "blue": "#4A3826",
+    "blue_light": "#8A6F52",
+    "red": "#C4612E",
+    "cream": "#FBF4E8",
+    "white": "#FFFFFF"
+  },
   "week": "2026-W40",
   "starts": "2026-09-28",
   "ends": "2026-10-04",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-09-21T15:36:26.435Z",
+  "generated_at": "2026-09-21T15:55:30.362Z",
   "approval": {
     "status": "pending",
     "approved_by": null,

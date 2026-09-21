@@ -148,6 +148,26 @@ production - shares the palette, separate voice and audience) and `lehem`
 (the bakery in Givat Shmuel - its own crust-and-crumb palette, no logo files
 yet so its name is set in type).
 
+## The round page
+
+Three things sit above the list:
+
+- **Tabs** (הכל / פוסטים / סטורי) filter both views. A day left empty by a
+  filter hides its heading too.
+- **A view switch.** The list is for working; the grid is an Instagram
+  profile - story circles above a 4:5 feed grid, newest first, carousels
+  marked. Stories never appear in a real feed grid, so they do not appear in
+  this one either: the point of the view is to meet the round the way the
+  audience will.
+- **The business's own colours.** `plan.js` carries `visual.colors` into
+  round.json and the page wears them - top bar, headings, tabs, story rings.
+  Moving between businesses has to be unmistakable, which is also why
+  liver-productions was moved off Before I Do's palette onto deep navy and
+  brass.
+
+The lightbox steps through a carousel with a counter and arrow keys, and
+downloads the whole set from inside it.
+
 ## Editing in the app
 
 The static build carries two kinds of edit, and they behave differently on

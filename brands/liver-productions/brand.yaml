@@ -35,13 +35,14 @@ audience:
     זוגות מגלים באמצע שהם מנהלים פרויקט של מאות אלפי שקלים
     בלי ניסיון, מול ספקים שעושים את זה כל יום.
 
-# Same palette as Before I Do - one company, one hand.
+# Related to Before I Do but clearly its own: deep ink and brass. The
+# producer's account should not be mistaken for the deck's.
 visual:
   colors:
-    blue: "#4E6BA5"
-    blue_light: "#7F9ACE"
-    red: "#F64C3B"
-    cream: "#FFF9F3"
+    blue: "#22304C"        # deep navy - the primary ink
+    blue_light: "#6E80A0"
+    red: "#C9973F"         # brass. the accent
+    cream: "#F4F1EA"       # warm paper
     white: "#FFFFFF"
   fonts:
     hebrew: "Assistant"

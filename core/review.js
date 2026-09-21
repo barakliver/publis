@@ -21,6 +21,12 @@ const PILLAR_HE = {
   sell: 'מכירה',
 };
 
+/** A colour on its way into a stylesheet. Anything that is not a plain hex
+ *  is dropped for the fallback rather than interpolated into CSS. */
+function hex(value, fallback) {
+  return /^#[0-9a-fA-F]{3,8}$/.test(String(value || '')) ? String(value) : fallback;
+}
+
 function buildPage(round, mode = 'artifact') {
   const isStatic = mode === 'static';
   const days = [];
@@ -86,6 +92,13 @@ img{max-width:100%}
 
   --radius: 14px;
   --shadow: 0 1px 2px rgba(26,33,48,.05), 0 6px 18px rgba(26,33,48,.05);
+
+  /* The business's own colours, injected below. The app wears them so that
+     moving between businesses is unmistakable, not a change of heading. */
+  --biz:      ${hex(round.colors?.blue, '#4E6BA5')};
+  --biz-soft: ${hex(round.colors?.blue_light, '#7F9ACE')};
+  --biz-acc:  ${hex(round.colors?.red, '#F64C3B')};
+  --biz-bg:   ${hex(round.colors?.cream, '#FFF9F3')};
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -104,6 +117,7 @@ img{max-width:100%}
     --ok-bg:     #1E3A2E;
     --fix-bg:    #3B211C;
     --shadow: 0 1px 2px rgba(0,0,0,.30), 0 6px 18px rgba(0,0,0,.26);
+    --biz-bg:    #1C212B;
   }
 }
 :root[data-theme="dark"] {
@@ -122,6 +136,7 @@ img{max-width:100%}
   --ok-bg:     #1E3A2E;
   --fix-bg:    #3B211C;
   --shadow: 0 1px 2px rgba(0,0,0,.30), 0 6px 18px rgba(0,0,0,.26);
+  --biz-bg:    #1C212B;
 }
 
 * { box-sizing: border-box; }
@@ -142,10 +157,18 @@ h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
 /* ---------- header ---------- */
 .top {
   position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
-  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  background: color-mix(in srgb, var(--biz-bg) 92%, transparent);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
+  border-top: 5px solid var(--biz);
 }
+.top h1 { color: var(--biz); }
+.eyebrow { color: var(--biz-acc) !important; }
+.bar i { background: var(--biz) !important; }
+.chip.kind { border-color: var(--biz) !important; color: var(--biz) !important; }
+.dl, .more, .tool:hover, .tool[aria-expanded="true"] { color: var(--biz) !important; border-color: var(--biz) !important; }
+.day-head h2 { color: var(--biz); }
+.biz-line { font-size: 12px; color: var(--ink-faint); margin-top: 1px; }
 .top-in { max-width: 860px; margin: 0 auto; padding: 14px 16px; }
 .eyebrow {
   font-size: 11px; font-weight: 700; letter-spacing: .13em;
@@ -165,6 +188,70 @@ h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
 }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); flex: none; }
 .dot.off { background: var(--ink-faint); }
+
+/* ---------- tabs and view switch ---------- */
+.tabs { display: flex; gap: 6px; margin-top: 11px; align-items: center; }
+.tab {
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border-radius: 99px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+}
+.tab[aria-selected="true"] { background: var(--biz); border-color: var(--biz); color: #fff; }
+.tab:focus-visible { outline: 2px solid var(--biz); outline-offset: 2px; }
+.views { margin-inline-start: auto; display: flex; gap: 4px; }
+.view {
+  font: inherit; font-size: 15px; line-height: 1; cursor: pointer;
+  width: 34px; height: 32px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-faint);
+}
+.view[aria-selected="true"] { border-color: var(--biz); color: var(--biz); }
+
+/* ---------- Instagram preview ----------
+   A 3-up grid of covers on the business's own ground, so the round can be
+   judged the way it will actually be met: as a feed, not as a list. */
+.ig { background: var(--biz-bg); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 14px; margin-top: 14px; }
+.ig-head { display: flex; align-items: center; gap: 11px; padding-bottom: 12px;
+           border-bottom: 1px solid color-mix(in srgb, var(--biz) 22%, transparent); }
+.ig-av { width: 46px; height: 46px; border-radius: 50%; flex: none;
+         background: var(--biz); color: #fff; display: grid; place-items: center;
+         font-weight: 800; font-size: 17px; }
+.ig-who b { display: block; font-size: 14.5px; color: var(--biz); }
+.ig-who span { font-size: 12px; color: var(--ink-faint); }
+.ig-stories {
+  display: flex; gap: 13px; overflow-x: auto; padding: 13px 2px 4px;
+  scrollbar-width: none;
+}
+.ig-stories::-webkit-scrollbar { display: none; }
+.ig-story { border: 0; background: none; padding: 0; cursor: pointer; flex: none; text-align: center; }
+.ig-story .ring {
+  display: block; width: 62px; height: 62px; border-radius: 50%; padding: 2.5px;
+  background: linear-gradient(45deg, var(--biz-acc), var(--biz));
+}
+.ig-story img {
+  width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  border: 2.5px solid var(--biz-bg); display: block;
+}
+.ig-story .lab {
+  display: block; margin-top: 4px; font-size: 10px; line-height: 1.25;
+  color: var(--ink-faint); font-variant-numeric: tabular-nums;
+}
+.ig-story[data-state="approved"] .ring { background: var(--ok); }
+.ig-story[data-state="fix"] .ring { background: var(--flag); }
+
+.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 12px; }
+.ig-cell { position: relative; aspect-ratio: 4/5; overflow: hidden;
+           background: var(--sunken); cursor: zoom-in; border: 0; padding: 0; display: block; }
+.ig-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ig-cell .n { position: absolute; inset-block-start: 5px; inset-inline-end: 5px;
+              color: #fff; line-height: 0; filter: drop-shadow(0 1px 3px rgba(0,0,0,.7)); }
+.ig-cell .when { position: absolute; inset-block-end: 0; inset-inline: 0;
+                 background: linear-gradient(transparent, rgba(0,0,0,.62));
+                 color: #fff; font-size: 10.5px; font-weight: 700; padding: 10px 5px 3px;
+                 font-variant-numeric: tabular-nums; }
+.ig-cell[data-state="approved"] { outline: 3px solid var(--ok); outline-offset: -3px; }
+.ig-cell[data-state="fix"] { outline: 3px solid var(--flag); outline-offset: -3px; }
+.ig-note { font-size: 12px; color: var(--ink-faint); margin-top: 10px; text-align: center; }
 
 /* ---------- day ---------- */
 .day { margin-top: 30px; }
@@ -267,8 +354,22 @@ h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
 dialog {
   border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh;
 }
-dialog::backdrop { background: rgba(10,13,20,.86); }
-dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: block; }
+dialog::backdrop { background: rgba(10,13,20,.90); }
+dialog img { max-width: 92vw; max-height: 80vh; border-radius: 10px; display: block; margin: 0 auto; }
+.lb { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lb-bar { display: flex; align-items: center; gap: 16px; color: #fff; }
+.lb-bar button {
+  font: inherit; font-size: 20px; line-height: 1; cursor: pointer;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.08); color: #fff;
+}
+.lb-bar button:disabled { opacity: .3; cursor: default; }
+.lb-bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lb-count { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 66px; text-align: center; }
+.lb-dl {
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  padding: 8px 16px; border-radius: 99px; border: 0; background: #fff; color: #111;
+}
 
 /* ---------- footer note ---------- */
 .foot {
@@ -374,6 +475,15 @@ ${shellMid}
       <div class="bar"><i id="barfill"></i></div>
       <span class="count" id="cnt"></span>
     </div>
+    <div class="tabs">
+      <button class="tab" data-tab="all"   aria-selected="true">הכל</button>
+      <button class="tab" data-tab="post"  aria-selected="false">פוסטים</button>
+      <button class="tab" data-tab="story" aria-selected="false">סטורי</button>
+      <span class="views">
+        <button class="view" data-view="list" aria-selected="true" title="רשימה">☰</button>
+        <button class="view" data-view="grid" aria-selected="false" title="תצוגת אינסטגרם">▦</button>
+      </span>
+    </div>
     ${isStatic ? `
     <div class="me">
       <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
@@ -388,6 +498,7 @@ ${shellMid}
 
 <div class="wrap">
   <div id="offline" hidden class="offline"></div>
+  <section id="ig" hidden></section>
   <main id="list"></main>
 
   <section class="foot">
@@ -410,7 +521,17 @@ ${shellMid}
   </section>
 </div>
 
-<dialog id="zoom"><img id="zoomimg" alt=""></dialog>
+<dialog id="zoom">
+  <div class="lb">
+    <img id="zoomimg" alt="">
+    <div class="lb-bar">
+      <button id="lbPrev" title="הקודם">›</button>
+      <span class="lb-count" id="lbCount"></span>
+      <button id="lbNext" title="הבא">‹</button>
+    </div>
+    <button class="lb-dl" id="lbDl">⬇︎ הורדת כל השקפים</button>
+  </div>
+</dialog>
 
 <script>
 const DATA = ${data};
@@ -461,15 +582,16 @@ function itemHTML(it) {
 
   const strip = isCar
     ? '<div class="strip">' + shots.map((src, i) =>
-        '<button class="shot" data-zoom="' + esc(src) + '">' +
+        '<button class="shot" data-zoom="' + esc(src) + '" data-item="' + it.id + '" data-idx="' + i + '">' +
           '<img src="' + esc(src) + '" alt="" loading="lazy">' +
           '<span class="n">' + (i + 1) + '</span>' +
         '</button>').join('') + '</div>'
-    : '<button class="shot" data-zoom="' + esc(shots[0]) + '">' +
+    : '<button class="shot" data-zoom="' + esc(shots[0]) + '" data-item="' + it.id + '" data-idx="0">' +
         '<img src="' + esc(shots[0]) + '" alt="" loading="lazy">' +
       '</button>';
 
-  return '<article class="item' + (isCar ? ' carousel' : '') + '" id="it-' + it.id + '" data-state="">' +
+  return '<article class="item' + (isCar ? ' carousel' : '') + '" id="it-' + it.id +
+    '" data-format="' + it.format + '" data-state="">' +
     strip +
     '<div>' +
       '<div class="meta">' +
@@ -488,7 +610,8 @@ function itemHTML(it) {
       '</div>' +
       (ISSTATIC ? (
         '<div class="tools">' +
-          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדה</button>' +
+          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדת כל ' +
+            (shots.length > 1 ? shots.length + ' השקפים' : 'התמונה') + '</button>' +
           '<button class="tool" data-copy="' + it.id + '">העתקת טקסט</button>' +
           '<button class="tool" data-editcap="' + it.id + '" aria-expanded="false">עריכת טקסט</button>' +
           (isCar ? '<button class="tool" data-editslides="' + it.id + '" aria-expanded="false">תיקון שקפים</button>' : '') +
@@ -524,6 +647,7 @@ function paint(id) {
   el.querySelectorAll('[data-act]').forEach((b) => {
     b.setAttribute('aria-pressed', String(b.dataset.act === s.status));
   });
+  if (view === 'grid') buildGrid();
   const box = $('nt-' + id);
   const notes = s.notes || [];
   box.innerHTML = notes.map((n) =>
@@ -549,7 +673,15 @@ progress();
 /* ---------- interactions ---------- */
 document.addEventListener('click', (e) => {
   const zoom = e.target.closest('[data-zoom]');
-  if (zoom) { $('zoomimg').src = zoom.dataset.zoom; $('zoom').showModal(); return; }
+  if (zoom) {
+    if (zoom.dataset.item) {
+      openLightbox(zoom.dataset.item, Number(zoom.dataset.idx || 0));
+    } else {
+      $('zoomimg').src = zoom.dataset.zoom;
+      $('zoom').showModal();
+    }
+    return;
+  }
 
   const more = e.target.closest('[data-more]');
   if (more) {
@@ -565,7 +697,146 @@ document.addEventListener('click', (e) => {
   if (note) { addNote(note.dataset.note); return; }
 });
 
-$('zoom').addEventListener('click', () => $('zoom').close());
+$('zoom').addEventListener('click', (e) => { if (e.target === $('zoom')) $('zoom').close(); });
+
+/* ---------- tabs, views, and the feed preview --------------------------- */
+let tab = 'all', view = 'list';
+
+function applyTab() {
+  for (const el of document.querySelectorAll('.item')) {
+    el.hidden = tab !== 'all' && el.dataset.format !== tab;
+  }
+  // A day with nothing left in it should not leave a heading behind.
+  for (const day of document.querySelectorAll('.day')) {
+    const any = [...day.querySelectorAll('.item')].some((i) => !i.hidden);
+    day.hidden = !any;
+  }
+  document.querySelectorAll('[data-tab]').forEach((b) => {
+    b.setAttribute('aria-selected', String(b.dataset.tab === tab));
+  });
+  if (view === 'grid') buildGrid();
+}
+
+function visibleItems() {
+  return round.items.filter((i) => tab === 'all' || i.format === tab);
+}
+
+/* Instagram's profile: a row of story circles above a 4:5 grid of posts,
+   newest first. Stories never appear in the grid, so neither do they here -
+   the point of this view is to meet the round the way the audience will. */
+function buildGrid() {
+  const posts   = round.items.filter((i) => i.format === 'post').slice().reverse();
+  const stories = round.items.filter((i) => i.format === 'story');
+  const showPosts   = tab !== 'story';
+  const showStories = tab !== 'post';
+  const initial = (round.brand_name || '?').trim().charAt(0);
+
+  const CAROUSEL_ICON =
+    '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linejoin="round"><rect x="8" y="3" width="13" height="13" rx="2"/>' +
+    '<path d="M4 8v11a2 2 0 0 0 2 2h11"/></svg>';
+
+  const cell = (it) => {
+    const st = state.get(it.id) || {};
+    const many = (it.images || []).length > 1;
+    return '<button class="ig-cell" data-open="' + it.id + '"' +
+      (st.status ? ' data-state="' + esc(st.status) + '"' : '') + '>' +
+      '<img src="' + esc(it.image) + '" alt="" loading="lazy">' +
+      (many ? '<span class="n">' + CAROUSEL_ICON + '</span>' : '') +
+      '<span class="when">' + esc(it.day_he) + ' ' + esc(it.time) + '</span>' +
+    '</button>';
+  };
+
+  const storyBar = !showStories || !stories.length ? '' :
+    '<div class="ig-stories">' + stories.map((it) => {
+      const st = state.get(it.id) || {};
+      return '<button class="ig-story" data-open="' + it.id + '"' +
+        (st.status ? ' data-state="' + esc(st.status) + '"' : '') + '>' +
+        '<span class="ring"><img src="' + esc(it.image) + '" alt=""></span>' +
+        '<span class="lab">' + esc(it.day_he) + '<br>' + esc(it.time) + '</span>' +
+      '</button>';
+    }).join('') + '</div>';
+
+  $('ig').innerHTML =
+    '<div class="ig">' +
+      '<div class="ig-head">' +
+        '<div class="ig-av">' + esc(initial) + '</div>' +
+        '<div class="ig-who"><b>' +
+          esc(round.instagram ? '@' + round.instagram : round.brand_name) + '</b>' +
+          '<span>' + posts.length + ' פוסטים · ' + stories.length + ' סטורי</span>' +
+        '</div>' +
+      '</div>' +
+      storyBar +
+      (showPosts
+        ? '<div class="ig-grid">' + posts.map(cell).join('') + '</div>'
+        : '') +
+      '<p class="ig-note">כך ייראה הפרופיל. לחיצה פותחת את הפריט.</p>' +
+    '</div>';
+}
+
+function applyView() {
+  $('ig').hidden = view !== 'grid';
+  $('list').hidden = view === 'grid';
+  document.querySelectorAll('[data-view]').forEach((b) => {
+    b.setAttribute('aria-selected', String(b.dataset.view === view));
+  });
+  if (view === 'grid') buildGrid();
+}
+
+/* ---------- lightbox: one carousel at a time, with its page count ------- */
+let lb = { id: null, shots: [], i: 0 };
+
+function openLightbox(id, index) {
+  const item = itemById(id);
+  lb = { id, shots: (item.images && item.images.length) ? item.images : [item.image], i: index || 0 };
+  paintLightbox();
+  $('zoom').showModal();
+}
+
+function paintLightbox() {
+  $('zoomimg').src = lb.shots[lb.i];
+  $('lbCount').textContent = (lb.i + 1) + ' / ' + lb.shots.length;
+  // RTL: "previous" is the button on the right, so the arrows read correctly.
+  $('lbPrev').disabled = lb.i === 0;
+  $('lbNext').disabled = lb.i === lb.shots.length - 1;
+  const single = lb.shots.length < 2;
+  $('lbPrev').hidden = single;
+  $('lbNext').hidden = single;
+  $('lbDl').textContent = single ? '⬇︎ הורדת התמונה' : '⬇︎ הורדת כל ' + lb.shots.length + ' השקפים';
+}
+
+function step(d) {
+  const next = lb.i + d;
+  if (next < 0 || next >= lb.shots.length) return;
+  lb.i = next;
+  paintLightbox();
+}
+
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('[data-tab]');
+  if (t) { tab = t.dataset.tab; applyTab(); return; }
+  const v = e.target.closest('[data-view]');
+  if (v) { view = v.dataset.view; applyView(); return; }
+  const cell = e.target.closest('[data-open]');
+  if (cell) { openLightbox(cell.dataset.open, 0); return; }
+});
+
+$('lbPrev').addEventListener('click', () => step(-1));
+$('lbNext').addEventListener('click', () => step(1));
+if (ISSTATIC) {
+  $('lbDl').addEventListener('click', (e) => downloadItem(lb.id, e.currentTarget));
+} else {
+  $('lbDl').hidden = true;   // no zip helper on the artifact build
+}
+document.addEventListener('keydown', (e) => {
+  if (!$('zoom').open) return;
+  if (e.key === 'ArrowLeft')  step(1);
+  if (e.key === 'ArrowRight') step(-1);
+});
+
+applyView();
+applyTab();
+
 
 ${isStatic ? `/* ---------- local store, no account needed -------------------------------
    This build is served as a plain page, so there is no shared database and
@@ -802,6 +1073,7 @@ document.addEventListener('click', (e) => {
   const tab = e.target.closest('.slide-tab');
   if (tab) { openSlide(tab.dataset.for, Number(tab.dataset.slide)); return; }
 });
+
 
 /* ---------- handing the review back ---------- */
 function buildReport() {

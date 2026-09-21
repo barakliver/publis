@@ -2,12 +2,21 @@
   "brand": "before-i-do",
   "brand_name": "Before I Do",
   "whatsapp": "+972526604320",
+  "kind": "משחק קלפים לזוגות",
+  "instagram": "beforeido_wedding",
+  "colors": {
+    "blue": "#4E6BA5",
+    "blue_light": "#7F9ACE",
+    "red": "#F64C3B",
+    "cream": "#FFF9F3",
+    "white": "#FFFFFF"
+  },
   "week": "2026-W40",
   "starts": "2026-09-28",
   "ends": "2026-10-04",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-09-21T15:04:42.201Z",
+  "generated_at": "2026-09-21T15:55:07.482Z",
   "approval": {
     "status": "pending",
     "approved_by": null,

@@ -2,12 +2,21 @@
   "brand": "liver-productions",
   "brand_name": "ברק ליור",
   "whatsapp": "+972526604320",
+  "kind": "הפקת חתונות",
+  "instagram": "barakliver",
+  "colors": {
+    "blue": "#22304C",
+    "blue_light": "#6E80A0",
+    "red": "#C9973F",
+    "cream": "#F4F1EA",
+    "white": "#FFFFFF"
+  },
   "week": "2026-W40",
   "starts": "2026-09-28",
   "ends": "2026-10-04",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-09-21T15:36:33.523Z",
+  "generated_at": "2026-09-21T15:55:37.398Z",
   "approval": {
     "status": "pending",
     "approved_by": null,

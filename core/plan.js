@@ -88,6 +88,11 @@ function buildRound(brandId, week) {
     brand: brandId,
     brand_name: brand.brand.name,
     whatsapp: brand.brand.whatsapp || '',
+    kind: brand.brand.kind || '',
+    instagram: brand.brand.instagram || '',
+    // Carried so the app can wear each business's own colours - switching
+    // between them has to be unmistakable, not a change of heading.
+    colors: brand.visual?.colors || {},
     week,
     starts: ymd(monday),
     ends: ymd(addDays(monday, 6)),
