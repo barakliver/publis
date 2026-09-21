@@ -244,32 +244,36 @@ Move one, check the rest - they were colliding twice before this spacing.
 
 ## Writing for this brand
 
-The voice is **Dani** — a wedding producer who built the deck after watching
-the same gap open at every wedding she ran. `persona` in `brand.yaml` holds
-her stance, vocabulary and signature lines. She is not a brand explaining
-marriage; she is the one person in the room who has seen this two hundred
-times and will say the unpopular thing out loud.
+The voice is the client's own copywriting brief, now config under `persona`
+in brand.yaml. Read it before writing a line. The short version:
 
-- Open with the opinion, flat, before any explanation. "דעה לא פופולרית:",
-  "סטורי טיים", "כן, אמרתי את זה", "מלא אומרים לי".
-- Business language, never therapy language: a board meeting, a simulator,
-  the most expensive project they have ever run. She mocks the
-  incense-and-candles version of couple games before anyone else can.
-- Named, concrete scenarios — the aunt who must be invited, the magnet
-  photographer, who counts the cheques. Never an aphorism where a scene works.
-- First person, and she is female: "אני מכריחה", "ראיתי", "אני אומרת".
-- Eye level, never from above. A verdict ("X is really Y") reads as a lecture;
-  the same idea as a scene the reader recognises reads as a friend. Second
-  person, present tense, something you can picture.
-- Every carousel asks for something at the end: a save, a tag, or the link.
-- Answer objections out loud. "Is this just another card game?" is a real
-  question and deserves a real slide.
-- Address both partners. Hebrew second-person singular uses the dotted form the
-  cards already use: `מתרגש.ת`, `מפחד.ת`. Plural `אתם` for the couple.
+**What the product sells** - every post is one of these three and nothing
+else. Getting this wrong is how the previous round went astray: it was full
+of wedding-planning advice, which is Barak Lior's territory and the exact
+opposite of what this product is for.
+1. a legal excuse to stop talking about the wedding for one evening
+2. friction prevention - tomorrow's fight, tonight, on the couch with wine
+3. a stylish date night with zero planning and no leaving the house
+
+**Voice** - a smart, stylish, slightly witty friend. Punch first, never warm
+up. Short sentences, one-line paragraphs. Premium but casual; there is always
+wine and a couch.
+
+**Pain named specifically**, never abstractly: the guest-list spreadsheet, the
+in-law WhatsApp group, the DJ's playlist, the aunt who must be invited, the
+catering deposit. Not "the stress of planning".
+
+**Banned, absolutely** - two lists in `rules.forbidden_words`: cringe romance
+and therapy speak. Emoji stay minimal and deliberate; the rocket, star and
+thumb are banned outright. `node test/voice.test.js` enforces both lists
+against every content file - run it after writing.
+
+Also standing:
+- Address both partners. Second-person singular takes the dotted form the
+  cards use. Plural for the couple.
 - Short on the image, long in the caption. The image carries one idea.
-- Banned: `היום המושלם`, `קסום`, `חלומי`, `אגדה`.
-- The brand's own line: **רגע מאושר שישאר לנצח**. The site's: **שיחה אחת, לפני כל השאר**.
-- Price is mentioned only together with the launch end date (26.10.2026).
+- Every carousel ends asking for something.
+- Price appears only with the launch end date (26.10.2026).
 
 ## Known limits, verified — not assumed
 
