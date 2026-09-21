@@ -1,0 +1,121 @@
+                                                                              # ---------------------------------------------------------------------------
+# Before I Do - brand configuration
+#
+# This one file drives everything the system produces for this brand.
+# Editing a value here changes the output. No code changes needed.
+# To add a NEW brand: copy this folder, rename it, edit this file.
+# ---------------------------------------------------------------------------
+
+id: before-i-do
+
+brand:
+  name: "Before I Do"
+  company: "Liver Production"
+  tagline: "רגע מאושר שישאר לנצח"
+  site_tagline: "שיחה אחת, לפני כל השאר"
+  website: "https://www.beforeido.co.il/"
+  instagram: "beforeido_wedding"
+  facebook: ""          # no page yet - fill in to enable Facebook scheduling
+  whatsapp: "+972526604320"
+  contact_phone: "052-660-4320"
+
+product:
+  what: "חפיסת קלפים פיזית לזוגות לפני חתונה - 70 שאלות, 6 קטגוריות"
+  purpose: "תיאום ציפיות בין בני זוג לקראת החתונה"
+  price_launch: 129           # includes delivery
+  price_regular: 189          # plus shipping
+  launch_ends: "2026-10-26"   # the system counts down to this date on its own
+  shipping: "משלוח עד הבית לכל הארץ"
+  pickup: ["הוד השרון", "גבעתיים"]
+
+audience:
+  primary: "זוגות מאורסים לקראת חתונה"
+  secondary: "חברים ובני משפחה שקונים מתנה לזוג מאורס"
+  buyer_note: "נשים סביר יותר שיקנו"
+  pain: >
+    רוב הזוגות לא רבים על החתונה - הם פשוט אף פעם לא דיברו עליה.
+    הוויכוח על מספר המוזמנים הוא אף פעם לא על מספר המוזמנים.
+
+# ---------------------------------------------------------------------------
+# Visual identity. Every value below was sampled from the real brand files.
+# Do not deviate from these.
+# ---------------------------------------------------------------------------
+visual:
+  colors:
+    blue: "#4E6BA5"        # card background / primary ink   (from card 100)
+    blue_light: "#7F9ACE"  # "Before I Do" wordmark on cream (from logo art)
+    red: "#F64C3B"         # the fingerprint heart. Accent only, never text
+    cream: "#FFF9F3"       # warm background                 (from logo art)
+    white: "#FFFFFF"
+
+  fonts:
+    hebrew: "Assistant"    # assets/fonts/Assistant.ttf
+    fallback: "Heebo"
+
+  assets:
+    heart: "assets/heart.png"
+    wordmark_brand: "assets/wordmark-before-i-do.png"
+    wordmark_company: "assets/wordmark-liver-production.png"
+
+  # The four layouts the renderer knows. All share the same frame and logo.
+  layouts:
+    statement: "רקע קרם, טקסט כחול גדול, לב למעלה. למשפטים חזקים"
+    dilemma:   "רקע לבן, 'א או ב', מסגרת מעוגלת. שפת הקלפים"
+    dark:      "רקע כחול, טקסט לבן. למכירה ולמסרים חדים"
+    photo:     "צילום מלא + כותרת. דורש קובץ צילום"
+
+  sizes:
+    post:  { w: 1080, h: 1350 }   # 4:5 - matches the brand's existing feed
+    story: { w: 1080, h: 1920 }   # 9:16
+
+# ---------------------------------------------------------------------------
+# Voice
+# ---------------------------------------------------------------------------
+language:
+  primary: "he"
+  also_supported: ["en"]
+
+  # Hebrew is gendered. The brand addresses both partners, so every
+  # second-person form uses the dotted convention already used on the cards.
+  gendering: "dotted"        # מתרגש.ת , מפחד.ת , שמח.ה
+  address: "plural"          # אתם - speaking to the couple
+  emoji: "moderate"          # a few, never decorative rows
+
+rules:
+  # The cards are the product. Content shows the TENSION they resolve,
+  # never the cards' actual wording.
+  never_reveal_card_content: true
+
+  forbidden_words:
+    - "היום המושלם"
+    - "קסום"
+    - "חלומי"
+    - "אגדה"
+
+  required:
+    - "כל טקסט בעברית תקנית, בלי שגיאות"
+    - "CTA תמיד מוביל לאתר או ללינק בביו"
+    - "מחיר מוזכר רק עם תאריך סיום ההשקה"
+
+# ---------------------------------------------------------------------------
+# Publishing rhythm. Change the numbers, the plan changes.
+# ---------------------------------------------------------------------------
+schedule:
+  timezone: "Asia/Jerusalem"
+  posts_per_day: 3
+  stories_per_day: 2
+  post_times:  ["09:00", "12:00", "18:00"]
+  story_times: ["10:30", "20:00"]
+  approval_lead_days: 2
+
+  # Rough mix across a week. The planner balances to these weights.
+  mix:
+    pain: 3          # naming the tension
+    value: 3         # a genuinely useful planning idea
+    identity: 2      # the brand's point of view
+    social_proof: 1  # what couples say
+    sell: 2          # direct, with the launch price
+
+channels:
+  instagram: true
+  facebook: false    # flip to true once a page exists

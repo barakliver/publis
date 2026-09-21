@@ -1,0 +1,227 @@
+/* ---------------------------------------------------------------------------
+   Before I Do - visual theme
+   Every value here was sampled from the brand's own card artwork and logo.
+   Changing a colour here changes every image the system renders.
+   --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Assistant';
+  src: url('../assets/fonts/Assistant.ttf') format('truetype-variations');
+  font-weight: 200 800;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Heebo';
+  src: url('../assets/fonts/Heebo.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-display: block;
+}
+
+:root {
+  --blue:       #4E6BA5;
+  --blue-light: #7F9ACE;
+  --red:        #F64C3B;
+  --cream:      #FFF9F3;
+  --white:      #FFFFFF;
+
+  /* Geometry measured off the real 8x12cm card artwork:
+     frame inset 6.5% of width, heart 13.9% wide, wordmark 60% wide. */
+  --frame-radius: 46px;
+  --frame-width:  5px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  font-family: 'Assistant', 'Heebo', sans-serif;
+  direction: rtl;               /* correct Hebrew ordering - non-negotiable */
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- The canvas. Size is set inline by the renderer. ------------------ */
+.canvas {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas[data-layout="statement"] { background: var(--cream); }
+.canvas[data-layout="dilemma"]   { background: var(--white); }
+.canvas[data-layout="dark"]      { background: var(--blue);  }
+.canvas[data-layout="photo"]     { background: var(--blue);  }
+
+/* --- Photo layer ------------------------------------------------------ */
+.photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Legibility scrim: only as dark as the text needs. */
+.scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,.34) 0%,
+    rgba(0,0,0,.10) 28%,
+    rgba(0,0,0,.10) 52%,
+    rgba(0,0,0,.62) 100%
+  );
+}
+
+/* --- The rounded frame, with gaps for the logos ----------------------- */
+.frame {
+  position: absolute;
+  left: 6.5%; right: 6.5%;
+  top: var(--frame-top, 7.0%); bottom: var(--frame-bottom, 7.2%);
+  border: var(--frame-width) solid var(--blue);
+  border-radius: var(--frame-radius);
+  /* Top and bottom gaps let the heart and the wordmark sit on the line. */
+  -webkit-mask-image:
+    linear-gradient(#000 0 0),
+    radial-gradient(circle at 50% 0,    transparent 0 var(--gap-top,    120px), #000 var(--gap-top,    120px)),
+    radial-gradient(circle at 50% 100%, transparent 0 var(--gap-bottom, 150px), #000 var(--gap-bottom, 150px));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.canvas[data-layout="dark"] .frame { border-color: var(--white); }
+
+/* --- Logo marks ------------------------------------------------------- */
+/* Heart: 13.9% of canvas width on the cards. The cream statement layout
+   gives it more room, the way the brand's own logo art does. */
+.heart {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: var(--heart-top, 4.1%);
+  width: 13.9%;
+  height: auto;
+  z-index: 3;
+}
+[data-layout="statement"] .heart { width: 19%; }
+[data-layout="photo"]     .heart { width: 15%; }
+
+/* Wordmark: 60% of width including the two flanking rules. */
+.wordmark {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: var(--wordmark-bottom, 4.6%);
+  width: 60%;
+  height: auto;
+  z-index: 3;
+}
+[data-layout="statement"] .wordmark,
+[data-layout="photo"]     .wordmark { width: 34%; }
+
+/* --- Text block ------------------------------------------------------- */
+.content {
+  position: relative;
+  z-index: 2;
+  width: 80%;
+  margin-top: var(--content-shift, -2%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+}
+
+.headline {
+  font-weight: 700;
+  line-height: 1.20;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.subline {
+  font-weight: 400;
+  line-height: 1.45;
+  text-wrap: balance;
+  opacity: .95;
+}
+
+/* Colour per layout */
+[data-layout="statement"] .headline { color: var(--blue); }
+[data-layout="statement"] .subline  { color: var(--blue); opacity: .82; }
+[data-layout="dilemma"]   .headline { color: var(--blue); }
+[data-layout="dilemma"]   .subline  { color: var(--blue); opacity: .82; }
+[data-layout="dark"]      .headline { color: var(--white); }
+[data-layout="dark"]      .subline  { color: var(--white); opacity: .90; }
+[data-layout="photo"]     .headline { color: var(--white); text-shadow: 0 2px 26px rgba(0,0,0,.55); }
+[data-layout="photo"]     .subline  { color: var(--white); text-shadow: 0 2px 20px rgba(0,0,0,.55); }
+
+/* --- The "A or B" dilemma, the brand's signature device --------------- */
+.dilemma { display: flex; flex-direction: column; align-items: center; gap: 0.30em; }
+.dilemma .option {
+  font-weight: 600; line-height: 1.20;
+  letter-spacing: -0.02em;
+  color: var(--blue);
+  text-wrap: balance;
+}
+.dilemma .or {
+  font-weight: 800;
+  letter-spacing: 0;
+  color: var(--blue);
+  line-height: 1;
+  padding: 0.22em 0;
+}
+[data-layout="dark"] .dilemma .option,
+[data-layout="dark"] .dilemma .or { color: var(--white); }
+[data-layout="photo"] .dilemma .option,
+[data-layout="photo"] .dilemma .or { color: var(--white); text-shadow: 0 2px 26px rgba(0,0,0,.55); }
+
+/* --- Call to action --------------------------------------------------- */
+.cta {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 12.5%;
+  z-index: 3;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--red);
+  border-radius: 999px;
+  padding: 0.52em 1.5em;
+  white-space: nowrap;
+}
+.cta.ghost {
+  background: transparent;
+  color: var(--blue);
+  border: 3px solid var(--blue);
+}
+[data-layout="dark"] .cta.ghost { color: var(--white); border-color: var(--white); }
+
+/* --- Price badge ------------------------------------------------------ */
+/* Price badge sits just under the heart, inside the frame. */
+.badge {
+  position: absolute;
+  top: var(--badge-top, 14.5%); left: 50%; transform: translateX(-50%);
+  z-index: 3;
+  font-weight: 700;
+  color: var(--red);
+  border: 3px solid var(--red);
+  border-radius: 999px;
+  padding: 0.3em 1.1em;
+  white-space: nowrap;
+}
+
+/* --- Story-only: the swipe-up substitute ------------------------------ */
+.story-cta {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: 13%;
+  z-index: 3;
+  text-align: center;
+  color: var(--white);
+  font-weight: 700;
+}
+.story-cta .arrow {
+  display: block;
+  width: .62em; height: .62em;
+  margin: .34em auto 0;
+  border-left: .10em solid currentColor;
+  border-top:  .10em solid currentColor;
+  transform: rotate(45deg);   /* a chevron pointing up, to the bio link */
+}
+[data-layout="statement"] .story-cta,
+[data-layout="dilemma"]   .story-cta { color: var(--blue); }

@@ -1,0 +1,19 @@
+# --- Secrets. Never commit. ---
+.env
+.env.*
+!.env.example
+*.key
+*.token
+credentials*.json
+
+# --- Private brand knowledge ---
+# The repository is PUBLIC. Card contents and customer data stay out of it.
+brands/*/knowledge/
+brands/*/private/
+
+# --- Working files ---
+# rounds/ IS tracked on purpose: it is marketing copy destined to be public
+# anyway, and keeping it in git gives a record of what was approved and when.
+node_modules/
+.DS_Store
+*.log

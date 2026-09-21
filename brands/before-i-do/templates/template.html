@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Before I Do - render target</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div id="stage"></div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   The renderer calls window.render(item) with one content item and then
+   screenshots #canvas. Everything below is layout only - no content lives here.
+   --------------------------------------------------------------------------- */
+
+const ASSETS = '../assets/';
+
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/* Hebrew is RTL; numbers, prices, dates and Latin words inside it are LTR.
+   Left alone the browser reorders those runs and ships text like "26.10-" or
+   "129\u20aa" the wrong way round - the single most common way Hebrew artwork
+   goes out broken. Isolating each run in <bdi dir="ltr"> fixes it.
+
+   Punctuation stays OUTSIDE the run on purpose: pulling a leading hyphen in
+   moves it to the wrong end of "\u05d1-26.10". A trailing % must stay IN, or it
+   lands on the wrong side of "30%". Both cases are covered by test/bidi.test.js. */
+function bidi(s) {
+  return esc(s).replace(/[A-Za-z0-9](?:[A-Za-z0-9.,:\/%]*[A-Za-z0-9%])?/g,
+    (m) => '<bdi dir="ltr">' + m + '</bdi>');
+}
+
+/* Type scale, calibrated against the printed card: a two-line headline fills
+   roughly a fifth of the canvas height. Shorter lines get bigger, not looser. */
+function autoSize(text, base) {
+  const n = String(text || '').length;
+  if (n <= 18)  return base * 1.30;
+  if (n <= 30)  return base * 1.14;
+  if (n <= 45)  return base;
+  if (n <= 62)  return base * 0.88;
+  if (n <= 85)  return base * 0.76;
+  if (n <= 115) return base * 0.66;
+  return base * 0.58;
+}
+
+window.render = function (item) {
+  const isStory = item.format === 'story';
+  const W = 1080;
+  const H = isStory ? 1920 : 1350;
+  const layout = item.layout || 'statement';
+
+  const headSize = autoSize(item.headline, isStory ? 96 : 100);
+  const subSize  = Math.max(38, headSize * 0.46);
+
+  const parts = [];
+
+  /* Photo layer */
+  if (layout === 'photo' && item.photo) {
+    parts.push(`<img class="photo" src="${esc(item.photo)}">`);
+    parts.push(`<div class="scrim"></div>`);
+  }
+
+  /* Frame - the cards' signature rounded outline */
+  if (layout === 'dilemma' || layout === 'dark') {
+    parts.push(`<div class="frame"></div>`);
+  }
+
+  /* Heart, always top centre */
+  parts.push(`<img class="heart" src="${ASSETS}heart.png">`);
+
+  /* Optional price badge */
+  if (item.badge) {
+    parts.push(
+      `<div class="badge" style="font-size:${Math.max(34, headSize * 0.34)}px">${bidi(item.badge)}</div>`
+    );
+  }
+
+  /* Body */
+  const body = [];
+  if (item.dilemma) {
+    const optSize = autoSize(item.dilemma.join(' '), isStory ? 90 : 94);
+    body.push(`<div class="dilemma">
+      <div class="option" style="font-size:${optSize}px">${bidi(item.dilemma[0])}</div>
+      <div class="or" style="font-size:${optSize * 1.02}px">או</div>
+      <div class="option" style="font-size:${optSize}px">${bidi(item.dilemma[1])}</div>
+    </div>`);
+  } else {
+    if (item.headline) {
+      body.push(`<div class="headline" style="font-size:${headSize}px">${bidi(item.headline)}</div>`);
+    }
+    if (item.subline) {
+      body.push(`<div class="subline" style="font-size:${subSize}px">${bidi(item.subline)}</div>`);
+    }
+  }
+  parts.push(`<div class="content">${body.join('')}</div>`);
+
+  /* Call to action */
+  if (item.cta) {
+    if (isStory) {
+      parts.push(`<div class="story-cta" style="font-size:${Math.max(38, headSize * 0.36)}px">
+        ${bidi(item.cta)}<span class="arrow"></span>
+      </div>`);
+    } else {
+      const ghost = (layout === 'statement' || layout === 'dilemma') ? ' ghost' : '';
+      parts.push(`<div class="cta${ghost}" style="font-size:${Math.max(36, headSize * 0.34)}px">${bidi(item.cta)}</div>`);
+    }
+  }
+
+  /* Wordmark, always bottom centre. Dark backgrounds need the white cut. */
+  const onDark = (layout === 'dark' || layout === 'photo');
+  const mark =
+    layout === 'dilemma' ? 'wordmark-liver-production.png' :
+    layout === 'dark'    ? 'wordmark-liver-production-white.png' :
+    layout === 'photo'   ? 'wordmark-before-i-do-white.png' :
+                           'wordmark-before-i-do.png';
+  parts.push(`<img class="wordmark" src="${ASSETS}${mark}">`);
+
+  document.getElementById('stage').innerHTML =
+    `<div class="canvas" id="canvas" data-layout="${esc(layout)}"
+          style="width:${W}px;height:${H}px;
+                 --gap-top:${isStory ? 112 : 118}px;
+                 --gap-bottom:${isStory ? 372 : 378}px;
+                 --frame-top:${isStory ? '5.4%' : '7.0%'};
+                 --frame-bottom:${isStory ? '5.6%' : '7.2%'};
+                 --heart-top:${isStory ? '3.2%' : '4.1%'};
+                 --wordmark-bottom:${isStory ? '3.6%' : '4.6%'};
+                 --badge-top:${isStory ? '11.5%' : '14.5%'};
+                 --content-shift:${isStory ? '-7%' : '-2%'}">
+       ${parts.join('')}
+     </div>`;
+
+  return { w: W, h: H };
+};
+</script>
+</body>
+</html>

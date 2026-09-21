@@ -1,0 +1,25 @@
+{
+  "name": "publis",
+  "version": "1.0.0",
+  "description": "Multi-brand social content machine",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/bidi.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barakliver/publis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/barakliver/publis/issues"
+  },
+  "homepage": "https://github.com/barakliver/publis#readme",
+  "dependencies": {
+    "js-yaml": "^5.4.2",
+    "playwright-core": "^1.63.0"
+  },
+  "private": true
+}
