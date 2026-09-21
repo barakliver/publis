@@ -17,3 +17,9 @@ brands/*/private/
 node_modules/
 .DS_Store
 *.log
+
+# The hand-off package is rebuilt from the round on demand - no need to
+# carry another copy of every image in git.
+rounds/*/*/BeforeIDo-*/
+rounds/*/*.zip
+rounds/*/*/*.zip

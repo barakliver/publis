@@ -72,7 +72,8 @@ test/                  bidi.test.js
 ```bash
 node core/plan.js    before-i-do 2026-W40      # dates and times
 node core/render.js  before-i-do rounds/before-i-do/2026-W40   # images
-node core/review.js  before-i-do rounds/before-i-do/2026-W40   # approval page
+node core/review.js  before-i-do rounds/before-i-do/2026-W40   # approval pages
+node core/package.js before-i-do rounds/before-i-do/2026-W40   # hand-off zip
 node test/bidi.test.js
 ```
 
@@ -127,6 +128,17 @@ week to week. `.nojekyll` stops Pages from filtering files.
 
 Pages is served from the repository root, so a round's images are already
 reachable at their own path - never duplicate them into a docs folder.
+
+## Handing a round off
+
+`core/package.js` builds the folder whoever posts by hand actually works
+from: one folder per day, one per post, slides named `slide-1..n` in swipe
+order, the caption next to them, and `-MANUAL` in the filename for anything
+carrying a link or poll sticker. Zipped and sent to the user directly - it is
+git-ignored, since it is a second copy of every image.
+
+This is the current delivery path. It stays useful after Metricool is
+connected, for the manual items.
 
 ## Photos
 
