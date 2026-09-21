@@ -1,38 +1,41 @@
 # ---------------------------------------------------------------------------
-# Liver Productions - the wedding production business itself, not the deck.
+# ליור הפקות - Barak Lior, wedding producer.
 #
-# SCAFFOLD. The fields marked TODO are the ones only Barak can answer; until
-# they are filled the hub shows this business as waiting and no round is built.
+# Details from @barakliver and the "מפיקים חתונה" podcast he hosts with Lidor
+# Gorgi. Shares Before I Do's palette: same hand, same company.
 # ---------------------------------------------------------------------------
 
 id: liver-productions
 
-setup_needed: "צריך: מה בדיוק נמכר, טווח מחירים, קהל, וקו ויזואלי (או שנשתמש באותו אחד)"
-
 brand:
-  name: "ליור הפקות"
+  name: "ברק ליור"
   company: "Liver Production"
-  kind: "הפקת אירועים"
-  tagline: "TODO"
+  kind: "הפקת חתונות"
+  tagline: "מפיקים חתונה"
   website: ""
-  instagram: ""
+  instagram: "barakliver"
+  facebook: ""
   whatsapp: "+972526604320"
   contact_phone: "052-660-4320"
 
 product:
-  what: "TODO - הפקת חתונות ואירועים. איזה שירותים בדיוק?"
-  purpose: "TODO"
-  price_launch: 0        # TODO - או להסיר אם אין מחיר מפורסם
-  price_regular: 0
-  launch_ends: ""
+  what: >
+    הפקת חתונות. ליווי זוגות מהרגע שיש תאריך ועד סוף הערב -
+    בחירת ספקים, תקציב, לוח זמנים והפקה בשטח ביום עצמו.
+  purpose: "שהזוג יהיה אורח בחתונה שלו, ולא מנהל פרויקט"
+  podcast:
+    name: "מפיקים חתונה"
+    with: "לידור ג׳ורג׳י"
+    about: "מאחורי הקלעים של עולם החתונות. איך בוחרים אנשים, ואיך לא עושים טעויות יקרות"
 
 audience:
-  primary: "TODO - זוגות שמחפשים מפיק.ה? חברות? שניהם?"
-  secondary: ""
-  pain: "TODO"
+  primary: "זוגות מאורסים ששוקלים מפיק.ה, או שכבר מבינים שהם לא רוצים לעשות את זה לבד"
+  secondary: "ספקים ובעלי מקצוע בתעשייה - קהל הפודקאסט"
+  pain: >
+    זוגות מגלים באמצע שהם מנהלים פרויקט של מאות אלפי שקלים
+    בלי ניסיון, מול ספקים שעושים את זה כל יום.
 
-# The visual language is shared with Before I Do until told otherwise - same
-# company, same hand. Replace the colours here to give it its own look.
+# Same palette as Before I Do - one company, one hand.
 visual:
   colors:
     blue: "#4E6BA5"
@@ -44,20 +47,38 @@ visual:
     hebrew: "Assistant"
     fallback: "Heebo"
   assets:
-    heart: "assets/heart.png"
     wordmark_brand: "assets/wordmark-liver-production.png"
-    wordmark_company: "assets/wordmark-liver-production.png"
+    wordmark_brand_dark: "assets/wordmark-liver-production-white.png"
   sizes:
     post:  { w: 1080, h: 1350 }
     story: { w: 1080, h: 1920 }
 
+# ---------------------------------------------------------------------------
+# Voice. The producer, not the product. He has run the evening hundreds of
+# times and will tell you what actually goes wrong.
+# ---------------------------------------------------------------------------
 persona:
-  name: "TODO - אותה דני, או קול אחר?"
-  who: "TODO"
-  stance: "TODO"
+  name: "ברק"
+  who: "מפיק חתונות. מנחה את הפודקאסט ״מפיקים חתונה״."
+  stance: >
+    מספר מה קורה מאחורי הקלעים, כולל מה שספקים לא אומרים.
+    לא מוכר חלום - מסביר איך העסק הזה עובד ואיפה זוגות מפסידים כסף.
+  signature_lines:
+    - "זו לא חתונה, זה פרויקט של מאות אלפי שקלים"
+    - "הטעות הזאת עולה לזוגות עשרות אלפים, והיא נמנעת"
+    - "בסוף הערב אתם צריכים להיות אורחים, לא מנהלי פרויקט"
+  vocabulary:
+    use: ["תכלס", "ספק", "מקדמה", "חוזה", "לו״ז", "הפקה בשטח"]
+    metaphors: ["פרויקט", "ניהול", "סיכון", "תמחור"]
+  openers:
+    - "מאחורי הקלעים:"
+    - "הטעות שאני רואה הכי הרבה:"
+    - "בפרק האחרון דיברנו על"
+    - "ספק לא יגיד לכם את זה, אז אני אגיד:"
 
 language:
   primary: "he"
+  also_supported: ["en"]
   gendering: "dotted"
   address: "plural"
   emoji: "moderate"
@@ -66,6 +87,7 @@ rules:
   forbidden_words: ["היום המושלם", "קסום", "חלומי", "אגדה"]
   required:
     - "כל טקסט בעברית תקנית"
+    - "טענה על מחירים או על ספקים - רק מה שנכון ובזהירות"
 
 schedule:
   timezone: "Asia/Jerusalem"
@@ -74,7 +96,7 @@ schedule:
   post_times:  ["19:30"]
   story_times: ["20:30"]
   approval_lead_days: 2
-  mix: { pain: 2, value: 3, identity: 2, social_proof: 2, sell: 1 }
+  mix: { pain: 2, value: 3, identity: 1, social_proof: 0, sell: 1 }
 
 channels:
   instagram: true

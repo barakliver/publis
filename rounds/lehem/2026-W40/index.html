@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4E6BA5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Before I Do">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="../../../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../../../icons/icon-180.png">
+<link rel="icon" href="../../../icons/icon-192.png">
+<script src="../../../vendor/jszip.min.js"></script>
+<title>אישור סבב — Before I Do</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Heebo:wght@500;700;800&display=swap">
+<style>
+:root {
+  --ground:    #F5F3EF;
+  --surface:   #FFFFFF;
+  --sunken:    #EEEBE4;
+  --ink:       #1A2130;
+  --ink-soft:  #5B6577;
+  --ink-faint: #8C95A4;
+  --line:      #E2DED6;
+  --line-soft: #EFECE5;
+
+  --brand:     #4E6BA5;
+  --brand-dim: #7F9ACE;
+  --flag:      #D8402F;
+  --ok:        #2D7355;
+  --ok-bg:     #E4F0EA;
+  --fix-bg:    #FBE8E4;
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(26,33,48,.05), 0 6px 18px rgba(26,33,48,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:    #14171E;
+    --surface:   #1C212B;
+    --sunken:    #232936;
+    --ink:       #ECEEF2;
+    --ink-soft:  #A6AEBD;
+    --ink-faint: #737C8C;
+    --line:      #2E3542;
+    --line-soft: #262C38;
+    --brand:     #8CA6D8;
+    --brand-dim: #6B85B8;
+    --flag:      #F4705F;
+    --ok:        #6FC79E;
+    --ok-bg:     #1E3A2E;
+    --fix-bg:    #3B211C;
+    --shadow: 0 1px 2px rgba(0,0,0,.30), 0 6px 18px rgba(0,0,0,.26);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:    #14171E;
+  --surface:   #1C212B;
+  --sunken:    #232936;
+  --ink:       #ECEEF2;
+  --ink-soft:  #A6AEBD;
+  --ink-faint: #737C8C;
+  --line:      #2E3542;
+  --line-soft: #262C38;
+  --brand:     #8CA6D8;
+  --brand-dim: #6B85B8;
+  --flag:      #F4705F;
+  --ok:        #6FC79E;
+  --ok-bg:     #1E3A2E;
+  --fix-bg:    #3B211C;
+  --shadow: 0 1px 2px rgba(0,0,0,.30), 0 6px 18px rgba(0,0,0,.26);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  direction: rtl;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: 'Assistant', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .num { font-family: 'Heebo', 'Assistant', system-ui, sans-serif; }
+
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 0 72px; }
+
+/* ---------- header ---------- */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.top-in { max-width: 860px; margin: 0 auto; padding: 14px 16px; }
+.eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--brand); margin: 0 0 3px;
+}
+.top h1 { margin: 0; font-size: 20px; font-weight: 800; letter-spacing: -.01em; }
+.top .range { color: var(--ink-soft); font-size: 13px; margin-top: 2px; }
+
+.meter { display: flex; align-items: center; gap: 10px; margin-top: 11px; }
+.bar { flex: 1; height: 6px; border-radius: 99px; background: var(--sunken); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--ok); border-radius: 99px; transition: width .28s ease; }
+.meter .count { font-size: 12px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.who {
+  margin-top: 9px; font-size: 12px; color: var(--ink-faint);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok); flex: none; }
+.dot.off { background: var(--ink-faint); }
+
+/* ---------- day ---------- */
+.day { margin-top: 30px; }
+.day-head {
+  display: flex; align-items: baseline; gap: 9px;
+  padding-bottom: 8px; border-bottom: 2px solid var(--line);
+}
+.day-head h2 { margin: 0; font-size: 16px; font-weight: 700; }
+.day-head .d { font-size: 12.5px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+/* ---------- item ---------- */
+.item {
+  display: grid; grid-template-columns: 132px 1fr; gap: 14px;
+}
+.item.carousel { display: block; }
+.item.carousel .strip { margin-bottom: 11px; }
+.item {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 13px;
+  margin-top: 12px; box-shadow: var(--shadow);
+  transition: border-color .18s ease;
+}
+.item[data-state="approved"] { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.item[data-state="fix"]      { border-color: color-mix(in srgb, var(--flag) 45%, var(--line)); }
+
+.shot {
+  width: 132px; border-radius: 9px; overflow: hidden;
+  border: 1px solid var(--line-soft); background: var(--sunken);
+  cursor: zoom-in; display: block; padding: 0; flex: none;
+}
+.shot img { display: block; width: 100%; height: auto; max-height: 188px; object-fit: contain; }
+
+/* A carousel's slides scroll sideways in their own track, so the page
+   itself never scrolls horizontally. */
+.strip {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.strip .shot { scroll-snap-align: start; position: relative; }
+.strip .n {
+  position: absolute; inset-block-start: 5px; inset-inline-end: 5px;
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  color: var(--surface); font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 99px; font-variant-numeric: tabular-nums;
+}
+.strip::-webkit-scrollbar { height: 5px; }
+.strip::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+
+.meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
+.chip {
+  font-size: 11px; font-weight: 700; padding: 2.5px 8px; border-radius: 99px;
+  border: 1px solid var(--line); color: var(--ink-soft); background: var(--sunken);
+  white-space: nowrap;
+}
+.chip.time { font-variant-numeric: tabular-nums; color: var(--ink); }
+.chip.kind { border-color: var(--brand-dim); color: var(--brand); background: transparent; }
+.chip.manual { border-color: var(--flag); color: var(--flag); background: transparent; }
+
+.headline { font-weight: 700; font-size: 15.5px; line-height: 1.32; margin: 0 0 5px; text-wrap: balance; }
+.caption {
+  font-size: 13.5px; color: var(--ink-soft); white-space: pre-wrap; margin: 0;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
+}
+.caption.open { -webkit-line-clamp: unset; display: block; }
+.more {
+  background: none; border: 0; padding: 2px 0; margin-top: 2px;
+  color: var(--brand); font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+.tags { font-size: 12px; color: var(--ink-faint); margin-top: 6px; word-break: break-word; }
+
+/* ---------- controls ---------- */
+.actions { display: flex; gap: 7px; margin-top: 11px; flex-wrap: wrap; }
+.btn {
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+  padding: 7px 14px; border-radius: 99px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.btn:hover { border-color: var(--ink-faint); }
+.btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.btn[aria-pressed="true"].ok  { background: var(--ok-bg);  border-color: var(--ok);  color: var(--ok); }
+.btn[aria-pressed="true"].fix { background: var(--fix-bg); border-color: var(--flag); color: var(--flag); }
+.btn:disabled { opacity: .45; cursor: default; }
+
+.notes { margin-top: 10px; border-top: 1px solid var(--line-soft); padding-top: 9px; }
+.note { font-size: 13px; margin-bottom: 7px; }
+.note b { font-weight: 700; color: var(--ink); }
+.note .t { color: var(--ink-faint); font-size: 11.5px; margin-inline-start: 5px; font-variant-numeric: tabular-nums; }
+.note p { margin: 1px 0 0; color: var(--ink-soft); white-space: pre-wrap; }
+
+.add { display: flex; gap: 7px; margin-top: 8px; }
+.add textarea {
+  flex: 1; font: inherit; font-size: 13.5px; resize: vertical; min-height: 38px;
+  padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line);
+  background: var(--ground); color: var(--ink);
+}
+.add textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+/* ---------- lightbox ---------- */
+dialog {
+  border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh;
+}
+dialog::backdrop { background: rgba(10,13,20,.86); }
+dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: block; }
+
+/* ---------- footer note ---------- */
+.foot {
+  margin-top: 34px; padding: 15px; border-radius: var(--radius);
+  background: var(--sunken); border: 1px solid var(--line);
+  font-size: 13px; color: var(--ink-soft);
+}
+.foot b { color: var(--ink); }
+.foot ul { margin: 7px 0 0; padding-inline-start: 18px; }
+.foot li { margin-bottom: 3px; }
+
+.offline {
+  margin-top: 14px; padding: 11px 13px; border-radius: 10px;
+  background: var(--fix-bg); border: 1px solid var(--flag);
+  color: var(--ink); font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .item { grid-template-columns: 96px 1fr; gap: 11px; padding: 11px; }
+  .shot { width: 96px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* ---------- static mode: who is reviewing, and sending it back ------- */
+.me { display: flex; gap: 7px; align-items: center; margin-top: 10px; }
+.me input {
+  flex: 1; min-width: 0; font: inherit; font-size: 13px;
+  padding: 7px 10px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.me input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.send-wa {
+  font: inherit; font-size: 13px; font-weight: 700; white-space: nowrap;
+  padding: 8px 15px; border-radius: 99px; border: 0; cursor: pointer;
+  background: var(--ok); color: #fff;
+}
+.send-wa:disabled { opacity: .45; cursor: default; }
+.send-wa:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.copied { font-size: 12px; color: var(--ok); font-weight: 700; }
+.dl {
+  display: block; margin-top: 8px; text-align: center;
+  font-size: 13px; font-weight: 700; text-decoration: none;
+  padding: 9px 14px; border-radius: 99px;
+  border: 1px solid var(--brand); color: var(--brand); background: var(--surface);
+}
+.dl:hover { background: var(--sunken); }
+.dl:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* ---------- per-item tools: download, edit ---------- */
+.tools { display: flex; gap: 7px; margin-top: 9px; flex-wrap: wrap; }
+.tool {
+  font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  padding: 6px 12px; border-radius: 99px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+}
+.tool:hover { border-color: var(--brand); color: var(--brand); }
+.tool:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.tool[aria-expanded="true"] { border-color: var(--brand); color: var(--brand); background: var(--sunken); }
+.tool.busy { opacity: .55; cursor: progress; }
+
+/* The caption is edited in place - what you see is what gets copied. */
+.cap-edit {
+  width: 100%; font: inherit; font-size: 13.5px; line-height: 1.5;
+  padding: 9px 10px; border-radius: 9px; border: 1px solid var(--brand);
+  background: var(--ground); color: var(--ink); resize: vertical; min-height: 120px;
+}
+.edited-flag {
+  font-size: 11px; font-weight: 700; color: var(--brand);
+  border: 1px solid var(--brand); border-radius: 99px; padding: 1.5px 7px;
+}
+
+/* Slide text: pick a slide, fix its wording. The picture is rebuilt later. */
+.slides-edit { margin-top: 9px; border-top: 1px solid var(--line-soft); padding-top: 9px; }
+.slide-tabs { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.slide-tab {
+  font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  width: 30px; height: 30px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+}
+.slide-tab[aria-selected="true"] { border-color: var(--brand); color: var(--brand); background: var(--sunken); }
+.slide-tab.changed { border-color: var(--brand); color: var(--brand); }
+.slide-tab.changed::after { content: '•'; }
+.slide-fields { display: flex; flex-direction: column; gap: 6px; }
+.slide-fields label { font-size: 11.5px; font-weight: 700; color: var(--ink-faint); }
+.slide-fields input {
+  font: inherit; font-size: 13.5px; padding: 7px 10px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--ground); color: var(--ink);
+}
+.slide-fields input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.hint { font-size: 11.5px; color: var(--ink-faint); margin-top: 5px; }
+</style>
+<style>
+:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <p class="eyebrow">סבב לאישור</p>
+    <h1 id="ttl"></h1>
+    <div class="range" id="rng"></div>
+    <div class="meter">
+      <div class="bar"><i id="barfill"></i></div>
+      <span class="count" id="cnt"></span>
+    </div>
+    
+    <div class="me">
+      <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
+      <button class="send-wa" id="sendwa">שליחה בוואטסאפ</button>
+    </div>
+    <div class="who"><span class="dot off"></span><span id="livetxt">הסימונים נשמרים במכשיר הזה</span></div>
+    
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="offline" hidden class="offline"></div>
+  <main id="list"></main>
+
+  <section class="foot">
+    <b>איך זה עובד</b>
+    <ul>
+      <li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
+           <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>
+           <li><b>הורדה</b> בכל פריט נותנת את הקרוסלה שלו עם הטקסט — זה מה שמעלים לאינסטגרם.</li>
+           <li><b>עריכת טקסט</b> משנה את הכיתוב מיד, וזה מה שיירד בהורדה. <b>תיקון שקפים</b> נכנס לתמונה בבנייה הבאה.</li>
+           <li><b>להתקנה כאפליקציה:</b> בספארי — שתף ← הוסף למסך הבית. באנדרואיד — ⋮ ← הוסף למסך הבית.</li>
+      <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
+      <li>פריט עם <span style="color:var(--flag);font-weight:700">העלאה ידנית</span> נושא סטיקר לינק או סקר. אינסטגרם לא מאפשרת לפרסם אותו דרך API — תגיע התראה לנייד בזמן הפרסום.</li>
+      <li>שום דבר לא מתוזמן ולא מתפרסם עד אישור מפורש.</li>
+      <li><b>הדף הזה קבוע.</b> כל שבוע הסבב החדש מופיע כאן באותה כתובת —
+          שווה להוסיף אותו למסך הבית (בספארי: שתף ← הוסף למסך הבית).</li>
+      
+    </ul>
+  </section>
+</div>
+
+<dialog id="zoom"><img id="zoomimg" alt=""></dialog>
+
+<script>
+const DATA = {"round":{"brand":"lehem","brand_name":"לחם","whatsapp":"","week":"2026-W40","starts":"2026-09-28","ends":"2026-10-04","timezone":"Asia/Jerusalem","mode":"dry","generated_at":"2026-09-21T15:36:26.435Z","approval":{"status":"pending","approved_by":null,"approved_at":null},"counts":{"posts":7,"stories":7,"manual":3,"carousels":7,"slides":42},"items":[{"id":"story-01","format":"story","channel":"instagram","date":"2026-09-28","day_he":"שני","time":"07:30","status":"draft","type":"single","pillar":"identity","layout":"statement","headline":"יצא עכשיו מהתנור","subline":"7:10 בבוקר","slides":[{"pillar":"identity","layout":"statement","headline":"יצא עכשיו מהתנור","subline":"7:10 בבוקר"}],"images":["images/story-01.png"],"image":"images/story-01.png"},{"id":"post-01","format":"post","type":"carousel","channel":"instagram","date":"2026-09-28","day_he":"שני","time":"08:00","status":"draft","pillar":"identity","caption":"השאלה שאנחנו הכי נשאלים: למה לחם מחמצת עולה יותר.\n\nכי הוא תופח לאט, שני ימים, והתנור שלנו לא מספיק להוציא ממנו אלפים ביום.\n\nבלי משפרי אפייה, בלי חומרים משמרים, ובלחמים גם בלי סוכר.\n\nהאתרוג 25, גבעת שמואל. מ-7 בבוקר.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"מחמצת לוקחת יומיים"},{"layout":"statement","headline":"אין קיצור דרך"},{"layout":"statement","headline":"לחם תעשייתי מוכן","subline":"בשעתיים. עם משפרי אפייה."},{"layout":"statement","headline":"שלנו תופח לאט","subline":"ובגלל זה הוא נראה ככה בפנים"},{"layout":"dark","headline":"זה לא סגנון","subline":"זה פשוט כמה זמן שזה לוקח"}],"images":["images/post-01-01.png","images/post-01-02.png","images/post-01-03.png","images/post-01-04.png","images/post-01-05.png"],"image":"images/post-01-01.png"},{"id":"story-02","format":"story","channel":"instagram","date":"2026-09-29","day_he":"שלישי","time":"07:30","status":"draft","type":"single","pillar":"value","layout":"statement","headline":"לא לשמור לחם במקרר","subline":"זה מייבש אותו מהר יותר","cta":"לינק בביו","slides":[{"pillar":"value","layout":"statement","headline":"לא לשמור לחם במקרר","subline":"זה מייבש אותו מהר יותר","cta":"לינק בביו"}],"images":["images/story-02.png"],"image":"images/story-02.png"},{"id":"post-02","format":"post","type":"carousel","channel":"instagram","date":"2026-09-29","day_he":"שלישי","time":"08:00","status":"draft","pillar":"value","caption":"לא צריך להיות אופים כדי לדעת מה אתם קונים. שלוש בדיקות, חצי דקה.\n\nזה עובד בכל מקום, לא רק אצלנו.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איך בודקים לחם","subline":"לפני שקונים"},{"layout":"statement","headline":"1","subline":"תקראו את הרשימה. אם יש בה משהו שאתם לא מזהים — זה לא בשבילכם"},{"layout":"statement","headline":"2","subline":"לחם אמיתי מתייבש. אם הוא רך אחרי שבוע, תשאלו למה"},{"layout":"statement","headline":"3","subline":"תשאלו מתי הוא נאפה. אם אין תשובה מדויקת — זו התשובה"},{"layout":"dark","headline":"אצלנו התשובה היא תמיד","subline":"הבוקר","cta":"שמרו את זה 🔖"}],"images":["images/post-02-01.png","images/post-02-02.png","images/post-02-03.png","images/post-02-04.png","images/post-02-05.png"],"image":"images/post-02-01.png"},{"id":"story-03","format":"story","channel":"instagram","date":"2026-09-30","day_he":"רביעי","time":"07:30","status":"draft","type":"single","pillar":"sell","layout":"dark","headline":"מגשי אירוח","subline":"48 שעות מראש · 03-5335503","cta":"lehem.co","manual":true,"slides":[{"pillar":"sell","layout":"dark","headline":"מגשי אירוח","subline":"48 שעות מראש · 03-5335503","cta":"lehem.co","manual":true}],"images":["images/story-03.png"],"image":"images/story-03.png"},{"id":"post-03","format":"post","type":"carousel","channel":"instagram","date":"2026-09-30","day_he":"רביעי","time":"08:00","status":"draft","pillar":"sell","caption":"מגש שנראה כמו שמישהו הכין אותו, לא כמו שהוזמן מקטלוג.\n\nהכול נאפה אצלנו באותו בוקר.\n\n✦ 48 שעות מראש, איסוף עצמי\n✦ 03-5335503","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"מגשי אירוח"},{"layout":"statement","headline":"כריכים · ירקות","subline":"מתוק · מלוח"},{"layout":"statement","headline":"לישיבה במשרד","subline":"או לאירוע משפחתי"},{"layout":"statement","headline":"הזמנה 48 שעות מראש","subline":"באיסוף עצמי"},{"layout":"dark","headline":"03-5335503","subline":"האתרוג 25, גבעת שמואל","cta":"lehem.co"}],"images":["images/post-03-01.png","images/post-03-02.png","images/post-03-03.png","images/post-03-04.png","images/post-03-05.png"],"image":"images/post-03-01.png"},{"id":"story-04","format":"story","channel":"instagram","date":"2026-10-01","day_he":"חמישי","time":"07:30","status":"draft","type":"single","pillar":"value","layout":"dilemma","dilemma":["לבן איטלקי","כפרי"],"poll":true,"manual":true,"slides":[{"pillar":"value","layout":"dilemma","dilemma":["לבן איטלקי","כפרי"],"poll":true,"manual":true}],"images":["images/story-04.png"],"image":"images/story-04.png"},{"id":"post-04","format":"post","type":"carousel","channel":"instagram","date":"2026-10-01","day_he":"חמישי","time":"08:00","status":"draft","pillar":"value","caption":"יש לנו שמונה לחמים ואנחנו יודעים שזה הרבה.\n\nאז אם אתם עומדים מול המדף ומתלבטים — פשוט תשאלו. זה מה שאנחנו כאן בשביל.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איזה לחם מתאים למה"},{"layout":"dilemma","dilemma":["לבן איטלקי — לכריך","כפרי — לצד המרק"]},{"layout":"dilemma","dilemma":["שיפון — לסלמון וגבינות","כוסמין — לקל על הבטן"]},{"layout":"statement","headline":"רב דגנים","subline":"כשרוצים שהפרוסה תחזיק עד הערב"},{"layout":"dark","headline":"לא יודעים?","subline":"תבואו, נחתוך לכם לטעום","cta":"האתרוג 25"}],"images":["images/post-04-01.png","images/post-04-02.png","images/post-04-03.png","images/post-04-04.png","images/post-04-05.png"],"image":"images/post-04-01.png"},{"id":"story-05","format":"story","channel":"instagram","date":"2026-10-02","day_he":"שישי","time":"07:30","status":"draft","type":"single","pillar":"identity","layout":"statement","headline":"מחמצת לוקחת יומיים","subline":"אין קיצור דרך","slides":[{"pillar":"identity","layout":"statement","headline":"מחמצת לוקחת יומיים","subline":"אין קיצור דרך"}],"images":["images/story-05.png"],"image":"images/story-05.png"},{"id":"post-05","format":"post","type":"carousel","channel":"instagram","date":"2026-10-02","day_he":"שישי","time":"08:00","status":"draft","pillar":"identity","caption":"אנשים שואלים מה הסוד. אין סוד — יש רשימת מרכיבים קצרה ומישהו שקם מוקדם.\n\nכשר בהשגחת רבנות גבעת שמואל. 💛","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"אחת עשרה שנה"},{"layout":"statement","headline":"אותו בצק","subline":"אותה שעה בבוקר"},{"layout":"statement","headline":"קמחים מגרמניה","subline":"דגנים מלאים, דבש"},{"layout":"statement","headline":"ומה שלא נמצא","subline":"חומרים משמרים · משפרי אפייה · סוכר בלחמים"},{"layout":"dark","headline":"זה כל הסוד","subline":"אין עוד אחד"}],"images":["images/post-05-01.png","images/post-05-02.png","images/post-05-03.png","images/post-05-04.png","images/post-05-05.png"],"image":"images/post-05-01.png"},{"id":"story-06","format":"story","channel":"instagram","date":"2026-10-03","day_he":"שבת","time":"07:30","status":"draft","type":"single","pillar":"pain","layout":"dark","headline":"לחם שנשאר רך שבוע","subline":"תשאלו את עצמכם למה","slides":[{"pillar":"pain","layout":"dark","headline":"לחם שנשאר רך שבוע","subline":"תשאלו את עצמכם למה"}],"images":["images/story-06.png"],"image":"images/story-06.png"},{"id":"post-06","format":"post","type":"carousel","channel":"instagram","date":"2026-10-03","day_he":"שבת","time":"08:00","status":"draft","pillar":"value","caption":"לחם בלי חומרים משמרים מתנהג אחרת, וזה בסדר גמור — רק צריך לדעת איך.\n\nהטעות הכי נפוצה: המקרר. הוא מזרז את ההתקשות, לא מאט אותה.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איך לשמור לחם"},{"layout":"statement","headline":"לא בשקית ניילון","subline":"הקראסט נהיה רך ועצוב"},{"layout":"statement","headline":"לא במקרר","subline":"זה מייבש אותו מהר יותר, לא לאט"},{"layout":"statement","headline":"כן: שקית נייר או מגבת","subline":"על השיש, פרוס כלפי מטה"},{"layout":"dark","headline":"ומה שנשאר מיום שלישי","subline":"הוא הטוסט הכי טוב שתאכלו","cta":"שמרו 🔖"}],"images":["images/post-06-01.png","images/post-06-02.png","images/post-06-03.png","images/post-06-04.png","images/post-06-05.png"],"image":"images/post-06-01.png"},{"id":"story-07","format":"story","channel":"instagram","date":"2026-10-04","day_he":"ראשון","time":"07:30","status":"draft","type":"single","pillar":"sell","layout":"statement","headline":"פתוח עד 19:00","subline":"האתרוג 25, גבעת שמואל","cta":"לינק בביו","manual":true,"slides":[{"pillar":"sell","layout":"statement","headline":"פתוח עד 19:00","subline":"האתרוג 25, גבעת שמואל","cta":"לינק בביו","manual":true}],"images":["images/story-07.png"],"image":"images/story-07.png"},{"id":"post-07","format":"post","type":"carousel","channel":"instagram","date":"2026-10-04","day_he":"ראשון","time":"08:00","status":"draft","pillar":"sell","caption":"הרבה אנשים מכירים אותנו רק מהלחם ולא יודעים שיש כאן גם איפה לשבת.\n\nקפה, משהו טרי, וחצי שעה שקטה לפני שממשיכים.\n\nא׳-ה׳ 7:00-19:00","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"בית הקפה פתוח"},{"layout":"statement","headline":"סלטים · פסטות · כריכים","subline":"והמאפים של אותו בוקר"},{"layout":"statement","headline":"יש גם טבעוני","subline":"ויש גם בלי סוכר"},{"layout":"statement","headline":"א׳-ה׳ 7:00-19:00","subline":"ו׳ מ-7:00 עד שעתיים לפני כניסת השבת"},{"layout":"dark","headline":"האתרוג 25, גבעת שמואל","subline":"מתחם הולמס פלייס","cta":"lehem.co"}],"images":["images/post-07-01.png","images/post-07-02.png","images/post-07-03.png","images/post-07-04.png","images/post-07-05.png"],"image":"images/post-07-01.png"}]},"days":[{"date":"2026-09-28","day_he":"שני","items":[{"id":"story-01","format":"story","channel":"instagram","date":"2026-09-28","day_he":"שני","time":"07:30","status":"draft","type":"single","pillar":"identity","layout":"statement","headline":"יצא עכשיו מהתנור","subline":"7:10 בבוקר","slides":[{"pillar":"identity","layout":"statement","headline":"יצא עכשיו מהתנור","subline":"7:10 בבוקר"}],"images":["images/story-01.png"],"image":"images/story-01.png"},{"id":"post-01","format":"post","type":"carousel","channel":"instagram","date":"2026-09-28","day_he":"שני","time":"08:00","status":"draft","pillar":"identity","caption":"השאלה שאנחנו הכי נשאלים: למה לחם מחמצת עולה יותר.\n\nכי הוא תופח לאט, שני ימים, והתנור שלנו לא מספיק להוציא ממנו אלפים ביום.\n\nבלי משפרי אפייה, בלי חומרים משמרים, ובלחמים גם בלי סוכר.\n\nהאתרוג 25, גבעת שמואל. מ-7 בבוקר.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"מחמצת לוקחת יומיים"},{"layout":"statement","headline":"אין קיצור דרך"},{"layout":"statement","headline":"לחם תעשייתי מוכן","subline":"בשעתיים. עם משפרי אפייה."},{"layout":"statement","headline":"שלנו תופח לאט","subline":"ובגלל זה הוא נראה ככה בפנים"},{"layout":"dark","headline":"זה לא סגנון","subline":"זה פשוט כמה זמן שזה לוקח"}],"images":["images/post-01-01.png","images/post-01-02.png","images/post-01-03.png","images/post-01-04.png","images/post-01-05.png"],"image":"images/post-01-01.png"}]},{"date":"2026-09-29","day_he":"שלישי","items":[{"id":"story-02","format":"story","channel":"instagram","date":"2026-09-29","day_he":"שלישי","time":"07:30","status":"draft","type":"single","pillar":"value","layout":"statement","headline":"לא לשמור לחם במקרר","subline":"זה מייבש אותו מהר יותר","cta":"לינק בביו","slides":[{"pillar":"value","layout":"statement","headline":"לא לשמור לחם במקרר","subline":"זה מייבש אותו מהר יותר","cta":"לינק בביו"}],"images":["images/story-02.png"],"image":"images/story-02.png"},{"id":"post-02","format":"post","type":"carousel","channel":"instagram","date":"2026-09-29","day_he":"שלישי","time":"08:00","status":"draft","pillar":"value","caption":"לא צריך להיות אופים כדי לדעת מה אתם קונים. שלוש בדיקות, חצי דקה.\n\nזה עובד בכל מקום, לא רק אצלנו.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איך בודקים לחם","subline":"לפני שקונים"},{"layout":"statement","headline":"1","subline":"תקראו את הרשימה. אם יש בה משהו שאתם לא מזהים — זה לא בשבילכם"},{"layout":"statement","headline":"2","subline":"לחם אמיתי מתייבש. אם הוא רך אחרי שבוע, תשאלו למה"},{"layout":"statement","headline":"3","subline":"תשאלו מתי הוא נאפה. אם אין תשובה מדויקת — זו התשובה"},{"layout":"dark","headline":"אצלנו התשובה היא תמיד","subline":"הבוקר","cta":"שמרו את זה 🔖"}],"images":["images/post-02-01.png","images/post-02-02.png","images/post-02-03.png","images/post-02-04.png","images/post-02-05.png"],"image":"images/post-02-01.png"}]},{"date":"2026-09-30","day_he":"רביעי","items":[{"id":"story-03","format":"story","channel":"instagram","date":"2026-09-30","day_he":"רביעי","time":"07:30","status":"draft","type":"single","pillar":"sell","layout":"dark","headline":"מגשי אירוח","subline":"48 שעות מראש · 03-5335503","cta":"lehem.co","manual":true,"slides":[{"pillar":"sell","layout":"dark","headline":"מגשי אירוח","subline":"48 שעות מראש · 03-5335503","cta":"lehem.co","manual":true}],"images":["images/story-03.png"],"image":"images/story-03.png"},{"id":"post-03","format":"post","type":"carousel","channel":"instagram","date":"2026-09-30","day_he":"רביעי","time":"08:00","status":"draft","pillar":"sell","caption":"מגש שנראה כמו שמישהו הכין אותו, לא כמו שהוזמן מקטלוג.\n\nהכול נאפה אצלנו באותו בוקר.\n\n✦ 48 שעות מראש, איסוף עצמי\n✦ 03-5335503","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"מגשי אירוח"},{"layout":"statement","headline":"כריכים · ירקות","subline":"מתוק · מלוח"},{"layout":"statement","headline":"לישיבה במשרד","subline":"או לאירוע משפחתי"},{"layout":"statement","headline":"הזמנה 48 שעות מראש","subline":"באיסוף עצמי"},{"layout":"dark","headline":"03-5335503","subline":"האתרוג 25, גבעת שמואל","cta":"lehem.co"}],"images":["images/post-03-01.png","images/post-03-02.png","images/post-03-03.png","images/post-03-04.png","images/post-03-05.png"],"image":"images/post-03-01.png"}]},{"date":"2026-10-01","day_he":"חמישי","items":[{"id":"story-04","format":"story","channel":"instagram","date":"2026-10-01","day_he":"חמישי","time":"07:30","status":"draft","type":"single","pillar":"value","layout":"dilemma","dilemma":["לבן איטלקי","כפרי"],"poll":true,"manual":true,"slides":[{"pillar":"value","layout":"dilemma","dilemma":["לבן איטלקי","כפרי"],"poll":true,"manual":true}],"images":["images/story-04.png"],"image":"images/story-04.png"},{"id":"post-04","format":"post","type":"carousel","channel":"instagram","date":"2026-10-01","day_he":"חמישי","time":"08:00","status":"draft","pillar":"value","caption":"יש לנו שמונה לחמים ואנחנו יודעים שזה הרבה.\n\nאז אם אתם עומדים מול המדף ומתלבטים — פשוט תשאלו. זה מה שאנחנו כאן בשביל.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איזה לחם מתאים למה"},{"layout":"dilemma","dilemma":["לבן איטלקי — לכריך","כפרי — לצד המרק"]},{"layout":"dilemma","dilemma":["שיפון — לסלמון וגבינות","כוסמין — לקל על הבטן"]},{"layout":"statement","headline":"רב דגנים","subline":"כשרוצים שהפרוסה תחזיק עד הערב"},{"layout":"dark","headline":"לא יודעים?","subline":"תבואו, נחתוך לכם לטעום","cta":"האתרוג 25"}],"images":["images/post-04-01.png","images/post-04-02.png","images/post-04-03.png","images/post-04-04.png","images/post-04-05.png"],"image":"images/post-04-01.png"}]},{"date":"2026-10-02","day_he":"שישי","items":[{"id":"story-05","format":"story","channel":"instagram","date":"2026-10-02","day_he":"שישי","time":"07:30","status":"draft","type":"single","pillar":"identity","layout":"statement","headline":"מחמצת לוקחת יומיים","subline":"אין קיצור דרך","slides":[{"pillar":"identity","layout":"statement","headline":"מחמצת לוקחת יומיים","subline":"אין קיצור דרך"}],"images":["images/story-05.png"],"image":"images/story-05.png"},{"id":"post-05","format":"post","type":"carousel","channel":"instagram","date":"2026-10-02","day_he":"שישי","time":"08:00","status":"draft","pillar":"identity","caption":"אנשים שואלים מה הסוד. אין סוד — יש רשימת מרכיבים קצרה ומישהו שקם מוקדם.\n\nכשר בהשגחת רבנות גבעת שמואל. 💛","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"אחת עשרה שנה"},{"layout":"statement","headline":"אותו בצק","subline":"אותה שעה בבוקר"},{"layout":"statement","headline":"קמחים מגרמניה","subline":"דגנים מלאים, דבש"},{"layout":"statement","headline":"ומה שלא נמצא","subline":"חומרים משמרים · משפרי אפייה · סוכר בלחמים"},{"layout":"dark","headline":"זה כל הסוד","subline":"אין עוד אחד"}],"images":["images/post-05-01.png","images/post-05-02.png","images/post-05-03.png","images/post-05-04.png","images/post-05-05.png"],"image":"images/post-05-01.png"}]},{"date":"2026-10-03","day_he":"שבת","items":[{"id":"story-06","format":"story","channel":"instagram","date":"2026-10-03","day_he":"שבת","time":"07:30","status":"draft","type":"single","pillar":"pain","layout":"dark","headline":"לחם שנשאר רך שבוע","subline":"תשאלו את עצמכם למה","slides":[{"pillar":"pain","layout":"dark","headline":"לחם שנשאר רך שבוע","subline":"תשאלו את עצמכם למה"}],"images":["images/story-06.png"],"image":"images/story-06.png"},{"id":"post-06","format":"post","type":"carousel","channel":"instagram","date":"2026-10-03","day_he":"שבת","time":"08:00","status":"draft","pillar":"value","caption":"לחם בלי חומרים משמרים מתנהג אחרת, וזה בסדר גמור — רק צריך לדעת איך.\n\nהטעות הכי נפוצה: המקרר. הוא מזרז את ההתקשות, לא מאט אותה.","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"איך לשמור לחם"},{"layout":"statement","headline":"לא בשקית ניילון","subline":"הקראסט נהיה רך ועצוב"},{"layout":"statement","headline":"לא במקרר","subline":"זה מייבש אותו מהר יותר, לא לאט"},{"layout":"statement","headline":"כן: שקית נייר או מגבת","subline":"על השיש, פרוס כלפי מטה"},{"layout":"dark","headline":"ומה שנשאר מיום שלישי","subline":"הוא הטוסט הכי טוב שתאכלו","cta":"שמרו 🔖"}],"images":["images/post-06-01.png","images/post-06-02.png","images/post-06-03.png","images/post-06-04.png","images/post-06-05.png"],"image":"images/post-06-01.png"}]},{"date":"2026-10-04","day_he":"ראשון","items":[{"id":"story-07","format":"story","channel":"instagram","date":"2026-10-04","day_he":"ראשון","time":"07:30","status":"draft","type":"single","pillar":"sell","layout":"statement","headline":"פתוח עד 19:00","subline":"האתרוג 25, גבעת שמואל","cta":"לינק בביו","manual":true,"slides":[{"pillar":"sell","layout":"statement","headline":"פתוח עד 19:00","subline":"האתרוג 25, גבעת שמואל","cta":"לינק בביו","manual":true}],"images":["images/story-07.png"],"image":"images/story-07.png"},{"id":"post-07","format":"post","type":"carousel","channel":"instagram","date":"2026-10-04","day_he":"ראשון","time":"08:00","status":"draft","pillar":"sell","caption":"הרבה אנשים מכירים אותנו רק מהלחם ולא יודעים שיש כאן גם איפה לשבת.\n\nקפה, משהו טרי, וחצי שעה שקטה לפני שממשיכים.\n\nא׳-ה׳ 7:00-19:00","hashtags":"#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם","slides":[{"layout":"statement","headline":"בית הקפה פתוח"},{"layout":"statement","headline":"סלטים · פסטות · כריכים","subline":"והמאפים של אותו בוקר"},{"layout":"statement","headline":"יש גם טבעוני","subline":"ויש גם בלי סוכר"},{"layout":"statement","headline":"א׳-ה׳ 7:00-19:00","subline":"ו׳ מ-7:00 עד שעתיים לפני כניסת השבת"},{"layout":"dark","headline":"האתרוג 25, גבעת שמואל","subline":"מתחם הולמס פלייס","cta":"lehem.co"}],"images":["images/post-07-01.png","images/post-07-02.png","images/post-07-03.png","images/post-07-04.png","images/post-07-05.png"],"image":"images/post-07-01.png"}]}],"PILLAR_HE":{"pain":"כאב","value":"ערך","identity":"זהות","social_proof":"המלצה","sell":"מכירה"}};
+const { round, days, PILLAR_HE } = DATA;
+
+const ISSTATIC = true;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
+
+/* Local mirror of what the shared store holds, so the page renders
+   immediately and stays usable if the store never answers. */
+const state = new Map();   // itemId -> {status, notes:[]}
+let db = null, me = null, myName = 'אני';
+const nameCache = new Map();
+
+$('ttl').textContent = round.brand_name + ' · שבוע ' + round.week.split('-W')[1] + '/' + round.week.split('-W')[0];
+$('rng').textContent =
+  fmtDate(round.starts) + ' – ' + fmtDate(round.ends) + ' · ' +
+  round.counts.posts + ' פוסטים (' + round.counts.slides + ' שקפים), ' +
+  round.counts.stories + ' סטורי';
+
+function fmtDate(iso) {
+  const [y, m, d] = iso.split('-');
+  return d + '.' + m;
+}
+function fmtTime(iso) {
+  const dt = new Date(iso);
+  return isNaN(dt) ? '' : dt.toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' }) +
+    ' ' + dt.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+}
+
+/* ---------- render ---------- */
+function itemHTML(it) {
+  const cover = (it.slides && it.slides[0]) || it;
+  const kind = it.format === 'story' ? 'סטורי'
+             : it.type === 'carousel' ? 'קרוסלה · ' + it.slides.length + ' שקפים'
+             : 'פוסט';
+  const body = cover.dilemma
+    ? esc(cover.dilemma[0]) + ' <span style="opacity:.55">או</span> ' + esc(cover.dilemma[1])
+    : esc(cover.headline || '');
+  const caption = it.caption ? esc(it.caption) : '';
+  const long = caption.length > 150;
+
+  const shots = (it.images && it.images.length ? it.images : [it.image]);
+  const isCar = shots.length > 1;
+
+  const strip = isCar
+    ? '<div class="strip">' + shots.map((src, i) =>
+        '<button class="shot" data-zoom="' + esc(src) + '">' +
+          '<img src="' + esc(src) + '" alt="" loading="lazy">' +
+          '<span class="n">' + (i + 1) + '</span>' +
+        '</button>').join('') + '</div>'
+    : '<button class="shot" data-zoom="' + esc(shots[0]) + '">' +
+        '<img src="' + esc(shots[0]) + '" alt="" loading="lazy">' +
+      '</button>';
+
+  return '<article class="item' + (isCar ? ' carousel' : '') + '" id="it-' + it.id + '" data-state="">' +
+    strip +
+    '<div>' +
+      '<div class="meta">' +
+        '<span class="chip time">' + esc(it.time) + '</span>' +
+        '<span class="chip kind">' + kind + '</span>' +
+        '<span class="chip">' + (PILLAR_HE[it.pillar] || it.pillar) + '</span>' +
+        (it.manual ? '<span class="chip manual">העלאה ידנית</span>' : '') +
+      '</div>' +
+      '<p class="headline">' + body + '</p>' +
+      (caption ? '<p class="caption" id="cap-' + it.id + '">' + caption + '</p>' : '') +
+      (long ? '<button class="more" data-more="' + it.id + '">קראו עוד</button>' : '') +
+      (it.hashtags ? '<div class="tags">' + esc(it.hashtags) + '</div>' : '') +
+      '<div class="actions">' +
+        '<button class="btn ok"  data-act="approved" data-id="' + it.id + '" aria-pressed="false">✓ מאשר</button>' +
+        '<button class="btn fix" data-act="fix"      data-id="' + it.id + '" aria-pressed="false">✕ צריך תיקון</button>' +
+      '</div>' +
+      (ISSTATIC ? (
+        '<div class="tools">' +
+          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדה</button>' +
+          '<button class="tool" data-copy="' + it.id + '">העתקת טקסט</button>' +
+          '<button class="tool" data-editcap="' + it.id + '" aria-expanded="false">עריכת טקסט</button>' +
+          (isCar ? '<button class="tool" data-editslides="' + it.id + '" aria-expanded="false">תיקון שקפים</button>' : '') +
+          '<span id="flag-' + it.id + '"></span>' +
+        '</div>' +
+        '<div class="cap-wrap" id="capw-' + it.id + '" hidden>' +
+          '<textarea class="cap-edit" id="cap-edit-' + it.id + '"></textarea>' +
+          '<p class="hint">הטקסט הערוך הוא מה שיירד בהורדה ובהעתקה.</p>' +
+        '</div>' +
+        '<div class="slides-edit" id="sl-' + it.id + '" hidden></div>'
+      ) : '') +
+      '<div class="notes" id="nt-' + it.id + '"></div>' +
+      '<div class="add">' +
+        '<textarea id="ta-' + it.id + '" rows="1" placeholder="הערה — מה לשנות?"></textarea>' +
+        '<button class="btn" data-note="' + it.id + '">שליחה</button>' +
+      '</div>' +
+    '</div>' +
+  '</article>';
+}
+
+$('list').innerHTML = days.map((d) =>
+  '<section class="day">' +
+    '<div class="day-head"><h2>יום ' + esc(d.day_he) + '</h2><span class="d">' + fmtDate(d.date) + '</span></div>' +
+    d.items.map(itemHTML).join('') +
+  '</section>'
+).join('');
+
+function paint(id) {
+  const s = state.get(id) || {};
+  const el = $('it-' + id);
+  if (!el) return;
+  el.dataset.state = s.status === 'approved' ? 'approved' : s.status === 'fix' ? 'fix' : '';
+  el.querySelectorAll('[data-act]').forEach((b) => {
+    b.setAttribute('aria-pressed', String(b.dataset.act === s.status));
+  });
+  const box = $('nt-' + id);
+  const notes = s.notes || [];
+  box.innerHTML = notes.map((n) =>
+    '<div class="note"><b>' + esc(nameCache.get(n.by) || 'צוות') + '</b>' +
+    '<span class="t">' + esc(fmtTime(n.at)) + '</span>' +
+    '<p>' + esc(n.text) + '</p></div>'
+  ).join('');
+  progress();
+}
+
+function progress() {
+  let done = 0;
+  for (const it of round.items) {
+    const s = state.get(it.id);
+    if (s && s.status) done++;
+  }
+  const total = round.items.length;
+  $('barfill').style.width = (done / total * 100) + '%';
+  $('cnt').textContent = done + ' מתוך ' + total + ' נבדקו';
+}
+progress();
+
+/* ---------- interactions ---------- */
+document.addEventListener('click', (e) => {
+  const zoom = e.target.closest('[data-zoom]');
+  if (zoom) { $('zoomimg').src = zoom.dataset.zoom; $('zoom').showModal(); return; }
+
+  const more = e.target.closest('[data-more]');
+  if (more) {
+    $('cap-' + more.dataset.more).classList.toggle('open');
+    more.textContent = more.textContent === 'קראו עוד' ? 'פחות' : 'קראו עוד';
+    return;
+  }
+
+  const act = e.target.closest('[data-act]');
+  if (act) { setStatus(act.dataset.id, act.dataset.act); return; }
+
+  const note = e.target.closest('[data-note]');
+  if (note) { addNote(note.dataset.note); return; }
+});
+
+$('zoom').addEventListener('click', () => $('zoom').close());
+
+/* ---------- local store, no account needed -------------------------------
+   This build is served as a plain page, so there is no shared database and
+   no sign-in. Each reviewer's marks live in their own browser, and the page
+   hands the finished list to WhatsApp - which is where this team already
+   collects them. Every read and write is guarded: a private window or
+   blocked site data makes localStorage throw rather than return empty. */
+const KEY = 'bid:' + round.week;
+const WHATSAPP = '';
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) for (const [id, v] of Object.entries(JSON.parse(raw))) state.set(id, v);
+    myName = localStorage.getItem(KEY + ':me') || '';
+  } catch { /* first visit, or storage is unavailable - render empty */ }
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(state)));
+  } catch {
+    $('offline').hidden = false;
+    $('offline').textContent =
+      'הדפדפן חוסם שמירה מקומית (גלישה פרטית?). הסימונים יעלמו ברענון — ' +
+      'שלחו בוואטסאפ לפני שאתם סוגרים.';
+  }
+}
+
+function setStatus(id, status) {
+  const cur = state.get(id) || { notes: [] };
+  const next = cur.status === status ? null : status;   // tapping again clears it
+  state.set(id, { ...cur, status: next });
+  save();
+  paint(id);
+}
+
+function addNote(id) {
+  const ta = $('ta-' + id);
+  const text = ta.value.trim();
+  if (!text) return;
+  const cur = state.get(id) || { notes: [] };
+  const notes = (cur.notes || []).concat([{ by: 'me', text, at: new Date().toISOString() }]);
+  state.set(id, { ...cur, notes });
+  ta.value = '';
+  save();
+  paint(id);
+}
+
+
+/* ---------- editing ------------------------------------------------------
+   Two kinds of edit, and they behave differently on purpose:
+   - the CAPTION is live. What you type is what the copy button and the
+     download hand over, because the caption is plain text either way.
+   - SLIDE text is a correction. The picture is rendered from it upstream, so
+     a fix here rides the next build; until then the slide still shows the old
+     wording. Saying so in the UI beats letting someone think it redrew. */
+
+function edits(id) {
+  const s = state.get(id) || {};
+  return s.edits || {};
+}
+
+function setEdit(id, patch) {
+  const cur = state.get(id) || { notes: [] };
+  state.set(id, { ...cur, edits: { ...(cur.edits || {}), ...patch } });
+  save();
+  paintEdited(id);
+}
+
+function itemById(id) { return round.items.find((i) => i.id === id); }
+
+/** The caption as it stands now: edited if it was, original otherwise. */
+function captionOf(id) {
+  const e = edits(id);
+  return e.caption != null ? e.caption : (itemById(id).caption || '');
+}
+
+function paintEdited(id) {
+  const e = edits(id);
+  const n = (e.caption != null ? 1 : 0) + Object.keys(e.slides || {}).length;
+  const flag = $('flag-' + id);
+  if (flag) flag.innerHTML = n ? '<span class="edited-flag">' + n + ' שינויים</span>' : '';
+
+  document.querySelectorAll('#sl-' + id + ' .slide-tab').forEach((tab) => {
+    tab.classList.toggle('changed', !!(e.slides || {})[tab.dataset.slide]);
+  });
+}
+
+function toggleCaption(id) {
+  const wrap = $('capw-' + id);
+  const btn = document.querySelector('[data-editcap="' + id + '"]');
+  const open = wrap.hidden;
+  wrap.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  if (!open) return;
+
+  const ta = $('cap-edit-' + id);
+  ta.value = captionOf(id);
+  ta.oninput = () => setEdit(id, { caption: ta.value });
+  ta.focus();
+}
+
+function toggleSlides(id) {
+  const box = $('sl-' + id);
+  const btn = document.querySelector('[data-editslides="' + id + '"]');
+  const open = box.hidden;
+  box.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  if (!open) return;
+
+  const item = itemById(id);
+  box.innerHTML =
+    '<div class="slide-tabs">' +
+      item.slides.map((_, i) =>
+        '<button class="slide-tab" data-slide="' + i + '" data-for="' + id + '"' +
+        ' aria-selected="false">' + (i + 1) + '</button>').join('') +
+    '</div>' +
+    '<div class="slide-fields" id="sf-' + id + '"></div>' +
+    '<p class="hint">תיקון כאן נכנס לתמונה בבנייה הבאה. עד אז השקף מראה את הנוסח הישן.</p>';
+
+  paintEdited(id);
+  openSlide(id, 0);
+}
+
+function openSlide(id, idx) {
+  const item = itemById(id);
+  const slide = item.slides[idx] || {};
+  const saved = (edits(id).slides || {})[idx] || {};
+
+  document.querySelectorAll('#sl-' + id + ' .slide-tab').forEach((t) => {
+    t.setAttribute('aria-selected', String(Number(t.dataset.slide) === idx));
+  });
+
+  const fields = slide.dilemma
+    ? [['a', 'אפשרות א', slide.dilemma[0]], ['b', 'אפשרות ב', slide.dilemma[1]]]
+    : [['headline', 'כותרת', slide.headline || ''], ['subline', 'תת־כותרת', slide.subline || '']];
+
+  $('sf-' + id).innerHTML = fields.map(([key, label, val]) =>
+    '<label for="f-' + id + '-' + idx + '-' + key + '">' + esc(label) + '</label>' +
+    '<input id="f-' + id + '-' + idx + '-' + key + '" data-k="' + key + '" value="' +
+      esc(saved[key] != null ? saved[key] : val) + '">'
+  ).join('');
+
+  $('sf-' + id).querySelectorAll('input').forEach((inp) => {
+    inp.oninput = () => {
+      const all = { ...(edits(id).slides || {}) };
+      const one = { ...(all[idx] || {}) };
+      one[inp.dataset.k] = inp.value;
+
+      // An edit that matches the original is not an edit - drop it, so the
+      // change count and the export stay honest.
+      const orig = slide.dilemma
+        ? { a: slide.dilemma[0], b: slide.dilemma[1] }
+        : { headline: slide.headline || '', subline: slide.subline || '' };
+      for (const k of Object.keys(one)) if (one[k] === (orig[k] || '')) delete one[k];
+
+      if (Object.keys(one).length) all[idx] = one; else delete all[idx];
+      setEdit(id, { slides: all });
+    };
+  });
+}
+
+/* ---------- download one item -------------------------------------------- */
+async function downloadItem(id, btn) {
+  const item = itemById(id);
+  const imgs = (item.images && item.images.length) ? item.images : [item.image];
+  const base = item.id + (item.manual ? '-MANUAL' : '');
+
+  // One image: hand it over directly rather than wrapping it in a zip.
+  if (imgs.length === 1 && !window.JSZip) return saveBlob(await (await fetch(imgs[0])).blob(), base + '.png');
+
+  if (!window.JSZip) { alert('אין חיבור לאינטרנט — נסו שוב'); return; }
+
+  btn.classList.add('busy');
+  btn.disabled = true;
+  try {
+    const zip = new JSZip();
+    const folder = zip.folder(base);
+    for (let i = 0; i < imgs.length; i++) {
+      const blob = await (await fetch(imgs[i])).blob();
+      folder.file(imgs.length > 1 ? 'slide-' + (i + 1) + '.png' : base + '.png', blob);
+    }
+    folder.file('caption.txt', captionText(item));
+    saveBlob(await zip.generateAsync({ type: 'blob' }), base + '.zip');
+  } catch (err) {
+    alert('ההורדה נכשלה. בדקו חיבור ונסו שוב.');
+  } finally {
+    btn.classList.remove('busy');
+    btn.disabled = false;
+  }
+}
+
+function captionText(item) {
+  return [
+    (item.format === 'story' ? 'סטורי' : 'פוסט') + ' · יום ' + item.day_he + ' · ' + item.time,
+    item.manual ? '⚠️ העלאה ידנית — יש סטיקר לינק או סקר.' : '',
+    '-'.repeat(46),
+    captionOf(item.id),
+    '',
+    item.hashtags || '',
+  ].filter(Boolean).join('\n');
+}
+
+function saveBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function copyCaption(id, btn) {
+  const text = captionText(itemById(id));
+  try {
+    await navigator.clipboard.writeText(text);
+    const was = btn.textContent;
+    btn.textContent = 'הועתק ✓';
+    setTimeout(() => { btn.textContent = was; }, 1600);
+  } catch {
+    prompt('העתיקו:', text);
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const dl = e.target.closest('[data-dl]');
+  if (dl) { downloadItem(dl.dataset.dl, dl); return; }
+  const cp = e.target.closest('[data-copy]');
+  if (cp) { copyCaption(cp.dataset.copy, cp); return; }
+  const ec = e.target.closest('[data-editcap]');
+  if (ec) { toggleCaption(ec.dataset.editcap); return; }
+  const es = e.target.closest('[data-editslides]');
+  if (es) { toggleSlides(es.dataset.editslides); return; }
+  const tab = e.target.closest('.slide-tab');
+  if (tab) { openSlide(tab.dataset.for, Number(tab.dataset.slide)); return; }
+});
+
+/* ---------- handing the review back ---------- */
+function buildReport() {
+  const name = ($('me').value || '').trim();
+  const lines = [];
+  lines.push('סבב ' + round.week + ' — ' + round.brand_name);
+  lines.push(name ? 'עברתי עליו: ' + name : 'עברתי עליו: (בלי שם)');
+  lines.push('');
+
+  let ok = 0, fix = 0, untouched = 0;
+  const problems = [];
+
+  for (const it of round.items) {
+    const s = state.get(it.id) || {};
+    const e = s.edits || {};
+    const slideKeys = Object.keys(e.slides || {});
+    const hasEdits = e.caption != null || slideKeys.length > 0;
+    const notes = s.notes || [];
+
+    if (!s.status && !hasEdits && !notes.length) { untouched++; continue; }
+    if (s.status === 'approved') ok++; else fix++;
+
+    // Clean approvals need no line - the counts already say it.
+    if (s.status === 'approved' && !hasEdits && !notes.length) continue;
+
+    const cover = (it.slides && it.slides[0]) || it;
+    const title = cover.dilemma ? cover.dilemma.join(' / ') : (cover.headline || '');
+    const kind = it.format === 'story' ? 'סטורי' : 'פוסט';
+    const mark = s.status === 'approved' ? '✓' : s.status === 'fix' ? '✕' : '✎';
+
+    const parts = [
+      mark + ' ' + it.id + ' · יום ' + it.day_he + ' ' + it.time + ' · ' + kind,
+      '   ' + title,
+    ];
+    for (const n of notes) parts.push('   ↳ ' + n.text);
+    for (const i of slideKeys.sort((a, b) => a - b)) {
+      const f = e.slides[i];
+      parts.push('   שקף ' + (Number(i) + 1) + ': ' +
+        Object.entries(f).map(([k, v]) => k + ' → "' + v + '"').join(' | '));
+    }
+    if (e.caption != null) {
+      parts.push('   טקסט הפוסט נערך:');
+      parts.push('   ' + e.caption.split('\n').join('\n   '));
+    }
+    problems.push(parts.join('\n'));
+  }
+
+  lines.push('✓ מאושר: ' + ok + '   ✕/✎ לטיפול: ' + fix + '   ○ לא נבדק: ' + untouched);
+  if (problems.length) { lines.push(''); lines.push(problems.join('\n\n')); }
+  else { lines.push(''); lines.push('אין הערות — הכול מאושר.'); }
+  return lines.join('\n');
+}
+
+async function sendReport() {
+  const text = buildReport();
+  const url = 'https://wa.me/' + WHATSAPP.replace(/[^0-9]/g, '') +
+              '?text=' + encodeURIComponent(text);
+  const w = window.open(url, '_blank', 'noopener');
+  if (w) return;
+  // Pop-up blocked: put it on the clipboard instead so nothing is lost.
+  try {
+    await navigator.clipboard.writeText(text);
+    const b = $('sendwa');
+    b.insertAdjacentHTML('afterend', '<span class="copied" id="cp">הועתק — הדביקו בוואטסאפ</span>');
+    setTimeout(() => $('cp') && $('cp').remove(), 4000);
+  } catch {
+    prompt('העתיקו את הטקסט ושלחו בוואטסאפ:', text);
+  }
+}
+
+$('sendwa').addEventListener('click', sendReport);
+$('me').addEventListener('change', () => {
+  try { localStorage.setItem(KEY + ':me', $('me').value); } catch { /* ignore */ }
+});
+
+load();
+$('me').value = myName === 'אני' ? '' : myName;
+for (const it of round.items) { paint(it.id); paintEdited(it.id); }
+progress();
+
+</script>
+</body>
+</html>

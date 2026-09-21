@@ -18,10 +18,12 @@
 }
 
 :root {
-  --blue:       #4E6BA5;
+  /* Defaults. render.js overrides these per brand from brand.yaml, so one
+     template serves every business. */
+  --blue:       #4E6BA5;   /* primary ink and the dark ground */
   --blue-light: #7F9ACE;
-  --red:        #F64C3B;
-  --cream:      #FFF9F3;
+  --red:        #F64C3B;   /* accent. the mark, never body text */
+  --cream:      #FFF9F3;   /* warm ground */
   --white:      #FFFFFF;
 
   /* Geometry measured off the real 8x12cm card artwork:
@@ -302,3 +304,21 @@ html, body {
 [data-layout="dark"]  .social svg,
 [data-layout="photo"] .social svg { stroke: var(--white); }
 [data-layout="photo"] .social { opacity: .82; }
+
+
+/* --- Text wordmark, for a brand with no logo file yet ------------------ */
+.wordmark-text {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: var(--wordmark-bottom, 3.4%);
+  z-index: 3;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--blue);
+  white-space: nowrap;
+}
+[data-layout="dark"]  .wordmark-text,
+[data-layout="photo"] .wordmark-text { color: var(--white); }
+
+/* A brand with no mark keeps the frame gap closed. */
+.canvas.no-mark .frame { --gap-top: 0px; }

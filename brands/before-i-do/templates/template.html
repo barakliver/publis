@@ -14,6 +14,10 @@
    screenshots #canvas. Everything below is layout only - no content lives here.
    --------------------------------------------------------------------------- */
 
+/* render.js injects window.BRAND from brand.yaml after the page loads, so
+   read it at render time - capturing it here would always see {}. One
+   template serves every business; a brand with no logo files gets its name
+   set in type instead of a wordmark image. */
 const ASSETS = '../assets/';
 
 function esc(s) {
@@ -26,11 +30,14 @@ function esc(s) {
    "129\u20aa" the wrong way round - the single most common way Hebrew artwork
    goes out broken. Isolating each run in <bdi dir="ltr"> fixes it.
 
-   Punctuation stays OUTSIDE the run on purpose: pulling a leading hyphen in
-   moves it to the wrong end of "\u05d1-26.10". A trailing % must stay IN, or it
-   lands on the wrong side of "30%". Both cases are covered by test/bidi.test.js. */
+   Punctuation rules, all three learned the hard way and all three tested:
+   a LEADING hyphen stays out, or it lands at the wrong end of "\u05d1-26.10";
+   a hyphen BETWEEN digits comes in, or a phone number splits into two runs
+   and prints reversed; a trailing % comes in, or it flips off "30%".
+   The run must start and end on alphanumerics, which is what keeps the first
+   rule true while the second one holds. See test/bidi.test.js. */
 function bidi(s) {
-  return esc(s).replace(/[A-Za-z0-9](?:[A-Za-z0-9.,:\/%]*[A-Za-z0-9%])?/g,
+  return esc(s).replace(/[A-Za-z0-9](?:[A-Za-z0-9.,:\/%-]*[A-Za-z0-9%])?/g,
     (m) => '<bdi dir="ltr">' + m + '</bdi>');
 }
 
@@ -59,6 +66,7 @@ const SOCIAL = `<div class="social">
 window.render = function (item, pos) {
   /* `pos` describes where this slide sits in its carousel:
      {index, total}. A single-image post passes total <= 1. */
+  const BRAND = window.BRAND || {};
   const idx   = pos ? pos.index : 0;
   const total = pos ? pos.total : 1;
   const isCarousel = total > 1;
@@ -87,8 +95,8 @@ window.render = function (item, pos) {
     parts.push(`<div class="frame"></div>`);
   }
 
-  /* Heart, always top centre */
-  parts.push(`<img class="heart" src="${ASSETS}heart.png">`);
+  /* The brand mark, top centre. Not every brand has one. */
+  if (BRAND.mark) parts.push(`<img class="heart" src="${esc(BRAND.mark)}">`);
 
   /* Optional price badge */
   if (item.badge) {
@@ -143,18 +151,29 @@ window.render = function (item, pos) {
     }
   }
 
-  /* Wordmark, always bottom centre. Dark backgrounds need the white cut. */
+  /* Wordmark, bottom centre. An image where the brand has one, otherwise
+     its name set in type - a new brand is legible before it has artwork. */
   const onDark = (layout === 'dark' || layout === 'photo');
-  const mark =
-    layout === 'dilemma' ? 'wordmark-liver-production.png' :
-    layout === 'dark'    ? 'wordmark-liver-production-white.png' :
-    layout === 'photo'   ? 'wordmark-before-i-do-white.png' :
-                           'wordmark-before-i-do.png';
-  parts.push(`<img class="wordmark" src="${ASSETS}${mark}">`);
+  const wm = BRAND.wordmarks || {};
+  // The card layouts are signed by the company, the open ones by the brand -
+  // the way the printed deck does it.
+  const co = wm.company || {};
+  const useCompany = (layout === 'dilemma' || layout === 'dark') && (co.light || co.dark);
+  const set = useCompany ? co : wm;
+  const file = onDark ? (set.dark || set.light) : (set.light || set.dark);
+  if (file) {
+    parts.push(`<img class="wordmark" src="${esc(file)}">`);
+  } else if (BRAND.name) {
+    parts.push(`<div class="wordmark-text" style="font-size:${Math.max(30, headSize * 0.30)}px">${esc(BRAND.name)}</div>`);
+  }
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isCarousel ? ' has-dots' : ''}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isCarousel ? ' has-dots' : ''}${BRAND.mark ? '' : ' no-mark'}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
+                 --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
+                 --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};
+                 --red:${esc(BRAND.colors?.red || '#F64C3B')};
+                 --cream:${esc(BRAND.colors?.cream || '#FFF9F3')};
                  --gap-top:${isStory ? 112 : 118}px;
                  --gap-bottom:${isStory ? 372 : 378}px;
                  --frame-top:${isStory ? '5.4%' : '7.0%'};

@@ -26,6 +26,10 @@ const cases = [
   ['beforeido.co.il',           wrap('beforeido.co.il')],
   ['לינק בביו',                 'לינק בביו'],
   ['ערב אחד. 70 שאלות.',       `ערב אחד. ${wrap('70')} שאלות.`],
+  // A phone number is one run: split at the hyphen it prints reversed.
+  ['03-5335503, גבעת שמואל',   `${wrap('03-5335503')}, גבעת שמואל`],
+  ['052-660-4320',              wrap('052-660-4320')],
+  ['נגמר ב-26.10 בערב',        `נגמר ב-${wrap('26.10')} בערב`],
 ];
 
 let failed = 0;

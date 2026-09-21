@@ -55,7 +55,9 @@ visual:
   assets:
     heart: "assets/heart.png"
     wordmark_brand: "assets/wordmark-before-i-do.png"
+    wordmark_brand_dark: "assets/wordmark-before-i-do-white.png"
     wordmark_company: "assets/wordmark-liver-production.png"
+    wordmark_company_dark: "assets/wordmark-liver-production-white.png"
 
   # The four layouts the renderer knows. All share the same frame and logo.
   layouts:

@@ -28,12 +28,16 @@ Talk to the user (Barak) in **Hebrew**. Code, filenames and code comments in
    fine and the brand does it itself ("one of the most important cards asks
    exactly this") — a catalogue is not.
 
-4. **Do not deviate from the visual identity.** Colours, fonts, logo placement
-   and frame geometry were measured off the brand's real card artwork and logo
-   files. They live in `brand.yaml` and `templates/theme.css`. Changing them is
-   the user's call, not a judgement call.
+4. **Do not deviate from the visual identity.** Before I Do's colours, fonts,
+   logo placement and frame geometry were measured off its real card artwork.
+   `render.js` injects each brand's own `visual.colors` and asset paths into
+   the shared template at render time, so one template serves every business;
+   a brand with no logo files gets its name set in type. Where a palette was
+   proposed rather than supplied, `brand.yaml` says so - replace it, don't
+   defend it.
 
-5. **Hebrew is right-to-left; numbers inside it are not.** Every string that
+5. **Hebrew is right-to-left; numbers inside it are not.** A phone number,
+   a price and a date each have to stay one run. Every string that
    reaches an image goes through `bidi()` in `template.html`. Without it, dates
    and prices ship reversed — which has already happened in this brand's own
    past posts. `node test/bidi.test.js` guards it. Run it after touching that
@@ -139,8 +143,10 @@ each linking to its latest built round. It owns that file - `review.js` must
 not touch it. A brand with no round yet shows as waiting, with the
 `setup_needed` line from its `brand.yaml` saying what is missing.
 
-Businesses currently scaffolded: `liver-productions` and `konditoria`, both
-with TODO fields only Barak can fill.
+Businesses: `before-i-do`, `liver-productions` (Barak Lior, wedding
+production - shares the palette, separate voice and audience) and `lehem`
+(the bakery in Givat Shmuel - its own crust-and-crumb palette, no logo files
+yet so its name is set in type).
 
 ## Editing in the app
 
@@ -162,7 +168,10 @@ has no third-party dependency. There is deliberately no whole-week download.
 ## The Saturday job
 
 `.github/workflows/weekly-round.yml` runs every Saturday 15:00 UTC (18:00 in
-Israel through the summer, 17:00 once the clocks go back) and on demand. It writes next week's content, builds the round, and pushes it, so the
+Israel through the summer, 17:00 once the clocks go back) and on demand. It
+loops over every folder under `brands/`, so adding a business stays a folder
+rather than a workflow edit, and one brand failing does not take the others
+down - the failures are collected and reported at the end. It writes next week's content, builds the round, and pushes it, so the
 approval page and the download are ready before anyone opens their phone.
 Nothing is scheduled or published - the round still waits for approval.
 

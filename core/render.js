@@ -11,13 +11,21 @@
 
 const path = require('path');
 const fs = require('fs');
+const yaml = require('js-yaml');
 const { chromium } = require('playwright-core');
 
 const CHROMIUM = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 
 async function renderRound(brandId, roundDir) {
   const root = path.resolve(__dirname, '..');
-  const templatePath = path.join(root, 'brands', brandId, 'templates', 'template.html');
+  const brandDir = path.join(root, 'brands', brandId);
+  const brand = yaml.load(fs.readFileSync(path.join(brandDir, 'brand.yaml'), 'utf8'));
+
+  // A brand may not have its own templates yet; fall back to the shared ones.
+  const ownTemplate = path.join(brandDir, 'templates', 'template.html');
+  const templatePath = fs.existsSync(ownTemplate)
+    ? ownTemplate
+    : path.join(root, 'brands', 'before-i-do', 'templates', 'template.html');
   const roundPath = path.resolve(roundDir);
   const round = JSON.parse(fs.readFileSync(path.join(roundPath, 'round.json'), 'utf8'));
   const imagesDir = path.join(roundPath, 'images');
@@ -29,6 +37,27 @@ async function renderRound(brandId, roundDir) {
   });
   const page = await browser.newPage({ deviceScaleFactor: 1 });
   await page.goto('file://' + templatePath, { waitUntil: 'networkidle' });
+
+  // Hand the template everything brand-specific. Asset paths are resolved
+  // here, against this brand's folder, and dropped when the file is absent -
+  // a brand with no logo renders its name as type instead.
+  const rel = (p) => {
+    if (!p) return null;
+    const abs = path.join(brandDir, p);
+    if (!fs.existsSync(abs)) return null;
+    return path.relative(path.dirname(templatePath), abs).split(path.sep).join('/');
+  };
+  const a = brand.visual?.assets || {};
+  await page.evaluate((b) => { window.BRAND = b; }, {
+    name: brand.brand?.name || brandId,
+    colors: brand.visual?.colors || {},
+    mark: rel(a.heart || a.mark),
+    wordmarks: {
+      light: rel(a.wordmark_brand),
+      dark: rel(a.wordmark_brand_dark),
+      company: { light: rel(a.wordmark_company), dark: rel(a.wordmark_company_dark) },
+    },
+  });
   await page.evaluate(() => document.fonts.ready);
 
   const total = round.items.reduce((n, it) => n + it.slides.length, 0);

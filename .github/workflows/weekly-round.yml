@@ -43,37 +43,54 @@ jobs:
             echo "week=$(date -u -d 'next monday' +%G-W%V)" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Write the content
-        id: write
-        continue-on-error: true
+      # Every brand folder is built. Adding a business stays a folder, not a
+      # workflow edit. One brand failing must not take the others down, so
+      # each is wrapped and the failures are reported at the end.
+      - name: Build every business
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node core/write.js before-i-do "${{ steps.week.outputs.week }}"
-
-      - name: Fall back to the most recent content when generation is unavailable
-        if: steps.write.outcome != 'success'
-        run: |
-          WEEK="${{ steps.week.outputs.week }}"
-          DIR=brands/before-i-do/content
-          if [ -f "$DIR/$WEEK.js" ]; then
-            echo "Content for $WEEK already exists - using it."
-          else
-            LATEST=$(ls "$DIR"/*.js | sort | tail -1)
-            echo "::warning::No generated content. Reusing $LATEST for $WEEK."
-            sed "s/week: *'[^']*'/week: '$WEEK'/; s/\"week\": *\"[^\"]*\"/\"week\": \"$WEEK\"/" \
-              "$LATEST" > "$DIR/$WEEK.js"
-          fi
-
-      - name: Build the round
         run: |
           WEEK="${{ steps.week.outputs.week }}"
           node test/bidi.test.js
-          node core/plan.js    before-i-do "$WEEK"
-          node core/render.js  before-i-do "rounds/before-i-do/$WEEK"
-          node core/review.js  before-i-do "rounds/before-i-do/$WEEK"
+          FAILED=""
+
+          for DIR in brands/*/; do
+            B=$(basename "$DIR")
+            [ -f "$DIR/brand.yaml" ] || continue
+            echo "::group::$B"
+
+            CONTENT="$DIR/content/$WEEK.js"
+            if [ ! -f "$CONTENT" ]; then
+              if ! node core/write.js "$B" "$WEEK"; then
+                LATEST=$(ls "$DIR"content/*.js 2>/dev/null | sort | tail -1)
+                if [ -n "$LATEST" ]; then
+                  echo "::warning::$B - no generated content, reusing $(basename "$LATEST")."
+                  sed "s/week: *'[^']*'/week: '$WEEK'/; s/\"week\": *\"[^\"]*\"/\"week\": \"$WEEK\"/" \
+                    "$LATEST" > "$CONTENT"
+                else
+                  echo "::warning::$B - no content at all, skipping."
+                  echo "::endgroup::"
+                  continue
+                fi
+              fi
+            fi
+
+            if node core/plan.js   "$B" "$WEEK" \
+            && node core/render.js "$B" "rounds/$B/$WEEK" \
+            && node core/review.js "$B" "rounds/$B/$WEEK"; then
+              echo "$B ok"
+            else
+              echo "::error::$B failed to build"
+              FAILED="$FAILED $B"
+            fi
+            echo "::endgroup::"
+          done
+
           node core/hub.js
+          [ -z "$FAILED" ] || { echo "failed:$FAILED"; exit 1; }
 
       - name: Commit
+        if: always()
         run: |
           WEEK="${{ steps.week.outputs.week }}"
           git config user.name  "github-actions[bot]"

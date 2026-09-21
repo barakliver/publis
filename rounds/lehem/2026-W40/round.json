@@ -1,0 +1,563 @@
+{
+  "brand": "lehem",
+  "brand_name": "לחם",
+  "whatsapp": "",
+  "week": "2026-W40",
+  "starts": "2026-09-28",
+  "ends": "2026-10-04",
+  "timezone": "Asia/Jerusalem",
+  "mode": "dry",
+  "generated_at": "2026-09-21T15:36:26.435Z",
+  "approval": {
+    "status": "pending",
+    "approved_by": null,
+    "approved_at": null
+  },
+  "counts": {
+    "posts": 7,
+    "stories": 7,
+    "manual": 3,
+    "carousels": 7,
+    "slides": 42
+  },
+  "items": [
+    {
+      "id": "story-01",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-09-28",
+      "day_he": "שני",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "identity",
+      "layout": "statement",
+      "headline": "יצא עכשיו מהתנור",
+      "subline": "7:10 בבוקר",
+      "slides": [
+        {
+          "pillar": "identity",
+          "layout": "statement",
+          "headline": "יצא עכשיו מהתנור",
+          "subline": "7:10 בבוקר"
+        }
+      ],
+      "images": [
+        "images/story-01.png"
+      ],
+      "image": "images/story-01.png"
+    },
+    {
+      "id": "post-01",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-09-28",
+      "day_he": "שני",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "identity",
+      "caption": "השאלה שאנחנו הכי נשאלים: למה לחם מחמצת עולה יותר.\n\nכי הוא תופח לאט, שני ימים, והתנור שלנו לא מספיק להוציא ממנו אלפים ביום.\n\nבלי משפרי אפייה, בלי חומרים משמרים, ובלחמים גם בלי סוכר.\n\nהאתרוג 25, גבעת שמואל. מ-7 בבוקר.",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "מחמצת לוקחת יומיים"
+        },
+        {
+          "layout": "statement",
+          "headline": "אין קיצור דרך"
+        },
+        {
+          "layout": "statement",
+          "headline": "לחם תעשייתי מוכן",
+          "subline": "בשעתיים. עם משפרי אפייה."
+        },
+        {
+          "layout": "statement",
+          "headline": "שלנו תופח לאט",
+          "subline": "ובגלל זה הוא נראה ככה בפנים"
+        },
+        {
+          "layout": "dark",
+          "headline": "זה לא סגנון",
+          "subline": "זה פשוט כמה זמן שזה לוקח"
+        }
+      ],
+      "images": [
+        "images/post-01-01.png",
+        "images/post-01-02.png",
+        "images/post-01-03.png",
+        "images/post-01-04.png",
+        "images/post-01-05.png"
+      ],
+      "image": "images/post-01-01.png"
+    },
+    {
+      "id": "story-02",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-09-29",
+      "day_he": "שלישי",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "value",
+      "layout": "statement",
+      "headline": "לא לשמור לחם במקרר",
+      "subline": "זה מייבש אותו מהר יותר",
+      "cta": "לינק בביו",
+      "slides": [
+        {
+          "pillar": "value",
+          "layout": "statement",
+          "headline": "לא לשמור לחם במקרר",
+          "subline": "זה מייבש אותו מהר יותר",
+          "cta": "לינק בביו"
+        }
+      ],
+      "images": [
+        "images/story-02.png"
+      ],
+      "image": "images/story-02.png"
+    },
+    {
+      "id": "post-02",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-09-29",
+      "day_he": "שלישי",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "value",
+      "caption": "לא צריך להיות אופים כדי לדעת מה אתם קונים. שלוש בדיקות, חצי דקה.\n\nזה עובד בכל מקום, לא רק אצלנו.",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "איך בודקים לחם",
+          "subline": "לפני שקונים"
+        },
+        {
+          "layout": "statement",
+          "headline": "1",
+          "subline": "תקראו את הרשימה. אם יש בה משהו שאתם לא מזהים — זה לא בשבילכם"
+        },
+        {
+          "layout": "statement",
+          "headline": "2",
+          "subline": "לחם אמיתי מתייבש. אם הוא רך אחרי שבוע, תשאלו למה"
+        },
+        {
+          "layout": "statement",
+          "headline": "3",
+          "subline": "תשאלו מתי הוא נאפה. אם אין תשובה מדויקת — זו התשובה"
+        },
+        {
+          "layout": "dark",
+          "headline": "אצלנו התשובה היא תמיד",
+          "subline": "הבוקר",
+          "cta": "שמרו את זה 🔖"
+        }
+      ],
+      "images": [
+        "images/post-02-01.png",
+        "images/post-02-02.png",
+        "images/post-02-03.png",
+        "images/post-02-04.png",
+        "images/post-02-05.png"
+      ],
+      "image": "images/post-02-01.png"
+    },
+    {
+      "id": "story-03",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-09-30",
+      "day_he": "רביעי",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "sell",
+      "layout": "dark",
+      "headline": "מגשי אירוח",
+      "subline": "48 שעות מראש · 03-5335503",
+      "cta": "lehem.co",
+      "manual": true,
+      "slides": [
+        {
+          "pillar": "sell",
+          "layout": "dark",
+          "headline": "מגשי אירוח",
+          "subline": "48 שעות מראש · 03-5335503",
+          "cta": "lehem.co",
+          "manual": true
+        }
+      ],
+      "images": [
+        "images/story-03.png"
+      ],
+      "image": "images/story-03.png"
+    },
+    {
+      "id": "post-03",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-09-30",
+      "day_he": "רביעי",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "sell",
+      "caption": "מגש שנראה כמו שמישהו הכין אותו, לא כמו שהוזמן מקטלוג.\n\nהכול נאפה אצלנו באותו בוקר.\n\n✦ 48 שעות מראש, איסוף עצמי\n✦ 03-5335503",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "מגשי אירוח"
+        },
+        {
+          "layout": "statement",
+          "headline": "כריכים · ירקות",
+          "subline": "מתוק · מלוח"
+        },
+        {
+          "layout": "statement",
+          "headline": "לישיבה במשרד",
+          "subline": "או לאירוע משפחתי"
+        },
+        {
+          "layout": "statement",
+          "headline": "הזמנה 48 שעות מראש",
+          "subline": "באיסוף עצמי"
+        },
+        {
+          "layout": "dark",
+          "headline": "03-5335503",
+          "subline": "האתרוג 25, גבעת שמואל",
+          "cta": "lehem.co"
+        }
+      ],
+      "images": [
+        "images/post-03-01.png",
+        "images/post-03-02.png",
+        "images/post-03-03.png",
+        "images/post-03-04.png",
+        "images/post-03-05.png"
+      ],
+      "image": "images/post-03-01.png"
+    },
+    {
+      "id": "story-04",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-10-01",
+      "day_he": "חמישי",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "value",
+      "layout": "dilemma",
+      "dilemma": [
+        "לבן איטלקי",
+        "כפרי"
+      ],
+      "poll": true,
+      "manual": true,
+      "slides": [
+        {
+          "pillar": "value",
+          "layout": "dilemma",
+          "dilemma": [
+            "לבן איטלקי",
+            "כפרי"
+          ],
+          "poll": true,
+          "manual": true
+        }
+      ],
+      "images": [
+        "images/story-04.png"
+      ],
+      "image": "images/story-04.png"
+    },
+    {
+      "id": "post-04",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-10-01",
+      "day_he": "חמישי",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "value",
+      "caption": "יש לנו שמונה לחמים ואנחנו יודעים שזה הרבה.\n\nאז אם אתם עומדים מול המדף ומתלבטים — פשוט תשאלו. זה מה שאנחנו כאן בשביל.",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "איזה לחם מתאים למה"
+        },
+        {
+          "layout": "dilemma",
+          "dilemma": [
+            "לבן איטלקי — לכריך",
+            "כפרי — לצד המרק"
+          ]
+        },
+        {
+          "layout": "dilemma",
+          "dilemma": [
+            "שיפון — לסלמון וגבינות",
+            "כוסמין — לקל על הבטן"
+          ]
+        },
+        {
+          "layout": "statement",
+          "headline": "רב דגנים",
+          "subline": "כשרוצים שהפרוסה תחזיק עד הערב"
+        },
+        {
+          "layout": "dark",
+          "headline": "לא יודעים?",
+          "subline": "תבואו, נחתוך לכם לטעום",
+          "cta": "האתרוג 25"
+        }
+      ],
+      "images": [
+        "images/post-04-01.png",
+        "images/post-04-02.png",
+        "images/post-04-03.png",
+        "images/post-04-04.png",
+        "images/post-04-05.png"
+      ],
+      "image": "images/post-04-01.png"
+    },
+    {
+      "id": "story-05",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-10-02",
+      "day_he": "שישי",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "identity",
+      "layout": "statement",
+      "headline": "מחמצת לוקחת יומיים",
+      "subline": "אין קיצור דרך",
+      "slides": [
+        {
+          "pillar": "identity",
+          "layout": "statement",
+          "headline": "מחמצת לוקחת יומיים",
+          "subline": "אין קיצור דרך"
+        }
+      ],
+      "images": [
+        "images/story-05.png"
+      ],
+      "image": "images/story-05.png"
+    },
+    {
+      "id": "post-05",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-10-02",
+      "day_he": "שישי",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "identity",
+      "caption": "אנשים שואלים מה הסוד. אין סוד — יש רשימת מרכיבים קצרה ומישהו שקם מוקדם.\n\nכשר בהשגחת רבנות גבעת שמואל. 💛",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "אחת עשרה שנה"
+        },
+        {
+          "layout": "statement",
+          "headline": "אותו בצק",
+          "subline": "אותה שעה בבוקר"
+        },
+        {
+          "layout": "statement",
+          "headline": "קמחים מגרמניה",
+          "subline": "דגנים מלאים, דבש"
+        },
+        {
+          "layout": "statement",
+          "headline": "ומה שלא נמצא",
+          "subline": "חומרים משמרים · משפרי אפייה · סוכר בלחמים"
+        },
+        {
+          "layout": "dark",
+          "headline": "זה כל הסוד",
+          "subline": "אין עוד אחד"
+        }
+      ],
+      "images": [
+        "images/post-05-01.png",
+        "images/post-05-02.png",
+        "images/post-05-03.png",
+        "images/post-05-04.png",
+        "images/post-05-05.png"
+      ],
+      "image": "images/post-05-01.png"
+    },
+    {
+      "id": "story-06",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-10-03",
+      "day_he": "שבת",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "pain",
+      "layout": "dark",
+      "headline": "לחם שנשאר רך שבוע",
+      "subline": "תשאלו את עצמכם למה",
+      "slides": [
+        {
+          "pillar": "pain",
+          "layout": "dark",
+          "headline": "לחם שנשאר רך שבוע",
+          "subline": "תשאלו את עצמכם למה"
+        }
+      ],
+      "images": [
+        "images/story-06.png"
+      ],
+      "image": "images/story-06.png"
+    },
+    {
+      "id": "post-06",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-10-03",
+      "day_he": "שבת",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "value",
+      "caption": "לחם בלי חומרים משמרים מתנהג אחרת, וזה בסדר גמור — רק צריך לדעת איך.\n\nהטעות הכי נפוצה: המקרר. הוא מזרז את ההתקשות, לא מאט אותה.",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "איך לשמור לחם"
+        },
+        {
+          "layout": "statement",
+          "headline": "לא בשקית ניילון",
+          "subline": "הקראסט נהיה רך ועצוב"
+        },
+        {
+          "layout": "statement",
+          "headline": "לא במקרר",
+          "subline": "זה מייבש אותו מהר יותר, לא לאט"
+        },
+        {
+          "layout": "statement",
+          "headline": "כן: שקית נייר או מגבת",
+          "subline": "על השיש, פרוס כלפי מטה"
+        },
+        {
+          "layout": "dark",
+          "headline": "ומה שנשאר מיום שלישי",
+          "subline": "הוא הטוסט הכי טוב שתאכלו",
+          "cta": "שמרו 🔖"
+        }
+      ],
+      "images": [
+        "images/post-06-01.png",
+        "images/post-06-02.png",
+        "images/post-06-03.png",
+        "images/post-06-04.png",
+        "images/post-06-05.png"
+      ],
+      "image": "images/post-06-01.png"
+    },
+    {
+      "id": "story-07",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-10-04",
+      "day_he": "ראשון",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "sell",
+      "layout": "statement",
+      "headline": "פתוח עד 19:00",
+      "subline": "האתרוג 25, גבעת שמואל",
+      "cta": "לינק בביו",
+      "manual": true,
+      "slides": [
+        {
+          "pillar": "sell",
+          "layout": "statement",
+          "headline": "פתוח עד 19:00",
+          "subline": "האתרוג 25, גבעת שמואל",
+          "cta": "לינק בביו",
+          "manual": true
+        }
+      ],
+      "images": [
+        "images/story-07.png"
+      ],
+      "image": "images/story-07.png"
+    },
+    {
+      "id": "post-07",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-10-04",
+      "day_he": "ראשון",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "sell",
+      "caption": "הרבה אנשים מכירים אותנו רק מהלחם ולא יודעים שיש כאן גם איפה לשבת.\n\nקפה, משהו טרי, וחצי שעה שקטה לפני שממשיכים.\n\nא׳-ה׳ 7:00-19:00",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "בית הקפה פתוח"
+        },
+        {
+          "layout": "statement",
+          "headline": "סלטים · פסטות · כריכים",
+          "subline": "והמאפים של אותו בוקר"
+        },
+        {
+          "layout": "statement",
+          "headline": "יש גם טבעוני",
+          "subline": "ויש גם בלי סוכר"
+        },
+        {
+          "layout": "statement",
+          "headline": "א׳-ה׳ 7:00-19:00",
+          "subline": "ו׳ מ-7:00 עד שעתיים לפני כניסת השבת"
+        },
+        {
+          "layout": "dark",
+          "headline": "האתרוג 25, גבעת שמואל",
+          "subline": "מתחם הולמס פלייס",
+          "cta": "lehem.co"
+        }
+      ],
+      "images": [
+        "images/post-07-01.png",
+        "images/post-07-02.png",
+        "images/post-07-03.png",
+        "images/post-07-04.png",
+        "images/post-07-05.png"
+      ],
+      "image": "images/post-07-01.png"
+    }
+  ]
+}

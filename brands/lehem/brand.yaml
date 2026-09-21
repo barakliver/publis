@@ -1,0 +1,114 @@
+# ---------------------------------------------------------------------------
+# לחם - מאפים בעבודת יד
+#
+# Details taken from lehem.co and @lehem.bakery. The palette is a proposal:
+# an artisan sourdough bakery needs crust and grain, not the wedding blue.
+# Replace it, and drop a logo into assets/, once the real brand files exist.
+# ---------------------------------------------------------------------------
+
+id: lehem
+
+brand:
+  name: "לחם"
+  company: ""
+  kind: "מאפייה · קונדיטוריה · בית קפה"
+  tagline: "לחמים ומאפים בעבודת יד"
+  website: "https://www.lehem.co"
+  instagram: "lehem.bakery"
+  facebook: ""
+  whatsapp: ""
+  contact_phone: "03-5335503"
+  address: "האתרוג 25, מתחם הולמס פלייס, גבעת שמואל"
+
+product:
+  what: >
+    לחמי מחמצת, מאפים מתוקים ומלוחים, עוגות ועוגיות, בית קפה ומגשי אירוח.
+    קמחים מגרמניה, דגנים מלאים ודבש. בלי חומרים משמרים, בלי משפרי אפייה,
+    בלי סוכר בלחמים.
+  purpose: "לחם אמיתי בעבודת יד, כל יום, במקום תעשייתי"
+  lines:
+    breads: ["לבן איטלקי", "כפרי", "שיפון", "בריאות", "קל", "כוסמין", "חיטה מלאה", "רב דגנים"]
+    pastry: ["מאפים מתוקים", "מאפים מלוחים", "עוגות", "עוגיות", "בנטו קייק", "ללא סוכר", "טבעוני"]
+    cafe:   ["סלטים", "פסטות", "כריכים", "קפה"]
+    trays:  ["מגש כריכים", "מגש ירקות", "מגש מתוק", "מגש מלוח"]
+  kosher: "כשר בהשגחת רבנות גבעת שמואל"
+  hours: "א׳-ה׳ 7:00-19:00 · ו׳ וערבי חג 7:00 עד שעתיים לפני כניסת השבת"
+  trays_notice: "מגשי אירוח בהזמנה 48 שעות מראש, באיסוף עצמי"
+  years: 11
+
+audience:
+  primary: "תושבי גבעת שמואל והסביבה שקונים לחם ומאפים ביומיום"
+  secondary: "מזמיני מגשי אירוח - משפחות לאירועים וחברות לישיבות"
+  pain: >
+    לחם תעשייתי מהסופר נראה זול עד שקוראים מה יש בו.
+    ומי שכן רוצה אמיתי לא תמיד יודע איפה זה נאפה ובאיזו שעה.
+
+# ---------------------------------------------------------------------------
+# Visual identity. PROPOSED, not supplied - swap for the real palette.
+# Crust, sourdough crumb and a warm oven red, so the feed reads as a bakery.
+# ---------------------------------------------------------------------------
+visual:
+  colors:
+    blue: "#4A3826"        # the primary ink here is dark crust brown
+    blue_light: "#8A6F52"
+    red: "#C4612E"         # the accent. baked terracotta
+    cream: "#FBF4E8"       # the crumb
+    white: "#FFFFFF"
+
+  fonts:
+    hebrew: "Assistant"
+    fallback: "Heebo"
+
+  assets: {}               # no logo files yet - the name is set in type
+
+  sizes:
+    post:  { w: 1080, h: 1350 }
+    story: { w: 1080, h: 1920 }
+
+# ---------------------------------------------------------------------------
+# Voice. A baker who has been up since four and is not selling you a lifestyle.
+# ---------------------------------------------------------------------------
+persona:
+  name: "המאפייה"
+  who: "מי שאופה. יודע.ת מה נכנס לכל בצק ולמה."
+  stance: >
+    לא יוקרה ולא רומנטיקה של קמח. פשוט מה שנכנס פנימה, כמה זמן זה לוקח,
+    ומתי זה יוצא מהתנור. מדבר.ת על עבודה, לא על חוויה.
+  signature_lines:
+    - "מחמצת לוקחת יומיים. אין קיצור דרך"
+    - "אם זה נשאר רך שבוע - תשאלו למה"
+    - "יצא מהתנור לפני עשרים דקות"
+  vocabulary:
+    use: ["מחמצת", "בצק", "תפיחה", "תנור", "קמח", "דגנים מלאים", "טרי"]
+    mock: ["משפרי אפייה", "חומרים משמרים", "לחם שנשאר רך שבועיים"]
+  openers:
+    - "יצא עכשיו מהתנור:"
+    - "שאלו אותנו"
+    - "ככה זה נעשה:"
+
+language:
+  primary: "he"
+  also_supported: ["en"]
+  gendering: "dotted"
+  address: "plural"
+  emoji: "moderate"
+
+rules:
+  forbidden_words: ["חוויה קולינרית", "מושלם", "קסום", "פינוק אולטימטיבי"]
+  required:
+    - "כל טקסט בעברית תקנית"
+    - "שעות ומיקום מוזכרים כשרלוונטי"
+    - "טענה על מרכיבים תמיד מדויקת - בלי הבטחות שלא נבדקו"
+
+schedule:
+  timezone: "Asia/Jerusalem"
+  posts_per_day: 1
+  stories_per_day: 1
+  post_times:  ["08:00"]
+  story_times: ["07:30"]
+  approval_lead_days: 2
+  mix: { pain: 1, value: 3, identity: 2, social_proof: 0, sell: 1 }
+
+channels:
+  instagram: true
+  facebook: false
