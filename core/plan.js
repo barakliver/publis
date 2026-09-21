@@ -87,6 +87,7 @@ function buildRound(brandId, week) {
   const round = {
     brand: brandId,
     brand_name: brand.brand.name,
+    whatsapp: brand.brand.whatsapp || '',
     week,
     starts: ymd(monday),
     ends: ymd(addDays(monday, 6)),

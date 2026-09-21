@@ -1,3 +1,12 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4E6BA5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Before I Do">
 <title>אישור סבב — Before I Do</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Heebo:wght@500;700;800&display=swap">
@@ -246,8 +255,13 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
 .send-wa:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .copied { font-size: 12px; color: var(--ok); font-weight: 700; }
 </style>
-
-
+<style>
+:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
 
 <header class="top">
   <div class="top-in">
@@ -259,7 +273,11 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
       <span class="count" id="cnt"></span>
     </div>
     
-    <div class="who"><span class="dot off" id="livedot"></span><span id="livetxt">מתחבר…</span></div>
+    <div class="me">
+      <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
+      <button class="send-wa" id="sendwa">שליחה בוואטסאפ</button>
+    </div>
+    <div class="who"><span class="dot off"></span><span id="livetxt">הסימונים נשמרים במכשיר הזה</span></div>
     
   </div>
 </header>
@@ -271,7 +289,8 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
   <section class="foot">
     <b>איך זה עובד</b>
     <ul>
-      <li>כל סימון והערה נשמרים מיד ונראים לכל מי שפתח את הדף.</li>
+      <li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
+           <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
       <li>פריט עם <span style="color:var(--flag);font-weight:700">העלאה ידנית</span> נושא סטיקר לינק או סקר. אינסטגרם לא מאפשרת לפרסם אותו דרך API — תגיע התראה לנייד בזמן הפרסום.</li>
       <li>שום דבר לא מתוזמן ולא מתפרסם עד אישור מפורש.</li>
@@ -424,87 +443,114 @@ document.addEventListener('click', (e) => {
 
 $('zoom').addEventListener('click', () => $('zoom').close());
 
-/* ---------- shared store ---------- */
-/* The same artifact URL carries a new round every week, so each round gets
-   its own subtree. Without this, next week's post-01 would open already
-   carrying this week's approval. */
-function roundCol() { return db.collection('rounds/' + round.week + '/items'); }
-function docFor(id) { return roundCol().doc(id); }
+/* ---------- local store, no account needed -------------------------------
+   This build is served as a plain page, so there is no shared database and
+   no sign-in. Each reviewer's marks live in their own browser, and the page
+   hands the finished list to WhatsApp - which is where this team already
+   collects them. Every read and write is guarded: a private window or
+   blocked site data makes localStorage throw rather than return empty. */
+const KEY = 'bid:' + round.week;
+const WHATSAPP = '+972526604320';
 
-async function setStatus(id, status) {
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) for (const [id, v] of Object.entries(JSON.parse(raw))) state.set(id, v);
+    myName = localStorage.getItem(KEY + ':me') || '';
+  } catch { /* first visit, or storage is unavailable - render empty */ }
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(state)));
+  } catch {
+    $('offline').hidden = false;
+    $('offline').textContent =
+      'הדפדפן חוסם שמירה מקומית (גלישה פרטית?). הסימונים יעלמו ברענון — ' +
+      'שלחו בוואטסאפ לפני שאתם סוגרים.';
+  }
+}
+
+function setStatus(id, status) {
   const cur = state.get(id) || { notes: [] };
   const next = cur.status === status ? null : status;   // tapping again clears it
   state.set(id, { ...cur, status: next });
+  save();
   paint(id);
-  if (!db) return;
-  try {
-    await docFor(id).set({
-      status: next, notes: cur.notes || [], by: me || null, at: new Date().toISOString(),
-    });
-  } catch (err) { showOffline(err); }
 }
 
-async function addNote(id) {
+function addNote(id) {
   const ta = $('ta-' + id);
   const text = ta.value.trim();
   if (!text) return;
   const cur = state.get(id) || { notes: [] };
-  const notes = (cur.notes || []).concat([{ by: me || 'anon', text, at: new Date().toISOString() }]);
+  const notes = (cur.notes || []).concat([{ by: 'me', text, at: new Date().toISOString() }]);
   state.set(id, { ...cur, notes });
   ta.value = '';
+  save();
   paint(id);
-  if (!db) return;
-  try {
-    await docFor(id).set({ status: cur.status ?? null, notes, by: me || null, at: new Date().toISOString() });
-  } catch (err) { showOffline(err); }
 }
 
-function showOffline(err) {
-  const box = $('offline');
-  box.hidden = false;
-  box.textContent = (err && err.code === 'invalid_argument')
-    ? 'אין לך הרשאת כתיבה לדף הזה. הסימונים שלך נשמרים רק במכשיר הזה — בקשו הרשאת עריכה.'
-    : 'החיבור לשמירה המשותפת נפל. הסימונים נשמרים מקומית בלבד — רעננו את הדף.';
-}
+/* ---------- handing the review back ---------- */
+function buildReport() {
+  const name = ($('me').value || '').trim();
+  const lines = [];
+  lines.push('סבב ' + round.week + ' — ' + round.brand_name);
+  lines.push(name ? 'עברתי עליו: ' + name : 'עברתי עליו: (בלי שם)');
+  lines.push('');
 
-(async function connect() {
-  const user = await claude.use('user');
-  if (user) {
-    me = await user.id();
-    const mine = await user.me();
-    if (mine && mine.name) { myName = mine.name; if (me) nameCache.set(me, mine.name); }
+  let ok = 0, fix = 0, untouched = 0;
+  const problems = [];
+  for (const it of round.items) {
+    const s = state.get(it.id);
+    if (!s || !s.status) { untouched++; continue; }
+    if (s.status === 'approved' && !(s.notes || []).length) { ok++; continue; }
+    if (s.status === 'approved') ok++; else fix++;
+
+    const cover = (it.slides && it.slides[0]) || it;
+    const title = cover.dilemma ? cover.dilemma.join(' / ') : (cover.headline || '');
+    const kind = it.format === 'story' ? 'סטורי' : 'פוסט';
+    problems.push(
+      (s.status === 'fix' ? '✕ ' : '✓ ') +
+      it.id + ' · יום ' + it.day_he + ' ' + it.time + ' · ' + kind + '\n' +
+      '   ' + title +
+      (s.notes || []).map((n) => '\n   ↳ ' + n.text).join('')
+    );
   }
 
-  db = await claude.use('db');
-  if (!db) {
-    $('livetxt').textContent = 'מצב צפייה — סימונים נשמרים במכשיר הזה בלבד';
-    return;
-  }
-
-  $('livedot').classList.remove('off');
-  $('livetxt').textContent = 'מחובר' + (myName !== 'אני' ? ' · ' + myName : '') + ' — כל שינוי נשמר לכולם';
-
-  roundCol().onSnapshot(async (snap) => {
-    const ids = new Set();
-    for (const doc of snap.docs) {
-      const d = doc.data() || {};
-      state.set(doc.id, { status: d.status || null, notes: Array.isArray(d.notes) ? d.notes : [] });
-      for (const n of (d.notes || [])) if (n.by) ids.add(n.by);
-    }
-    await resolveNames(user, ids);
-    for (const doc of snap.docs) paint(doc.id);
-    progress();
-  }, showOffline);
-})();
-
-async function resolveNames(user, ids) {
-  if (!user) return;
-  const missing = [...ids].filter((id) => !nameCache.has(id));
-  if (!missing.length) return;
-  try {
-    const ps = await user.profiles(missing);
-    for (const id of missing) nameCache.set(id, (ps[id] && ps[id].name) || 'צוות');
-  } catch { /* names are a nicety; the note still reads without one */ }
+  lines.push('✓ מאושר: ' + ok + '   ✕ צריך תיקון: ' + fix + '   ○ לא נבדק: ' + untouched);
+  if (problems.length) { lines.push(''); lines.push(problems.join('\n\n')); }
+  else { lines.push(''); lines.push('אין הערות — הכול מאושר.'); }
+  return lines.join('\n');
 }
+
+async function sendReport() {
+  const text = buildReport();
+  const url = 'https://wa.me/' + WHATSAPP.replace(/[^0-9]/g, '') +
+              '?text=' + encodeURIComponent(text);
+  const w = window.open(url, '_blank', 'noopener');
+  if (w) return;
+  // Pop-up blocked: put it on the clipboard instead so nothing is lost.
+  try {
+    await navigator.clipboard.writeText(text);
+    const b = $('sendwa');
+    b.insertAdjacentHTML('afterend', '<span class="copied" id="cp">הועתק — הדביקו בוואטסאפ</span>');
+    setTimeout(() => $('cp') && $('cp').remove(), 4000);
+  } catch {
+    prompt('העתיקו את הטקסט ושלחו בוואטסאפ:', text);
+  }
+}
+
+$('sendwa').addEventListener('click', sendReport);
+$('me').addEventListener('change', () => {
+  try { localStorage.setItem(KEY + ':me', $('me').value); } catch { /* ignore */ }
+});
+
+load();
+$('me').value = myName === 'אני' ? '' : myName;
+for (const it of round.items) paint(it.id);
+progress();
+
 </script>
-
+</body>
+</html>

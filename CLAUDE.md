@@ -23,10 +23,10 @@ Talk to the user (Barak) in **Hebrew**. Code, filenames and code comments in
      to be posted publicly anyway, and GitHub raw URLs are how Metricool fetches
      the images.
 
-3. **Never reveal the cards' actual content.** The 70 cards are the product.
-   Content shows the *tension* the cards resolve, written fresh, in the brand's
-   "A או B" format — never the cards' own wording. Enforced by
-   `rules.never_reveal_card_content` in `brand.yaml`.
+3. **Never publish the deck.** The 70 cards are the product, so content never
+   reproduces them as a list or a set. Teasing *one* card's theme as a hook is
+   fine and the brand does it itself ("one of the most important cards asks
+   exactly this") — a catalogue is not.
 
 4. **Do not deviate from the visual identity.** Colours, fonts, logo placement
    and frame geometry were measured off the brand's real card artwork and logo
@@ -109,6 +109,25 @@ Shape a carousel so slide one earns the swipe and the last one asks for
 something. Four to six slides; one idea per slide, short enough to read
 without stopping. Instagram stories have no carousel - stories stay single.
 
+## Two builds of the approval page
+
+`core/review.js` emits both from one source:
+
+- `review.html` — the Artifact build. Shared database, live marks, needs a
+  Claude account. Published to the fixed artifact URL above.
+- `index.html` — the static build for GitHub Pages. **No account, no sign-in.**
+  Marks live in the reviewer's own browser (localStorage, every access
+  wrapped) and go back to the team through a WhatsApp message the page
+  composes: `wa.me/<brand whatsapp>` prefilled with the reviewer's name, the
+  counts, and every item they flagged.
+
+Root `index.html` is the permanent entry point and `review.js` repoints it at
+the current round on every build, so a phone home-screen icon keeps working
+week to week. `.nojekyll` stops Pages from filtering files.
+
+Pages is served from the repository root, so a round's images are already
+reachable at their own path - never duplicate them into a docs folder.
+
 ## Photos
 
 `core/photos.js` ingests anything dropped in
@@ -133,6 +152,20 @@ Move one, check the rest - they were colliding twice before this spacing.
 
 ## Writing for this brand
 
+The voice is **Dani** — a wedding producer who built the deck after watching
+the same gap open at every wedding she ran. `persona` in `brand.yaml` holds
+her stance, vocabulary and signature lines. She is not a brand explaining
+marriage; she is the one person in the room who has seen this two hundred
+times and will say the unpopular thing out loud.
+
+- Open with the opinion, flat, before any explanation. "דעה לא פופולרית:",
+  "סטורי טיים", "כן, אמרתי את זה", "מלא אומרים לי".
+- Business language, never therapy language: a board meeting, a simulator,
+  the most expensive project they have ever run. She mocks the
+  incense-and-candles version of couple games before anyone else can.
+- Named, concrete scenarios — the aunt who must be invited, the magnet
+  photographer, who counts the cheques. Never an aphorism where a scene works.
+- First person, and she is female: "אני מכריחה", "ראיתי", "אני אומרת".
 - Eye level, never from above. A verdict ("X is really Y") reads as a lecture;
   the same idea as a scene the reader recognises reads as a friend. Second
   person, present tense, something you can picture.

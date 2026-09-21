@@ -21,7 +21,8 @@ const PILLAR_HE = {
   sell: 'מכירה',
 };
 
-function buildPage(round) {
+function buildPage(round, mode = 'artifact') {
+  const isStatic = mode === 'static';
   const days = [];
   for (const item of round.items) {
     let day = days.find((d) => d.date === item.date);
@@ -29,12 +30,35 @@ function buildPage(round) {
     day.items.push(item);
   }
 
+  const waNumber = (round.whatsapp || '').replace(/[^0-9+]/g, '');
   const data = JSON.stringify({ round, days, PILLAR_HE })
     .replace(/</g, '\\u003c')
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029');
 
-  return `<title>אישור סבב — Before I Do</title>
+  const shellOpen = isStatic
+    ? `<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4E6BA5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Before I Do">
+`
+    : '';
+  const shellHead = isStatic
+    ? `<style>
+:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>`
+    : '';
+  const shellMid   = isStatic ? '</head>\n<body>' : '';
+  const shellClose = isStatic ? '</body>\n</html>' : '';
+
+  return `${shellOpen}<title>אישור סבב — Before I Do</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Heebo:wght@500;700;800&display=swap">
 <style>
@@ -264,7 +288,26 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- static mode: who is reviewing, and sending it back ------- */
+.me { display: flex; gap: 7px; align-items: center; margin-top: 10px; }
+.me input {
+  flex: 1; min-width: 0; font: inherit; font-size: 13px;
+  padding: 7px 10px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.me input:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.send-wa {
+  font: inherit; font-size: 13px; font-weight: 700; white-space: nowrap;
+  padding: 8px 15px; border-radius: 99px; border: 0; cursor: pointer;
+  background: var(--ok); color: #fff;
+}
+.send-wa:disabled { opacity: .45; cursor: default; }
+.send-wa:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.copied { font-size: 12px; color: var(--ok); font-weight: 700; }
 </style>
+${shellHead}
+${shellMid}
 
 <header class="top">
   <div class="top-in">
@@ -275,7 +318,15 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
       <div class="bar"><i id="barfill"></i></div>
       <span class="count" id="cnt"></span>
     </div>
+    ${isStatic ? `
+    <div class="me">
+      <input id="me" type="text" placeholder="השם שלך — כדי שנדע מי כתב" autocomplete="name">
+      <button class="send-wa" id="sendwa">שליחה בוואטסאפ</button>
+    </div>
+    <div class="who"><span class="dot off"></span><span id="livetxt">הסימונים נשמרים במכשיר הזה</span></div>
+    ` : `
     <div class="who"><span class="dot off" id="livedot"></span><span id="livetxt">מתחבר…</span></div>
+    `}
   </div>
 </header>
 
@@ -286,12 +337,16 @@ dialog img { max-width: 92vw; max-height: 88vh; border-radius: 10px; display: bl
   <section class="foot">
     <b>איך זה עובד</b>
     <ul>
-      <li>כל סימון והערה נשמרים מיד ונראים לכל מי שפתח את הדף.</li>
+      ${isStatic
+        ? `<li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
+           <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>`
+        : `<li>כל סימון והערה נשמרים מיד ונראים לכל מי שפתח את הדף.</li>`}
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
       <li>פריט עם <span style="color:var(--flag);font-weight:700">העלאה ידנית</span> נושא סטיקר לינק או סקר. אינסטגרם לא מאפשרת לפרסם אותו דרך API — תגיע התראה לנייד בזמן הפרסום.</li>
       <li>שום דבר לא מתוזמן ולא מתפרסם עד אישור מפורש.</li>
       <li><b>הדף הזה קבוע.</b> כל שבוע הסבב החדש מופיע כאן באותה כתובת —
           שווה להוסיף אותו למסך הבית (בספארי: שתף ← הוסף למסך הבית).</li>
+      ${isStatic ? '' : ''}
     </ul>
   </section>
 </div>
@@ -438,7 +493,114 @@ document.addEventListener('click', (e) => {
 
 $('zoom').addEventListener('click', () => $('zoom').close());
 
-/* ---------- shared store ---------- */
+${isStatic ? `/* ---------- local store, no account needed -------------------------------
+   This build is served as a plain page, so there is no shared database and
+   no sign-in. Each reviewer's marks live in their own browser, and the page
+   hands the finished list to WhatsApp - which is where this team already
+   collects them. Every read and write is guarded: a private window or
+   blocked site data makes localStorage throw rather than return empty. */
+const KEY = 'bid:' + round.week;
+const WHATSAPP = '${waNumber}';
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) for (const [id, v] of Object.entries(JSON.parse(raw))) state.set(id, v);
+    myName = localStorage.getItem(KEY + ':me') || '';
+  } catch { /* first visit, or storage is unavailable - render empty */ }
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(Object.fromEntries(state)));
+  } catch {
+    $('offline').hidden = false;
+    $('offline').textContent =
+      'הדפדפן חוסם שמירה מקומית (גלישה פרטית?). הסימונים יעלמו ברענון — ' +
+      'שלחו בוואטסאפ לפני שאתם סוגרים.';
+  }
+}
+
+function setStatus(id, status) {
+  const cur = state.get(id) || { notes: [] };
+  const next = cur.status === status ? null : status;   // tapping again clears it
+  state.set(id, { ...cur, status: next });
+  save();
+  paint(id);
+}
+
+function addNote(id) {
+  const ta = $('ta-' + id);
+  const text = ta.value.trim();
+  if (!text) return;
+  const cur = state.get(id) || { notes: [] };
+  const notes = (cur.notes || []).concat([{ by: 'me', text, at: new Date().toISOString() }]);
+  state.set(id, { ...cur, notes });
+  ta.value = '';
+  save();
+  paint(id);
+}
+
+/* ---------- handing the review back ---------- */
+function buildReport() {
+  const name = ($('me').value || '').trim();
+  const lines = [];
+  lines.push('סבב ' + round.week + ' — ' + round.brand_name);
+  lines.push(name ? 'עברתי עליו: ' + name : 'עברתי עליו: (בלי שם)');
+  lines.push('');
+
+  let ok = 0, fix = 0, untouched = 0;
+  const problems = [];
+  for (const it of round.items) {
+    const s = state.get(it.id);
+    if (!s || !s.status) { untouched++; continue; }
+    if (s.status === 'approved' && !(s.notes || []).length) { ok++; continue; }
+    if (s.status === 'approved') ok++; else fix++;
+
+    const cover = (it.slides && it.slides[0]) || it;
+    const title = cover.dilemma ? cover.dilemma.join(' / ') : (cover.headline || '');
+    const kind = it.format === 'story' ? 'סטורי' : 'פוסט';
+    problems.push(
+      (s.status === 'fix' ? '✕ ' : '✓ ') +
+      it.id + ' · יום ' + it.day_he + ' ' + it.time + ' · ' + kind + '\\n' +
+      '   ' + title +
+      (s.notes || []).map((n) => '\\n   ↳ ' + n.text).join('')
+    );
+  }
+
+  lines.push('✓ מאושר: ' + ok + '   ✕ צריך תיקון: ' + fix + '   ○ לא נבדק: ' + untouched);
+  if (problems.length) { lines.push(''); lines.push(problems.join('\\n\\n')); }
+  else { lines.push(''); lines.push('אין הערות — הכול מאושר.'); }
+  return lines.join('\\n');
+}
+
+async function sendReport() {
+  const text = buildReport();
+  const url = 'https://wa.me/' + WHATSAPP.replace(/[^0-9]/g, '') +
+              '?text=' + encodeURIComponent(text);
+  const w = window.open(url, '_blank', 'noopener');
+  if (w) return;
+  // Pop-up blocked: put it on the clipboard instead so nothing is lost.
+  try {
+    await navigator.clipboard.writeText(text);
+    const b = $('sendwa');
+    b.insertAdjacentHTML('afterend', '<span class="copied" id="cp">הועתק — הדביקו בוואטסאפ</span>');
+    setTimeout(() => $('cp') && $('cp').remove(), 4000);
+  } catch {
+    prompt('העתיקו את הטקסט ושלחו בוואטסאפ:', text);
+  }
+}
+
+$('sendwa').addEventListener('click', sendReport);
+$('me').addEventListener('change', () => {
+  try { localStorage.setItem(KEY + ':me', $('me').value); } catch { /* ignore */ }
+});
+
+load();
+$('me').value = myName === 'אני' ? '' : myName;
+for (const it of round.items) paint(it.id);
+progress();
+` : `/* ---------- shared store ---------- */
 /* The same artifact URL carries a new round every week, so each round gets
    its own subtree. Without this, next week's post-01 would open already
    carrying this week's approval. */
@@ -519,8 +681,9 @@ async function resolveNames(user, ids) {
     const ps = await user.profiles(missing);
     for (const id of missing) nameCache.set(id, (ps[id] && ps[id].name) || 'צוות');
   } catch { /* names are a nicety; the note still reads without one */ }
-}
+}`}
 </script>
+${shellClose}
 `;
 }
 
@@ -532,9 +695,24 @@ if (require.main === module) {
   }
   const roundPath = path.resolve(roundDir);
   const round = JSON.parse(fs.readFileSync(path.join(roundPath, 'round.json'), 'utf8'));
-  const out = path.join(roundPath, 'review.html');
-  fs.writeFileSync(out, buildPage(round));
-  console.log(`  approval page -> ${out} (${(fs.statSync(out).size / 1024).toFixed(0)} KB)`);
+
+  for (const [mode, name] of [['artifact', 'review.html'], ['static', 'index.html']]) {
+    const out = path.join(roundPath, name);
+    fs.writeFileSync(out, buildPage(round, mode));
+    console.log(`  ${mode.padEnd(8)} -> ${out} (${(fs.statSync(out).size / 1024).toFixed(0)} KB)`);
+  }
+  console.log(`  entry    -> index.html now points at ${updateEntryPoint(brandId, round.week)}`);
 }
 
-module.exports = { buildPage };
+/** Repoint the permanent GitHub Pages entry at a round. */
+function updateEntryPoint(brandId, week) {
+  const root = path.resolve(__dirname, '..');
+  const file = path.join(root, 'index.html');
+  const target = `rounds/${brandId}/${week}/`;
+  const html = fs.readFileSync(file, 'utf8')
+    .replace(/rounds\/[^/]+\/[^/]+\//g, target);
+  fs.writeFileSync(file, html);
+  return target;
+}
+
+module.exports = { buildPage, updateEntryPoint };
