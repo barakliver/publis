@@ -446,7 +446,7 @@ dialog img { max-width: 92vw; max-height: 80vh; border-radius: 10px; display: bl
       <span class="lb-count" id="lbCount"></span>
       <button id="lbNext" title="הבא">‹</button>
     </div>
-    <button class="lb-dl" id="lbDl">⬇︎ הורדת כל השקפים</button>
+    <button class="lb-dl" id="lbDl">⬇︎ שמירת התמונות</button>
   </div>
 </dialog>
 
@@ -527,8 +527,8 @@ function itemHTML(it) {
       '</div>' +
       (ISSTATIC ? (
         '<div class="tools">' +
-          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדת כל ' +
-            (shots.length > 1 ? shots.length + ' השקפים' : 'התמונה') + '</button>' +
+          '<button class="tool" data-dl="' + it.id + '">⬇︎ שמירת ' +
+            (shots.length > 1 ? shots.length + ' התמונות' : 'התמונה') + '</button>' +
           '<button class="tool" data-copy="' + it.id + '">העתקת טקסט</button>' +
           '<button class="tool" data-editcap="' + it.id + '" aria-expanded="false">עריכת טקסט</button>' +
           (isCar ? '<button class="tool" data-editslides="' + it.id + '" aria-expanded="false">תיקון שקפים</button>' : '') +
@@ -719,7 +719,7 @@ function paintLightbox() {
   const single = lb.shots.length < 2;
   $('lbPrev').hidden = single;
   $('lbNext').hidden = single;
-  $('lbDl').textContent = single ? '⬇︎ הורדת התמונה' : '⬇︎ הורדת כל ' + lb.shots.length + ' השקפים';
+  $('lbDl').textContent = single ? '⬇︎ שמירת התמונה' : '⬇︎ שמירת ' + lb.shots.length + ' התמונות';
 }
 
 function step(d) {
@@ -743,7 +743,7 @@ $('lbNext').addEventListener('click', () => step(1));
 if (ISSTATIC) {
   $('lbDl').addEventListener('click', (e) => downloadItem(lb.id, e.currentTarget));
 } else {
-  $('lbDl').hidden = true;   // no zip helper on the artifact build
+  $('lbDl').hidden = true;   // saving lives on the hosted build
 }
 document.addEventListener('keydown', (e) => {
   if (!$('zoom').open) return;

@@ -11,7 +11,6 @@
 <link rel="manifest" href="../../../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../../../icons/icon-180.png">
 <link rel="icon" href="../../../icons/icon-192.png">
-<script src="../../../vendor/jszip.min.js"></script>
 <title>אישור סבב — Before I Do</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Heebo:wght@500;700;800&display=swap">
@@ -452,7 +451,8 @@ img{max-width:100%}
     <ul>
       <li>עברו על הפריטים, סמנו, וכתבו הערות. הכול נשמר במכשיר שלכם.</li>
            <li>בסוף — <b>שליחה בוואטסאפ</b> למעלה. נפתחת הודעה מוכנה עם כל ההערות שלכם.</li>
-           <li><b>הורדה</b> בכל פריט נותנת את הקרוסלה שלו עם הטקסט — זה מה שמעלים לאינסטגרם.</li>
+           <li><b>שמירה</b> שומרת את תמונות הקרוסלה כ-JPG לגלריה, לפי הסדר, ומעתיקה את הטקסט.
+               משם פותחים אינסטגרם ומעלים ישירות.</li>
            <li><b>עריכת טקסט</b> משנה את הכיתוב מיד, וזה מה שיירד בהורדה. <b>תיקון שקפים</b> נכנס לתמונה בבנייה הבאה.</li>
            <li><b>להתקנה כאפליקציה:</b> בספארי — שתף ← הוסף למסך הבית. באנדרואיד — ⋮ ← הוסף למסך הבית.</li>
       <li><b>מאשר</b> = מוכן לתזמון. <b>צריך תיקון</b> = כתבו בהערה מה לשנות.</li>
@@ -473,7 +473,7 @@ img{max-width:100%}
       <span class="lb-count" id="lbCount"></span>
       <button id="lbNext" title="הבא">‹</button>
     </div>
-    <button class="lb-dl" id="lbDl">⬇︎ הורדת כל השקפים</button>
+    <button class="lb-dl" id="lbDl">⬇︎ שמירת התמונות</button>
   </div>
 </dialog>
 
@@ -554,8 +554,8 @@ function itemHTML(it) {
       '</div>' +
       (ISSTATIC ? (
         '<div class="tools">' +
-          '<button class="tool" data-dl="' + it.id + '">⬇︎ הורדת כל ' +
-            (shots.length > 1 ? shots.length + ' השקפים' : 'התמונה') + '</button>' +
+          '<button class="tool" data-dl="' + it.id + '">⬇︎ שמירת ' +
+            (shots.length > 1 ? shots.length + ' התמונות' : 'התמונה') + '</button>' +
           '<button class="tool" data-copy="' + it.id + '">העתקת טקסט</button>' +
           '<button class="tool" data-editcap="' + it.id + '" aria-expanded="false">עריכת טקסט</button>' +
           (isCar ? '<button class="tool" data-editslides="' + it.id + '" aria-expanded="false">תיקון שקפים</button>' : '') +
@@ -746,7 +746,7 @@ function paintLightbox() {
   const single = lb.shots.length < 2;
   $('lbPrev').hidden = single;
   $('lbNext').hidden = single;
-  $('lbDl').textContent = single ? '⬇︎ הורדת התמונה' : '⬇︎ הורדת כל ' + lb.shots.length + ' השקפים';
+  $('lbDl').textContent = single ? '⬇︎ שמירת התמונה' : '⬇︎ שמירת ' + lb.shots.length + ' התמונות';
 }
 
 function step(d) {
@@ -770,7 +770,7 @@ $('lbNext').addEventListener('click', () => step(1));
 if (ISSTATIC) {
   $('lbDl').addEventListener('click', (e) => downloadItem(lb.id, e.currentTarget));
 } else {
-  $('lbDl').hidden = true;   // no zip helper on the artifact build
+  $('lbDl').hidden = true;   // saving lives on the hosted build
 }
 document.addEventListener('keydown', (e) => {
   if (!$('zoom').open) return;
@@ -944,30 +944,79 @@ function openSlide(id, idx) {
   });
 }
 
-/* ---------- download one item -------------------------------------------- */
+/* ---------- saving the images ---------------------------------------------
+   A zip is useless on a phone: it cannot be unpacked easily and Instagram
+   cannot read one. What is needed is the pictures themselves, in the camera
+   roll, in order. So: convert each slide to JPEG and hand them over.
+
+   On a phone that means the share sheet (navigator.share with files) - the
+   viewer taps Save Images once and all of them land in Photos, in order.
+   Desktop has no share sheet, so it falls back to saving them one by one.
+   The caption goes to the clipboard either way, because it is needed at the
+   same moment and neither path can carry it into Instagram. */
+
+async function toJpeg(url, quality) {
+  const img = new Image();
+  img.decoding = 'sync';
+  img.src = url;
+  await img.decode();
+
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';                       // JPEG has no alpha
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((b) => b ? resolve(b) : reject(new Error('encode failed')),
+      'image/jpeg', quality || 0.92);
+  });
+}
+
+function toast(btn, text, ms) {
+  const was = btn.dataset.was || btn.textContent;
+  btn.dataset.was = was;
+  btn.textContent = text;
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => { btn.textContent = btn.dataset.was; }, ms || 2600);
+}
+
 async function downloadItem(id, btn) {
   const item = itemById(id);
   const imgs = (item.images && item.images.length) ? item.images : [item.image];
   const base = item.id + (item.manual ? '-MANUAL' : '');
 
-  // One image: hand it over directly rather than wrapping it in a zip.
-  if (imgs.length === 1 && !window.JSZip) return saveBlob(await (await fetch(imgs[0])).blob(), base + '.png');
-
-  if (!window.JSZip) { alert('אין חיבור לאינטרנט — נסו שוב'); return; }
-
   btn.classList.add('busy');
   btn.disabled = true;
   try {
-    const zip = new JSZip();
-    const folder = zip.folder(base);
+    const files = [];
     for (let i = 0; i < imgs.length; i++) {
-      const blob = await (await fetch(imgs[i])).blob();
-      folder.file(imgs.length > 1 ? 'slide-' + (i + 1) + '.png' : base + '.png', blob);
+      const blob = await toJpeg(imgs[i]);
+      const name = imgs.length > 1
+        ? base + '-' + String(i + 1).padStart(2, '0') + '.jpg'
+        : base + '.jpg';
+      files.push(new File([blob], name, { type: 'image/jpeg' }));
     }
-    folder.file('caption.txt', captionText(item));
-    saveBlob(await zip.generateAsync({ type: 'blob' }), base + '.zip');
+
+    // Put the caption where it can be pasted; failures here are not fatal.
+    let copied = false;
+    try { await navigator.clipboard.writeText(captionText(item)); copied = true; } catch {}
+
+    if (navigator.canShare && navigator.canShare({ files })) {
+      await navigator.share({ files, title: base });
+      toast(btn, copied ? 'הטקסט הועתק ✓' : 'נשמר ✓');
+    } else {
+      for (const f of files) {
+        saveBlob(f, f.name);
+        await new Promise((r) => setTimeout(r, 350));   // browsers throttle bursts
+      }
+      toast(btn, files.length + (copied ? ' תמונות + טקסט ✓' : ' תמונות ✓'));
+    }
   } catch (err) {
-    alert('ההורדה נכשלה. בדקו חיבור ונסו שוב.');
+    if (err && err.name === 'AbortError') return;        // the viewer cancelled
+    toast(btn, 'לא הצליח — נסו שוב', 3200);
   } finally {
     btn.classList.remove('busy');
     btn.disabled = false;

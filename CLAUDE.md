@@ -181,9 +181,14 @@ purpose:
 
 Both ride the WhatsApp export, with the slide fixes listed per slide.
 
-Per-item download zips that carousel's slides plus its caption, using a
-JSZip vendored at `vendor/jszip.min.js` — not a CDN, so it works offline and
-has no third-party dependency. There is deliberately no whole-week download.
+Saving hands over the pictures, not a file. A zip is useless on a phone: it
+cannot be unpacked easily and Instagram cannot read one. Each slide is drawn
+to a canvas and encoded as JPEG, then offered through `navigator.share` where
+it exists — the viewer taps Save Images once and they land in Photos in order
+— falling back to saving them one at a time on desktop. The caption goes to
+the clipboard at the same moment, because neither path can carry it into
+Instagram and that is when it is needed. There is deliberately no whole-week
+download.
 
 ## The Saturday job
 
