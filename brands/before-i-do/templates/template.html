@@ -47,6 +47,15 @@ function autoSize(text, base) {
   return base * 0.58;
 }
 
+
+/* Instagram's engagement marks, drawn inline so nothing has to load. */
+const SOCIAL = `<div class="social">
+  <span class="like"><svg viewBox="0 0 24 24"><path d="M12 20.7 3.9 12.6a5 5 0 1 1 7.1-7.1l1 1 1-1a5 5 0 1 1 7.1 7.1z"/></svg></span>
+  <span class="comment"><svg viewBox="0 0 24 24"><path d="M21 11.6a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-2.9-.5L3.2 21l1.6-4.8A8.3 8.3 0 0 1 3 11.6a8.4 8.4 0 0 1 9-8.4 8.4 8.4 0 0 1 9 8.4z"/></svg></span>
+  <span class="send"><svg viewBox="0 0 24 24"><path d="M21.5 2.5 10.8 13.2"/><path d="M21.5 2.5 14.7 21.6l-3.9-8.4-8.4-3.9z"/></svg></span>
+  <span class="save"><svg viewBox="0 0 24 24"><path d="M19 21.2 12 16.2 5 21.2V4.4a1.9 1.9 0 0 1 1.9-1.9h10.2A1.9 1.9 0 0 1 19 4.4z"/></svg></span>
+</div>`;
+
 window.render = function (item, pos) {
   /* `pos` describes where this slide sits in its carousel:
      {index, total}. A single-image post passes total <= 1. */
@@ -63,9 +72,13 @@ window.render = function (item, pos) {
 
   const parts = [];
 
-  /* Photo layer */
+  /* Photo layer. Content names a photo ("couple-cafe"); the library folder
+     and the right crop for this format are resolved here. */
   if (layout === 'photo' && item.photo) {
-    parts.push(`<img class="photo" src="${esc(item.photo)}">`);
+    const photoSrc = item.photo.includes('/')
+      ? item.photo
+      : `../assets/photos/${isStory ? 'story' : 'post'}/${item.photo}.jpg`;
+    parts.push(`<img class="photo" src="${esc(photoSrc)}">`);
     parts.push(`<div class="scrim"></div>`);
   }
 
@@ -115,6 +128,9 @@ window.render = function (item, pos) {
     }
   }
 
+  /* Engagement marks, on every slide. */
+  parts.push(SOCIAL);
+
   /* Carousel furniture: progress dots on every slide, a swipe hint on the first. */
   if (isCarousel) {
     let dots = '';
@@ -144,12 +160,15 @@ window.render = function (item, pos) {
                  --frame-top:${isStory ? '5.4%' : '7.0%'};
                  --frame-bottom:${isStory ? '5.6%' : '7.2%'};
                  --heart-top:${isStory ? '3.2%' : '4.1%'};
-                 --wordmark-bottom:${isStory ? '3.6%' : '4.6%'};
+                 --wordmark-bottom:${isStory ? '2.8%' : '3.4%'};
                  --badge-top:${isStory ? '11.5%' : '14.5%'};
-                 --content-shift:${isStory ? '-7%' : (isCarousel ? '-5%' : '-2%')};
-                 --dots-bottom:${isStory ? '10.2%' : '13.4%'};
-                 --swipe-bottom:${isStory ? '14.4%' : '18.0%'};
-                 --cta-bottom-dots:18.0%">
+                 --content-shift:${isStory ? '-11%' : (isCarousel ? '-9%' : '-7%')};
+                 --social-bottom:${isStory ? '9.4%' : '12.2%'};
+                 --social-size:${isStory ? '40px' : '46px'};
+                 --social-gap:${isStory ? '30px' : '34px'};
+                 --dots-bottom:${isStory ? '14.2%' : '18.0%'};
+                 --swipe-bottom:${isStory ? '17.8%' : '22.0%'};
+                 --cta-bottom-dots:22.0%">
        ${parts.join('')}
      </div>`;
 

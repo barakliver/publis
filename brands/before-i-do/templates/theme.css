@@ -64,10 +64,10 @@ html, body {
   position: absolute; inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0,0,0,.34) 0%,
-    rgba(0,0,0,.10) 28%,
-    rgba(0,0,0,.10) 52%,
-    rgba(0,0,0,.62) 100%
+    rgba(0,0,0,.42) 0%,
+    rgba(0,0,0,.14) 26%,
+    rgba(0,0,0,.16) 48%,
+    rgba(0,0,0,.78) 100%
   );
 }
 
@@ -100,7 +100,10 @@ html, body {
   z-index: 3;
 }
 [data-layout="statement"] .heart { width: 19%; }
-[data-layout="photo"]     .heart { width: 15%; }
+[data-layout="photo"]     .heart {
+  width: 15%;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,.55));
+}
 
 /* Wordmark: 60% of width including the two flanking rules. */
 .wordmark {
@@ -113,6 +116,9 @@ html, body {
 }
 [data-layout="statement"] .wordmark,
 [data-layout="photo"]     .wordmark { width: 34%; }
+[data-layout="photo"]     .wordmark { filter: drop-shadow(0 2px 10px rgba(0,0,0,.5)); }
+[data-layout="photo"]     .social svg { filter: drop-shadow(0 1px 6px rgba(0,0,0,.5)); }
+[data-layout="photo"]     .dots i { box-shadow: 0 1px 6px rgba(0,0,0,.5); }
 
 /* --- Text block ------------------------------------------------------- */
 .content {
@@ -175,7 +181,7 @@ html, body {
 .cta {
   position: absolute;
   left: 50%; transform: translateX(-50%);
-  bottom: 12.5%;
+  bottom: 22.0%;
   z-index: 3;
   font-weight: 700;
   color: var(--white);
@@ -233,7 +239,7 @@ html, body {
 .dots {
   position: absolute;
   left: 50%; transform: translateX(-50%);
-  bottom: var(--dots-bottom, 9.4%);
+  bottom: var(--dots-bottom, 15.8%);
   z-index: 3;
   display: flex; gap: 14px;
   direction: ltr;   /* Instagram draws its own dots LTR; match them */
@@ -251,7 +257,7 @@ html, body {
 .swipe {
   position: absolute;
   left: 50%; transform: translateX(-50%);
-  bottom: var(--swipe-bottom, 13.6%);
+  bottom: var(--swipe-bottom, 20.4%);
   z-index: 3;
   display: flex; align-items: center; gap: .48em;
   font-weight: 700; color: var(--blue); opacity: .72;
@@ -267,3 +273,32 @@ html, body {
 
 /* With dots present the call to action rides higher. */
 .canvas.has-dots .cta { bottom: var(--cta-bottom-dots, 14.6%); }
+
+
+/* --- Engagement row --------------------------------------------------
+   Instagram's own like / comment / send / save marks, drawn on every slide
+   just above the wordmark. They read as a prompt, not as chrome, so they sit
+   at partial strength and never compete with the headline. */
+.social {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  bottom: var(--social-bottom, 10.2%);
+  z-index: 3;
+  display: flex; gap: var(--social-gap, 34px);
+  direction: ltr;
+  opacity: .58;
+}
+.social svg {
+  width: var(--social-size, 46px); height: var(--social-size, 46px);
+  display: block;
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* The send mark is the only one that reads better solid at this size. */
+.social .send svg { fill: none; }
+[data-layout="dark"]  .social svg,
+[data-layout="photo"] .social svg { stroke: var(--white); }
+[data-layout="photo"] .social { opacity: .82; }

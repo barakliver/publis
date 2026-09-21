@@ -102,8 +102,36 @@ Shape a carousel so slide one earns the swipe and the last one asks for
 something. Four to six slides; one idea per slide, short enough to read
 without stopping. Instagram stories have no carousel - stories stay single.
 
+## Photos
+
+`core/photos.js` ingests anything dropped in
+`brands/<brand>/assets/photos/source/` and writes both crops. Content then
+names a photo without its extension (`photo: 'wine-date'`) and the template
+resolves the folder and the right crop.
+
+Claude cannot produce a photograph. `assets/photos/SHOTLIST.md` holds the
+shots this brand needs, the framing rules the template imposes, and a
+generation prompt matching the brand's existing look. Point the user there
+rather than improvising a photo brief.
+
+`--trim-top 19` is only for the brand's older artwork, which has the heart
+burned into the top of the frame; the template draws its own.
+
+## Engagement marks
+
+Every slide carries Instagram's like / comment / send / save marks above the
+wordmark, drawn inline as SVG. The bottom stack, from the bottom up:
+wordmark 3.4%, marks 12.2%, dots 18%, swipe hint and call to action 22%.
+Move one, check the rest - they were colliding twice before this spacing.
+
 ## Writing for this brand
 
+- Eye level, never from above. A verdict ("X is really Y") reads as a lecture;
+  the same idea as a scene the reader recognises reads as a friend. Second
+  person, present tense, something you can picture.
+- Every carousel asks for something at the end: a save, a tag, or the link.
+- Answer objections out loud. "Is this just another card game?" is a real
+  question and deserves a real slide.
 - Address both partners. Hebrew second-person singular uses the dotted form the
   cards already use: `מתרגש.ת`, `מפחד.ת`. Plural `אתם` for the couple.
 - Short on the image, long in the caption. The image carries one idea.

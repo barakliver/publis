@@ -1,13 +1,18 @@
 /**
  * Content for round 2026-W40. Instagram carousels.
  *
- * Every post is a `slides` array. One idea per slide, short enough to read
- * without stopping — the caption carries the length, the slides carry the
- * rhythm. Slide one has to earn the swipe; the last one asks for something.
+ * VOICE: eye level. Not a brand explaining marriage to people - someone who
+ * has sat at that table. So: second person, present tense, a scene you can
+ * picture, and the mess admitted rather than solved from above. A verdict
+ * ("X is really Y") reads as a lecture; the same idea as something that
+ * happened to you reads as a friend. Specifics beat aphorisms every time.
  *
- * `plan.js` assigns dates and times, so this file stays about the writing.
+ * CONVERSION: every carousel ends asking for something. Value posts ask for a
+ * save or a tag and carry the link softly; sell posts name the price and the
+ * date it moves. Objections get answered out loud rather than avoided.
+ *
  * pillar: pain | value | identity | social_proof | sell
- * layout: statement (cream) | dilemma (white) | dark (blue)
+ * layout: statement (cream) | dilemma (white) | dark (blue) | photo
  */
 
 const TAGS_CORE = '#חתונה #מתחתנים #זוגיות #הצעתנישואין #כלהמתכננת #חתונה2027';
@@ -21,53 +26,55 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'רשימת המוזמנים היא לא רשימה', subline: 'היא מפה של יחסים' },
-        { layout: 'statement', headline: 'ולכן היא לוקחת שבועות', subline: 'ולכן היא מתפוצצת' },
-        { layout: 'statement', headline: 'הטעות', subline: 'מתחילים משמות' },
-        { layout: 'statement', headline: 'התיקון', subline: 'מתחילים מכלל אחד' },
+        { layout: 'statement', headline: 'אתם כבר שבועיים על רשימת המוזמנים' },
+        { layout: 'statement', headline: 'ועדיין לא סגרתם אותה' },
+        { layout: 'statement', headline: 'זה לא כי אתם לא מחליטים', subline: 'זה כי כל שם ברשימה הוא החלטה על מישהו' },
+        { layout: 'statement', headline: 'אז אל תתחילו משמות', subline: 'תתחילו מכלל' },
         { layout: 'dilemma', dilemma: ['מי שדיברנו איתו השנה', 'מי שהיינו הולכים לחתונה שלו'] },
-        { layout: 'dark', headline: 'ברגע שיש כלל', subline: 'זה מפסיק להיות על אנשים ומתחיל להיות על הסכמה', cta: 'לינק בביו' },
+        { layout: 'dark', headline: 'תבחרו אחד, ותראו מה קורה', subline: 'פתאום זה מפסיק להיות ויכוח', cta: 'שמרו לשיחה הבאה' },
       ],
       caption:
-        'רשימת המוזמנים היא השלב שבו הכי הרבה זוגות נתקעים. לא כי היא ארוכה — ' +
-        'כי כל שם בה הוא החלטה על מערכת יחסים.\n\n' +
-        'הדבר היחיד שבאמת עוזר: לסכם כלל אחד לפני שכותבים שם אחד. ' +
-        'לא משנה איזה — משנה שיהיה אחד, ושיהיה שלכם.\n\n' +
-        'מה הכלל שלכם? 👇',
+        'שבועיים. אולי שלושה. והרשימה עדיין פתוחה בטלפון של אחד מכם.\n\n' +
+        'זה לא כי אתם מתקשים להחליט. זה כי כל שם שם הוא החלטה על מישהו אמיתי, ' +
+        'ואין דרך לעשות את זה בלי להרגיש רע לרגע.\n\n' +
+        'מה שעוזר: לא להתחיל משמות. להתחיל מכלל אחד שאתם מסכימים עליו — ' +
+        'ואז פשוט להריץ את הרשימה מולו.\n\n' +
+        'מה הכלל שלכם? כתבו לנו 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'statement', headline: 'יש שתי דרכים לתכנן חתונה' },
+        { layout: 'statement', headline: 'אף אחד לא מתכנן לריב', subline: 'בשלוש לפנות בוקר' },
+        { layout: 'statement', headline: 'זה פשוט מה שקורה' },
         { layout: 'dilemma', dilemma: ['לדבר על זה עכשיו', 'לגלות ביום עצמו'] },
-        { layout: 'statement', headline: 'אין אפשרות שלישית' },
-        { layout: 'statement', headline: 'כל מה שלא דיברתם עליו', subline: 'תגלו תוך כדי' },
-        { layout: 'dark', headline: 'בדרך כלל בשיא הלחץ', subline: 'ובדרך כלל מול עוד עשרה אנשים' },
+        { layout: 'statement', headline: 'כי שיחה שנדחית מספיק זמן', subline: 'לא נעלמת. היא רק מחכה לרגע הכי גרוע' },
+        { layout: 'dark', headline: 'אז תקדימו אותה', subline: 'עדיף בסלון, עם יין, ובלי שאף אחד עייף', cta: 'לינק בביו' },
       ],
       caption:
-        'זה לא איום. זו פשוט הדרך שבה זה עובד.\n\n' +
-        'אף אחד לא מתכנן לריב על מספר המוזמנים בשלוש לפנות בוקר. ' +
-        'זה קורה כי השיחה נדחתה עד שכבר אי אפשר לדחות אותה.\n\n' +
-        'רגע מאושר שישאר לנצח מתחיל בשיחה אחת. 💙',
+        'זה אף פעם לא מתחיל כוויכוח. זה מתחיל ב״רגע, אז מה סיכמנו לגבי…״ ' +
+        'בשעה שבה כבר אין לאף אחד סבלנות.\n\n' +
+        'אנחנו לא חושבים שאפשר לתכנן חתונה בלי מתח. אנחנו כן חושבים ' +
+        'שאפשר לבחור מתי הוא קורה.\n\n' +
+        'תייגו את מי שצריך לקרוא את זה 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'sell',
       slides: [
-        { layout: 'dark', headline: 'ערב אחד. 70 שאלות. החתונה שלכם.' },
-        { layout: 'statement', headline: 'לא רשימת מטלות' },
-        { layout: 'statement', headline: 'לא עוד אקסל' },
-        { layout: 'statement', headline: '70 שאלות, 6 קטגוריות', subline: 'מהבסיס ועד ״חס וחלילה״' },
-        { layout: 'statement', headline: 'פותחים בקבוק יין', subline: 'ונותנים לשיחה לזרום' },
-        { layout: 'dark', headline: 'שיחה אחת, לפני כל השאר', badge: '₪129 כולל משלוח', cta: LINK },
+        { layout: 'photo', photo: 'couple-cafe', headline: 'ככה זה נראה', subline: 'שעה, שני קפה, והשיחה שדחיתם' },
+        { layout: 'statement', headline: 'שולפים קלף', subline: 'עונים. עוברים לבא' },
+        { layout: 'statement', headline: 'אין ניקוד', subline: 'אין מנצח' },
+        { layout: 'statement', headline: '70 שאלות', subline: 'שכיסינו בשבילכם, כדי שלא תצטרכו לזכור מה שכחתם' },
+        { layout: 'statement', headline: 'ואם משהו נתקע', subline: 'יש קלף וטו. משתמשים פעם אחת.' },
+        { layout: 'dark', headline: 'ערב אחד. וזה מאחוריכם.', badge: '₪129 כולל משלוח', cta: LINK },
       ],
       caption:
-        'המשחק נראה כמו משחק, ומתנהג כמו כלי תכנון.\n\n' +
-        '70 שאלות שמוציאות לאוויר את מה שכבר ממילא בראש של שניכם — ' +
-        'רק שעדיין לא אמרתם בקול.\n\n' +
+        'לא צריך סדנה, לא צריך יועץ, ולא צריך להקדיש לזה סוף שבוע.\n\n' +
+        'ערב אחד בבית, בקצב שלכם. יוצאים מזה עם כמה החלטות סגורות ועם ' +
+        'שתיים־שלוש שיחות שגיליתם שאתם חייבים לנהל.\n\n' +
         '✦ 129 ₪ כולל משלוח עד הבית\n' +
-        '✦ מחיר השקה עד 26.10\n\n' +
+        '✦ מחיר השקה — עד 26.10, אחר כך 189 ₪ + משלוח\n\n' +
         `הלינק בביו 👆  |  ${LINK}`,
       hashtags: `${TAGS_CORE} ${TAGS_GIFT}`,
     },
@@ -76,47 +83,53 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'תקציב זה לא מספר', subline: 'זה סדר עדיפויות שעוד לא כתבתם' },
-        { layout: 'statement', headline: 'תרגיל של שלוש דקות' },
-        { layout: 'statement', headline: '1', subline: 'כל אחד כותב לעצמו: אם היה לנו 30% פחות — על מה הייתי מוותר.ת ראשון?' },
-        { layout: 'statement', headline: '2', subline: 'לא מסתכלים אחד על השנייה' },
-        { layout: 'statement', headline: '3', subline: 'משווים' },
-        { layout: 'dark', headline: 'אם עניתם אותו דבר — יש לכם עוגן', subline: 'ואם לא — מצאתם את השיחה שהייתם צריכים' },
+        { layout: 'statement', headline: 'תרגיל של שלוש דקות', subline: 'שיחסוך לכם שלושה ויכוחים' },
+        { layout: 'statement', headline: 'כל אחד לוקח פתק' },
+        { layout: 'statement', headline: '״אם היה לנו 30% פחות״', subline: '״על מה הייתי מוותר.ת ראשון?״' },
+        { layout: 'statement', headline: 'לא מציצים' },
+        { layout: 'statement', headline: 'עכשיו תשוו' },
+        { layout: 'dark', headline: 'אותה תשובה? יש לכם עוגן.', subline: 'תשובה שונה? מצאתם את השיחה שחיפשתם.', cta: 'שמרו את זה 🔖' },
       ],
       caption:
-        'רוב הזוגות מדברים על תקציב כמספר. ואז המספר זז, וכל פעם מחדש צריך להחליט ' +
-        'מה נדחף החוצה.\n\n' +
-        'אם יודעים מראש מה הדבר האחרון שמוותרים עליו — כל החלטה אחרת נהיית קלה.\n\n' +
-        'שמרו את זה לשיחה הבאה 🔖',
+        'תקציב הוא הנושא שהכי הרבה זוגות נתקעים בו, ולא בגלל המספר. ' +
+        'בגלל שכל פעם שהמספר זז, צריך להחליט מחדש מה נדחף החוצה.\n\n' +
+        'אם אתם יודעים מראש מה הדבר האחרון שאתם מוותרים עליו — כל שאר ' +
+        'ההחלטות נהיות פשוטות.\n\n' +
+        'תעשו את זה הערב. זה באמת לוקח שלוש דקות. 🙂',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'identity',
       slides: [
+        { layout: 'statement', headline: 'שמנו לב למשהו' },
         { layout: 'statement', headline: 'רוב הזוגות לא רבים על החתונה' },
-        { layout: 'statement', headline: 'הם פשוט אף פעם לא דיברו עליה' },
-        { layout: 'statement', headline: 'הוויכוח על מספר המוזמנים', subline: 'הוא אף פעם לא על מספר המוזמנים' },
-        { layout: 'statement', headline: 'הוא על כמה מקום יש למשפחה', subline: 'בחיים שלכם' },
-        { layout: 'statement', headline: 'ועל מה שכל אחד מכם דמיין', subline: 'ולא אמר בקול' },
-        { layout: 'dark', headline: 'זה לא ויכוח רע', subline: 'זו שיחה שאף אחד לא יזם' },
+        { layout: 'statement', headline: 'הם רבים על משהו אחר', subline: 'רק דרך החתונה' },
+        { layout: 'statement', headline: 'כמה מקום יש למשפחה', subline: 'בחיים שלנו' },
+        { layout: 'statement', headline: 'ומי מרגיש.ה שצריך.ה לרצות', subline: 'את כולם, כל הזמן' },
+        { layout: 'dark', headline: 'זו לא בעיה בזוגיות', subline: 'זו שיחה שאף אחד לא יזם', cta: 'מסכימים? ספרו לנו' },
       ],
       caption:
-        'שווה לשים לב לזה באמצע ויכוח: על מה אנחנו באמת מדברים עכשיו?\n\n' +
-        'כמעט תמיד התשובה היא לא מה שכתוב על השולחן.',
+        'נסו את זה באמצע הוויכוח הבא: לעצור ולשאול ״על מה אנחנו באמת מדברים עכשיו?״\n\n' +
+        'כמעט תמיד התשובה היא לא מה שכתוב על השולחן. וברגע שאומרים אותה בקול, ' +
+        'הוויכוח נגמר תוך דקה.\n\n' +
+        'זה עבד לכם פעם? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'dark', headline: 'הדברים שאף אחד לא שואל לפני האירוע' },
-        { layout: 'statement', headline: 'מי הולך.ת להורים שלך', subline: 'אם משהו משתבש' },
-        { layout: 'statement', headline: 'מי אחראי.ת על הטלפון', subline: 'ביום עצמו' },
-        { layout: 'statement', headline: 'מה קורה אם ספק מבטל', subline: 'שבוע לפני' },
-        { layout: 'dark', headline: 'אף אחד לא נהנה לחשוב על זה', subline: 'וכולם מצטערים שלא חשבו' },
+        { layout: 'dark', headline: 'ארבע שאלות שלא תשאלו', subline: 'עד שיהיה מאוחר' },
+        { layout: 'statement', headline: 'מי מדבר.ת עם ההורים שלך', subline: 'אם משהו משתבש' },
+        { layout: 'statement', headline: 'מי מחזיק.ה את הטלפון', subline: 'ביום עצמו' },
+        { layout: 'statement', headline: 'מה קורה אם ספק נעלם', subline: 'שבוע לפני' },
+        { layout: 'statement', headline: 'ומי מחליט.ה', subline: 'כשאתם לא מסכימים ואין זמן' },
+        { layout: 'dark', headline: 'חמש דקות עכשיו', subline: 'במקום חצי שעה של פאניקה אז', cta: 'שמרו לשיחה הבאה' },
       ],
       caption:
-        'חמש דקות עכשיו, במקום חצי שעה של פאניקה אז.\n\n' +
-        'זה כל ההבדל בין תקלה לבין אסון. 💙',
+        'אלה לא שאלות כיפיות. בדיוק בגלל זה אף אחד לא שואל אותן.\n\n' +
+        'ובדיוק בגלל זה, כשמשהו באמת משתבש, שני בני הזוג מסתכלים אחד על השנייה ' +
+        'ומחכים שמישהו יחליט.\n\n' +
+        'שמרו את הפוסט. תודו לנו בעוד חצי שנה 🔖',
       hashtags: TAGS_CORE,
     },
 
@@ -124,46 +137,52 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'כלל שלוש ה״לא״', subline: 'לפני כל פגישה עם ספק' },
+        { layout: 'statement', headline: 'לפני הפגישה הבאה עם ספק' },
+        { layout: 'statement', headline: 'עצרו בחניון' },
         { layout: 'statement', headline: 'כל אחד כותב שלושה דברים', subline: 'שהם ״לא בשבילנו״' },
-        { layout: 'statement', headline: 'לא מה כן', subline: 'מה לא' },
-        { layout: 'statement', headline: 'משווים בחניון', subline: 'לא מול הספק' },
-        { layout: 'dark', headline: 'אם אתם לא מחפשים אותו דבר', subline: 'עדיף לגלות את זה לבד' },
+        { layout: 'statement', headline: 'לא מה כן', subline: 'דווקא מה לא' },
+        { layout: 'statement', headline: 'תשוו לפני שנכנסים' },
+        { layout: 'dark', headline: 'עדיף לגלות פער בחניון', subline: 'מאשר מול הספק עם מחירון על השולחן', cta: 'שמרו לפגישה הבאה 🔖' },
       ],
       caption:
-        'פגישות עם ספקים הן המקום שבו זוגות מגלים באמצע שהם רצו שני דברים שונים — ' +
-        'מול אדם זר, עם מחירון על השולחן.\n\n' +
-        'שלוש דקות בחניון פותרות את זה.\n\n' +
-        'שמרו לפגישה הבאה 🔖',
+        'המקום הכי גרוע לגלות שאתם רוצים שני דברים שונים הוא באמצע פגישה, ' +
+        'מול אדם זר שמחכה לתשובה.\n\n' +
+        'שלוש דקות בחניון. זה כל מה שצריך.\n\n' +
+        'מכירים מישהו שנכנס לפגישה כזאת השבוע? תייגו 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'statement', headline: 'שאלה לא נעימה' },
+        { layout: 'statement', headline: 'שאלה שאף אחד לא אוהב' },
         { layout: 'dilemma', dilemma: ['חתונה שנראית טוב בתמונות', 'חתונה שמרגישה טוב ביום עצמו'] },
-        { layout: 'statement', headline: 'רוב הזוגות רוצים את שניהם' },
-        { layout: 'statement', headline: 'רוב הזוגות לא מדברים', subline: 'על מה קורה כשצריך לבחור' },
-        { layout: 'dark', headline: 'ויום החתונה בנוי', subline: 'מעשרים רגעים כאלה בדיוק' },
+        { layout: 'statement', headline: '״רגע, למה בכלל צריך לבחור?״' },
+        { layout: 'statement', headline: 'כי יום החתונה בנוי', subline: 'מעשרים רגעים שבהם צריך' },
+        { layout: 'dark', headline: 'ומי שלא בחר.ה מראש', subline: 'בוחר.ת בלחץ, ביום עצמו', cta: 'מה אתם אומרים? 👇' },
       ],
-      caption: 'מה אתם אומרים? 👇\n\nאין תשובה נכונה. יש רק תשובה שלכם.',
+      caption:
+        'רובנו רוצים את שניהם, ורובנו לא באמת מדברים על מה קורה כשצריך להכריע.\n\n' +
+        'זה לא אומר לוותר על תמונות יפות. זה אומר לדעת מה גובר על מה, ' +
+        'לפני שעומדים שם.\n\n' +
+        'אתם בקטע של מה? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'sell',
       slides: [
-        { layout: 'statement', headline: 'המשחק הזה לא עוזר לבחור צבעים' },
-        { layout: 'statement', headline: 'הוא עוזר לבחור ביחד' },
-        { layout: 'statement', headline: 'הבסיס', subline: 'מקום, גודל, עונה, תקציב' },
-        { layout: 'statement', headline: 'בחופה', subline: 'נדרים, ברכות, מי עומד לידכם' },
-        { layout: 'statement', headline: 'חס וחלילה', subline: 'ספק שנעלם, גשם, מה שלא תכננתם' },
-        { layout: 'dark', headline: 'ועוד 3 קטגוריות', badge: '₪129 כולל משלוח', cta: LINK },
+        { layout: 'photo', photo: 'box-table', headline: '״זה סתם עוד משחק קלפים?״', subline: 'שאלה הוגנת' },
+        { layout: 'statement', headline: 'לא. אין ניקוד ואין מנצח.' },
+        { layout: 'statement', headline: 'זה כלי תכנון', subline: 'שמתחפש למשחק כדי שתסכימו לשחק' },
+        { layout: 'statement', headline: '6 קטגוריות', subline: 'הבסיס · בחופה · אחרי · שאלות פתוחות · חס וחלילה · מיוחדים' },
+        { layout: 'statement', headline: 'ואם שאלה קשה מדי', subline: 'יש וטו. פעם אחת, לכל אחד.' },
+        { layout: 'dark', headline: 'ערב אחד, והכי קשה מאחוריכם', badge: '₪129 כולל משלוח', cta: LINK },
       ],
       caption:
-        '6 קטגוריות, 70 שאלות, ערב אחד.\n\n' +
-        'לא בשביל להסכים על הכול — בשביל לדעת איפה אתם לא מסכימים, ' +
-        'מספיק מוקדם בשביל שזה עוד יהיה קל.\n\n' +
-        `✦ 129 ₪ כולל משלוח | מחיר השקה עד 26.10\n✦ ${LINK}`,
+        'שאלו אותנו את זה מספיק פעמים, אז נענה ישר: זה לא משחק שמעביר ערב. ' +
+        'זה כלי שגורם לכם לדבר על מה שממילא בראש של שניכם.\n\n' +
+        'הפורמט הוא משחק רק כי ככה אתם באמת מתיישבים לזה. אף אחד לא מתיישב ' +
+        'ל״בואו נדבר על החתונה״.\n\n' +
+        `✦ 129 ₪ כולל משלוח | עד 26.10\n✦ ${LINK}`,
       hashtags: `${TAGS_CORE} ${TAGS_GIFT}`,
     },
 
@@ -171,30 +190,34 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'מי מחליט מה?', subline: 'השאלה הכי משעממת ששווה הכי הרבה' },
-        { layout: 'statement', headline: 'לא צריך להחליט הכול ביחד' },
-        { layout: 'statement', headline: 'צריך להחליט', subline: 'מי מחליט מה' },
-        { layout: 'statement', headline: 'מוזיקה · אוכל · עיצוב', subline: 'אורחים · כסף · לוח זמנים' },
-        { layout: 'statement', headline: 'על כל תחום', subline: 'מי מוביל.ה, ומי סומך.ת' },
-        { layout: 'dark', headline: 'זה לא ויתור', subline: 'זו הדרך לא לריב על כל דבר פעמיים' },
+        { layout: 'statement', headline: 'אתם לא צריכים להחליט הכול ביחד' },
+        { layout: 'statement', headline: 'אתם צריכים להחליט', subline: 'מי מחליט מה' },
+        { layout: 'statement', headline: 'קחו דף. חלקו.', subline: 'מוזיקה · אוכל · עיצוב · אורחים · כסף · לו״ז' },
+        { layout: 'statement', headline: 'על כל תחום', subline: 'מי מוביל.ה — ומי סומך.ת' },
+        { layout: 'statement', headline: 'החלק הקשה הוא לא לחלק' },
+        { layout: 'dark', headline: 'החלק הקשה הוא לסמוך', subline: 'אחרי שחילקתם', cta: 'שמרו את זה 🔖' },
       ],
       caption:
-        'זוגות שמחלקים אחריות מראש מסיימים תכנון בחצי מהוויכוחים.\n\n' +
-        'הקושי הוא לא לחלק — הקושי הוא לסמוך אחרי שחילקתם. 🙂',
+        'זוגות שמחלקים אחריות מראש מסיימים תכנון בחצי מהוויכוחים. ' +
+        'זה לא תיאוריה — זה מה שרואים.\n\n' +
+        'אבל החלוקה שווה משהו רק אם אחריה באמת מרפים. אחרת זה פשוט ויכוח ' +
+        'עם עוד שלב.\n\n' +
+        'מי אצלכם אחראי.ת על מה? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'identity',
       slides: [
+        { layout: 'statement', headline: 'מחשבה שאולי תרגיע אתכם' },
         { layout: 'statement', headline: 'אתם לא מתכננים אירוע' },
         { layout: 'statement', headline: 'אתם מתאמנים על נישואים' },
-        { layout: 'statement', headline: 'המון החלטות ביחד', subline: 'תחת לחץ' },
-        { layout: 'statement', headline: 'עם כסף אמיתי', subline: 'מול משפחות אמיתיות' },
-        { layout: 'dark', headline: 'זה בדיוק מה שנישואים עושים', subline: 'רק בלי דדליין' },
+        { layout: 'statement', headline: 'המון החלטות ביחד, תחת לחץ', subline: 'עם כסף אמיתי, מול משפחות אמיתיות' },
+        { layout: 'dark', headline: 'זה בדיוק מה שנישואים עושים', subline: 'רק שכאן יש דדליין — וזה דווקא יתרון', cta: 'לינק בביו' },
       ],
       caption:
-        'אם תסתכלו על תכנון החתונה ככה, פתאום ברור למה הוא כל כך טעון — ' +
-        'ולמה שווה להשקיע בו יותר משיחות על תפריט. 💙',
+        'אם תכנון החתונה מרגיש לכם כבד מדי ביחס ל״מסיבה אחת״ — זה כי הוא באמת ' +
+        'לא רק מסיבה אחת.\n\n' +
+        'וזו בדיוק הסיבה ששווה להשקיע בו יותר משיחות על תפריט. 💙',
       hashtags: TAGS_CORE,
     },
     {
@@ -203,11 +226,14 @@ module.exports = {
         { layout: 'statement', headline: '״ישבנו לשעה״' },
         { layout: 'statement', headline: '״יצאנו עם שלוש החלטות״' },
         { layout: 'statement', headline: '״ועם ויכוח אחד״', subline: 'שהיה חייב לקרות' },
-        { layout: 'dark', headline: 'זה בדיוק מה שהוא אמור לעשות', subline: 'להביא את הוויכוח מוקדם, בסלון, עם יין', cta: 'לינק בביו' },
+        { layout: 'statement', headline: 'זה בדיוק התפקיד', subline: 'לא להעלים ויכוחים — להביא אותם בזמן שהם עוד זולים' },
+        { layout: 'dark', headline: 'מכירים זוג שצריך את הערב הזה?', subline: 'תייגו אותם למטה 👇', cta: 'לינק בביו' },
       ],
       caption:
-        'המטרה היא לא להעלים ויכוחים. המטרה היא שהם יקרו בזמן שבו הם עוד זולים.\n\n' +
-        'מכירים זוג שצריך את הערב הזה? תייגו אותם 👇',
+        'הציטוט הזה הגיע מזוג שקיבל את המשחק במתנה, ואנחנו חוזרים אליו הרבה — ' +
+        'כי הוא מתאר בדיוק מה אמור לקרות.\n\n' +
+        'ויכוח אחד בסלון עדיף על שלושה בשבוע של החתונה.\n\n' +
+        'תייגו זוג שיצחק ואז יקנה 👇',
       hashtags: `${TAGS_CORE} ${TAGS_GIFT}`,
     },
 
@@ -215,43 +241,50 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'השאלה ששווה יותר מכל ספק' },
-        { layout: 'statement', headline: '״איך נרצה להרגיש״', subline: 'בסוף הערב?' },
-        { layout: 'statement', headline: 'רגועים?' },
-        { layout: 'statement', headline: 'מותשים ומאושרים?' },
-        { layout: 'statement', headline: 'שדיברנו עם כל אורח?' },
-        { layout: 'dark', headline: 'כל תשובה מובילה לחתונה אחרת', subline: 'ורוב הזוגות בוחרים ספקים לפני שבחרו תשובה' },
+        { layout: 'statement', headline: 'לפני שאתם בוחרים אולם' },
+        { layout: 'statement', headline: 'תענו על שאלה אחת' },
+        { layout: 'statement', headline: '״איך נרצה להרגיש״', subline: '״כשהערב נגמר?״' },
+        { layout: 'statement', headline: 'רגועים? מותשים ומאושרים?', subline: 'שכולם רקדו? שהספקנו לדבר עם כולם?' },
+        { layout: 'statement', headline: 'כל תשובה', subline: 'מובילה לחתונה אחרת לגמרי' },
+        { layout: 'dark', headline: 'ורוב הזוגות בוחרים ספקים', subline: 'לפני שבחרו תשובה', cta: 'שמרו את זה 🔖' },
       ],
       caption:
-        'תענו על זה לפני שאתם בוחרים אולם, להקה או תפריט.\n\n' +
-        'זו השאלה שכל שאר ההחלטות נגזרות ממנה — וכמעט אף אחד לא שואל אותה ראשונה.',
+        'זו השאלה שכל שאר ההחלטות נגזרות ממנה, וכמעט אף אחד לא שואל אותה ראשונה.\n\n' +
+        'תנסו לענות עליה בנפרד, במשפט אחד כל אחד. אם יצאו לכם שני משפטים שונים — ' +
+        'מצוין שגיליתם את זה עכשיו ולא בחוזה.\n\n' +
+        'מה המשפט שלכם? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'statement', headline: 'השאלה הכי לא נעימה בתכנון חתונה' },
+        { layout: 'statement', headline: 'השאלה הכי לא נוחה בתכנון' },
         { layout: 'dilemma', dilemma: ['לרצות את כולם', 'לרצות אחד את השני'] },
-        { layout: 'statement', headline: 'אין תשובה נכונה' },
-        { layout: 'statement', headline: 'יש רק תשובה שלכם' },
-        { layout: 'dark', headline: 'ועדיף שתהיה אחת', subline: 'ולא שתיים שכל אחד מחזיק בשקט' },
+        { layout: 'statement', headline: 'רובנו אומרים את השנייה' },
+        { layout: 'statement', headline: 'ורובנו מתנהגים לפי הראשונה' },
+        { layout: 'dark', headline: 'אין תשובה נכונה', subline: 'יש רק תשובה אחת שלכם — ולא שתיים בשקט', cta: 'מה אתם אומרים? 👇' },
       ],
-      caption: 'מה אתם אומרים? 👇',
+      caption:
+        'הפער בין מה שאנחנו אומרים לבין מה שאנחנו עושים בתכנון חתונה ' +
+        'הוא המקום שבו נולדים רוב הוויכוחים.\n\n' +
+        'לא צריך לפתור אותו. צריך רק להכיר בו בקול.',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'sell',
       slides: [
-        { layout: 'statement', headline: 'מתנה לזוג שיש להם הכול' },
+        { layout: 'photo', photo: 'box-sushi', headline: 'מחפשים מתנה לזוג מאורס?' },
         { layout: 'statement', headline: 'סט סכינים הם כבר קיבלו' },
-        { layout: 'statement', headline: 'מה שהם לא קיבלו', subline: 'זה ערב אחד ביחד, בלי מסכים' },
-        { layout: 'statement', headline: 'עם 70 שאלות', subline: 'שמישהו אחר כבר חשב עליהן בשבילם' },
-        { layout: 'dark', headline: 'מגיע בקופסה קשיחה', subline: 'מתנה שנראית כמו מתנה', badge: '₪129 כולל משלוח', cta: LINK },
+        { layout: 'statement', headline: 'שלושה', subline: 'כולם שולחים את אותו לינק' },
+        { layout: 'statement', headline: 'תנו להם ערב', subline: 'בלי מסכים, עם 70 שאלות שמישהו כבר חשב עליהן' },
+        { layout: 'statement', headline: 'מגיע בקופסה קשיחה', subline: 'לא צריך לעטוף. נראה כמו מתנה.' },
+        { layout: 'dark', headline: 'והם יזכרו מי נתן', badge: '₪129 כולל משלוח', cta: LINK },
       ],
       caption:
-        'אם אתם מחפשים מתנה לזוג מאורס שכבר יש לו הכול — זו המתנה שהם יזכרו ' +
-        'הרבה אחרי שהחתונה נגמרה.\n\n' +
-        '✦ 129 ₪ כולל משלוח | מחיר השקה עד 26.10\n\nהלינק בביו 👆',
+        'זו המתנה שזוגות מספרים עליה אחרי החתונה, לא בזמן פתיחת המעטפות.\n\n' +
+        'מגיע בקופסה קשיחה, עם משלוח עד הבית — אז אפשר גם לשלוח ישירות אליהם.\n\n' +
+        '✦ 129 ₪ כולל משלוח | מחיר השקה עד 26.10\n\n' +
+        `הלינק בביו 👆  |  ${LINK}`,
       hashtags: `${TAGS_CORE} ${TAGS_GIFT}`,
     },
 
@@ -259,41 +292,44 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'תנו למשפחה תפקיד', subline: 'לא דעה' },
-        { layout: 'statement', headline: 'כשלא נותנים תפקיד' },
-        { layout: 'statement', headline: 'נותנים דעה' },
-        { layout: 'statement', headline: 'תנו לכל צד משהו קונקרטי', subline: 'שהוא אחראי עליו' },
-        { layout: 'dark', headline: 'זה מכבד, זה עוזר באמת', subline: 'וזה מוריד לכם שיחה קשה מהשבוע' },
+        { layout: 'statement', headline: 'ההורים רוצים להיות חלק' },
+        { layout: 'statement', headline: 'זו לא הבעיה' },
+        { layout: 'statement', headline: 'הבעיה היא כשאין להם תפקיד', subline: 'כי אז הם נותנים דעה' },
+        { layout: 'statement', headline: 'תנו לכל צד משהו אחד', subline: 'קונקרטי, שהוא באמת אחראי עליו' },
+        { layout: 'dark', headline: 'זה מכבד, זה עוזר באמת', subline: 'וזה מוריד לכם שיחה קשה מכל שבוע', cta: 'שמרו לפני השיחה הבאה 🔖' },
       ],
       caption:
-        'ההורים רוצים להיות חלק. השאלה היא רק אם החלק הזה מוגדר או לא.\n\n' +
-        'שמרו לפני השיחה הבאה איתם 🔖',
+        'אף הורה לא מתעורר בבוקר ומחליט להתערב. זה פשוט מה שקורה כשרוצים לעזור ' +
+        'ואין איפה.\n\n' +
+        'תנו תפקיד. תראו מה קורה.\n\n' +
+        'תייגו את מי שצריך את זה השבוע 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'identity',
       slides: [
+        { layout: 'statement', headline: 'כתוב לנו על החפיסה' },
         { layout: 'statement', headline: 'אין תשובות נכונות' },
         { layout: 'statement', headline: 'יש רק שיחות טובות' },
-        { layout: 'statement', headline: 'המטרה היא לא להסכים על הכול' },
-        { layout: 'statement', headline: 'המטרה היא לדעת איפה לא מסכימים', subline: 'מספיק מוקדם בשביל שזה עוד יהיה קל' },
-        { layout: 'dark', headline: 'רגע מאושר שישאר לנצח' },
+        { layout: 'statement', headline: 'כי המטרה היא לא להסכים על הכול', subline: 'המטרה היא לדעת איפה לא — בזמן שזה עוד קל' },
+        { layout: 'dark', headline: 'רגע מאושר שישאר לנצח', cta: 'לינק בביו' },
       ],
-      caption: 'זה כתוב על החפיסה, וזה גם כל הרעיון. 💙',
+      caption: 'זה כל הרעיון, בשורה אחת. 💙',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'statement', headline: 'מתי תכנון חתונה נהיה כיף?' },
-        { layout: 'statement', headline: 'לא כשמסיימים משימות' },
-        { layout: 'statement', headline: 'כשסוגרים את הדברים הגדולים' },
-        { layout: 'statement', headline: 'כל הלחץ מגיע ממה שלא סגור בראש', subline: 'לא ממה שלא סגור ברשימה' },
-        { layout: 'dark', headline: 'סגרו את הגדולים', subline: 'והקטנים פתאום נהיים מהנים' },
+        { layout: 'statement', headline: 'הרשימה קצרה', subline: 'אז למה אתם מרגישים מוצפים?' },
+        { layout: 'statement', headline: 'כי הלחץ לא מגיע מהמשימות' },
+        { layout: 'statement', headline: 'הוא מגיע מהדברים', subline: 'שעוד לא סגורים בראש' },
+        { layout: 'statement', headline: 'סגרו את הגדולים' },
+        { layout: 'dark', headline: 'והקטנים פתאום נהיים החלק הכיפי', subline: 'זה באמת עובד ככה', cta: 'לינק בביו' },
       ],
       caption:
-        'זו הסיבה שזוגות מרגישים מוצפים גם כשהכול לכאורה בשליטה.\n\n' +
-        'הרשימה קצרה. הראש עמוס. ✨',
+        'אם הכול לכאורה בשליטה ואתם עדיין מרגישים כבדים — זה לא אתם. ' +
+        'זה פער בין מה שסגור ברשימה לבין מה שסגור בראש.\n\n' +
+        'תסגרו שלושה דברים גדולים השבוע. תרגישו את ההבדל. ✨',
       hashtags: TAGS_CORE,
     },
 
@@ -301,41 +337,45 @@ module.exports = {
     {
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'שאלה אחת לשבוע' },
-        { layout: 'statement', headline: 'לא צריך לפתור הכול בערב אחד' },
-        { layout: 'statement', headline: 'ערב קבוע', subline: 'חצי שעה' },
-        { layout: 'statement', headline: 'נושא אחד', subline: 'לא ״בואו נתכנן חתונה״' },
-        { layout: 'dark', headline: 'זה מונע את השיחות של אחת בלילה', subline: 'שאף אחד לא רוצה' },
+        { layout: 'statement', headline: 'החתונה נכנסה לכם לכל שיחה' },
+        { layout: 'statement', headline: 'גם כשלא רציתם' },
+        { layout: 'statement', headline: 'קבעו ערב אחד בשבוע', subline: 'חצי שעה. בלוח. כמו פגישה.' },
+        { layout: 'statement', headline: 'נושא אחד בכל פעם', subline: 'לא ״בואו נתכנן חתונה״' },
+        { layout: 'dark', headline: 'ערב אחד מחזיר לכם', subline: 'את כל שאר הימים בשבוע', cta: 'שמרו את זה 🔖' },
       ],
       caption:
-        'הכי קשה בתכנון זה שהוא נמצא בכל שיחה, כל הזמן.\n\n' +
-        'ערב קבוע אחד בשבוע מחזיר לכם את כל שאר הימים. 🙂',
+        'הדבר הכי מתיש בתכנון הוא לא העבודה — זה שהוא נמצא בכל שיחה, כל הזמן, ' +
+        'גם בארוחת ערב וגם בנסיעה.\n\n' +
+        'ערב קבוע פותר את זה כמעט לגמרי. תנסו שבועיים.\n\n' +
+        'מי כבר עושה את זה? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'pain',
       slides: [
-        { layout: 'statement', headline: 'שתי חתונות' },
+        { layout: 'statement', headline: 'שאלנו זוגות נשואים' },
         { layout: 'dilemma', dilemma: ['חתונה שאתם זוכרים', 'חתונה שאתם מתאוששים ממנה'] },
         { layout: 'statement', headline: 'ההבדל ביניהן' },
-        { layout: 'statement', headline: 'הוא כמה דיברתם לפני', subline: 'לא כמה הוצאתם' },
-        { layout: 'dark', headline: 'מה אתם אומרים?' },
+        { layout: 'statement', headline: 'הוא לא כמה הוצאתם', subline: 'הוא כמה דיברתם לפני' },
+        { layout: 'dark', headline: 'ואת זה אפשר לסדר', subline: 'בערב אחד', cta: 'לינק בביו' },
       ],
-      caption: 'ספרו לנו 👇',
+      caption:
+        'התשובה הזאת חזרה על עצמה כל כך הרבה פעמים שהפסקנו להיות מופתעים.\n\n' +
+        'אתם באיזה צד? 👇',
       hashtags: TAGS_CORE,
     },
     {
       pillar: 'sell',
       slides: [
-        { layout: 'dark', headline: 'מחיר ההשקה נגמר ב-26.10' },
-        { layout: 'statement', headline: 'עכשיו', subline: '₪129 כולל משלוח עד הבית' },
+        { layout: 'dark', headline: 'נשארו פחות מ-5 שבועות' },
+        { layout: 'statement', headline: 'עד 26.10', subline: '₪129, כולל משלוח עד הבית' },
         { layout: 'statement', headline: 'אחרי', subline: '₪189 ועוד דמי משלוח' },
-        { layout: 'statement', headline: 'אם חשבתם על זה', subline: 'זה הזמן' },
+        { layout: 'statement', headline: 'אם זה יושב לכם ברשימה', subline: 'זה הזמן להוריד אותו ממנה' },
         { layout: 'dark', headline: 'שיחה אחת, לפני כל השאר', badge: '₪129 עד 26.10', cta: LINK },
       ],
       caption:
-        'אחרי 26.10 המחיר עולה ל-189 ₪ בתוספת משלוח.\n\n' +
-        'ואם אתם קונים לזוג במתנה — זה מגיע בקופסה קשיחה, מוכן לתת.\n\n' +
+        'מחיר ההשקה נגמר ב-26.10. אחריו 189 ₪ בתוספת משלוח.\n\n' +
+        'אם חשבתם על זה כבר פעמיים — זו הפעם השלישית. 🙂\n\n' +
         `✦ ${LINK}`,
       hashtags: `${TAGS_CORE} ${TAGS_GIFT}`,
     },
@@ -343,23 +383,23 @@ module.exports = {
 
   // ---------------------------------------------------------------------
   // Stories stay single frames - Instagram has no carousel in a story.
-  // `manual: true` means it carries a link or poll sticker, which no API can
-  // post: Metricool sends a phone notification instead.
+  // `manual: true` carries a link or poll sticker, which no API can post:
+  // Metricool sends a phone notification instead.
   // ---------------------------------------------------------------------
   stories: [
     { pillar: 'pain',     layout: 'dilemma',   dilemma: ['לדבר על זה עכשיו', 'לגלות ביום עצמו'], poll: true, manual: true },
-    { pillar: 'value',    layout: 'statement', headline: 'כלל אחד לרשימת המוזמנים', subline: 'חוסך שלושה ויכוחים', cta: 'לינק בביו' },
-    { pillar: 'sell',     layout: 'dark',      headline: '₪129 כולל משלוח', subline: 'מחיר השקה עד 26.10', cta: 'לינק בביו', manual: true },
+    { pillar: 'value',    layout: 'statement', headline: 'עדיין לא סגרתם את רשימת המוזמנים?', subline: 'תתחילו מכלל, לא משמות', cta: 'לינק בביו' },
+    { pillar: 'sell',     layout: 'photo',     photo: 'couple-cafe', headline: 'ערב אחד', subline: '₪129 כולל משלוח, עד 26.10', cta: 'לינק בביו', manual: true },
     { pillar: 'identity', layout: 'statement', headline: 'אין תשובות נכונות', subline: 'יש רק שיחות טובות' },
     { pillar: 'value',    layout: 'statement', headline: 'אם היה לכם 30% פחות', subline: 'על מה הייתם מוותרים ראשון?', poll: true, manual: true },
-    { pillar: 'pain',     layout: 'dark',      headline: 'מי אחראי.ת על הטלפון ביום עצמו?', subline: 'שאלה שאף אחד לא שואל' },
-    { pillar: 'value',    layout: 'statement', headline: 'כלל שלוש ה״לא״', subline: 'לפני כל פגישה עם ספק', cta: 'לינק בביו' },
+    { pillar: 'pain',     layout: 'dark',      headline: 'מי מחזיק.ה את הטלפון ביום עצמו?', subline: 'שאלה שאף אחד לא שואל בזמן' },
+    { pillar: 'value',    layout: 'statement', headline: 'לפני הפגישה הבאה עם ספק', subline: 'עצרו בחניון. שלוש דקות.', cta: 'לינק בביו' },
     { pillar: 'pain',     layout: 'dilemma',   dilemma: ['לרצות את כולם', 'לרצות אחד את השני'], poll: true, manual: true },
     { pillar: 'identity', layout: 'statement', headline: 'אתם לא מתכננים אירוע', subline: 'אתם מתאמנים על נישואים' },
-    { pillar: 'sell',     layout: 'dark',      headline: 'מתנה לזוג שיש להם הכול', subline: 'חוץ מהשיחה הזאת', cta: 'לינק בביו', manual: true },
-    { pillar: 'value',    layout: 'statement', headline: '״איך נרצה להרגיש בסוף הערב?״', subline: 'תענו לפני שבוחרים ספק' },
+    { pillar: 'sell',     layout: 'photo',     photo: 'box-sushi', headline: 'מתנה לזוג מאורס', subline: 'שהם יזכרו מי נתן', cta: 'לינק בביו', manual: true },
+    { pillar: 'value',    layout: 'statement', headline: '״איך נרצה להרגיש בסוף הערב?״', subline: 'תענו לפני שבוחרים אולם' },
     { pillar: 'pain',     layout: 'dark',      headline: 'הוויכוח על המוזמנים', subline: 'הוא אף פעם לא על המוזמנים' },
-    { pillar: 'value',    layout: 'statement', headline: 'תנו למשפחה תפקיד', subline: 'לא דעה' },
-    { pillar: 'sell',     layout: 'statement', headline: 'מחיר ההשקה נגמר ב-26.10', subline: '₪129 כולל משלוח', cta: 'לינק בביו', manual: true },
+    { pillar: 'value',    layout: 'statement', headline: 'תנו להורים תפקיד', subline: 'אחרת הם ייתנו דעה' },
+    { pillar: 'sell',     layout: 'dark',      headline: 'נשארו פחות מ-5 שבועות', subline: '₪129 כולל משלוח, עד 26.10', cta: 'לינק בביו', manual: true },
   ],
 };
