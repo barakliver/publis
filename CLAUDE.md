@@ -292,16 +292,38 @@ Also standing:
 
 ## Known limits, verified — not assumed
 
-- Instagram's API cannot post a story carrying a link, poll, or product-tag
-  sticker. No third-party tool can; Metricool sends a phone notification
-  instead. Items needing this carry `manual: true` and are flagged in the
-  approval page.
-- Metricool's MCP (`https://ai.metricool.com/mcp`) is official and works on the
-  free plan. `post_schedule_post`, `get_scheduled_posts`, `update_schedule_post`,
+Re-checked 24.09.2026 against Meta's own docs and Metricool's, not from memory.
+Do it again before trusting any of it in a new situation.
+
+**Publishing to Instagram from here is possible.** Two routes, and the
+approval gate in rule 1 sits in front of both.
+
+- **Metricool's MCP** (`https://ai.metricool.com/mcp`) — official, works on the
+  free plan, OAuth or `METRICOOL_USER_TOKEN` + `METRICOOL_USER_ID`.
+  `post_schedule_post`, `update_schedule_post`, `get_scheduled_posts`,
   `get_analytics`, `get_best_time_to_post`. It exposes no media-upload tool, so
-  images need a public URL — hence the public repo.
-- WhatsApp Cloud API group messaging exists since Feb 2026 but is limited to
-  Official Business Accounts at high send volume. Not available here.
+  images need a public URL — which is what the public repo and Pages already
+  give us. No Meta app review. This is the shorter road.
+- **Instagram's own Content Publishing API** — needs an Instagram professional
+  account linked to a Facebook Page, a Meta developer app, and the
+  `instagram_business_content_publish` permission through App Review; some
+  Pages also need Page Publishing Authorization first. Meta cURLs the media, so
+  it too needs a public URL. Carousels up to 10 items and count as one post;
+  every carousel image is cropped to the FIRST image's aspect ratio, which is
+  safe here because every slide is 4:5. 100 API posts per rolling 24h - a week
+  is 21 posts and 14 stories, nowhere near it.
+
+**What no route can do, on either road:**
+
+- A story carrying a link, poll or location sticker cannot be published by any
+  API - Meta does not expose them. Metricool sends a phone notification
+  instead. Items needing this carry `manual: true` and are flagged in the
+  approval page. `core/package.js` marks them `-MANUAL`.
+- Stories ignore caption text, and story publishing needs a Business account -
+  a Creator account cannot.
+- Shopping/product tags and filters are not publishable by API either.
+- WhatsApp Cloud API group messaging exists but is limited to Official Business
+  Accounts at high send volume. Not available here.
 
 Before trusting any of the above in a new situation, re-check it. Do not answer
 from memory about Meta or Metricool.
