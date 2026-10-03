@@ -31,8 +31,17 @@ function recentContent(contentDir, week) {
                    body: fs.readFileSync(path.join(contentDir, f), 'utf8') }));
 }
 
+/** How many days a week this brand actually posts - not every brand uses all
+ *  seven. A bakery closed on Shabbat has six, and asking for seven posts puts
+ *  two on the same slot. */
+function postingDays(brand) {
+  const skip = (brand.schedule.skip_days || []).length;
+  return Math.max(1, 7 - skip);
+}
+
 function systemPrompt(brand) {
   const p = brand.persona || {};
+  const days = postingDays(brand);
   const daysLeft = Math.max(0, Math.round(
     (new Date(brand.product.launch_ends) - new Date()) / 86400000));
 
@@ -101,7 +110,8 @@ layout לכל שקף:
 badge ו-cta רק בשקף האחרון.
 
 ## התמהיל לשבוע
-${brand.schedule.posts_per_day * 7} פוסטים, ${brand.schedule.stories_per_day * 7} סטורי.
+${brand.schedule.posts_per_day * days} פוסטים, ${brand.schedule.stories_per_day * days} סטורי.
+(${days} ימי פרסום בשבוע${(brand.schedule.skip_days || []).length ? ` - לא מפרסמים ב${(brand.schedule.skip_days || []).join(', ')}` : ''})
 pillar לכל פוסט: pain / value / identity / social_proof / sell.
 בערך: 6 sell, 6 value, 5 pain, 3 identity, 1 social_proof.
 
@@ -136,8 +146,9 @@ ${history}
 
 /** The generated JSON has to be usable by plan.js before it is written to disk. */
 function validate(data, brand) {
-  const wantPosts = brand.schedule.posts_per_day * 7;
-  const wantStories = brand.schedule.stories_per_day * 7;
+  const days = postingDays(brand);
+  const wantPosts = brand.schedule.posts_per_day * days;
+  const wantStories = brand.schedule.stories_per_day * days;
   const errs = [];
 
   if (!Array.isArray(data.posts) || !data.posts.length) errs.push('posts missing');

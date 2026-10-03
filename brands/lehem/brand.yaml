@@ -169,6 +169,9 @@ rules:
 
 schedule:
   timezone: "Asia/Jerusalem"
+  # Closed on Shabbat, so nothing is scheduled for it. The planner moves the
+  # week's content onto the days the bakery is actually open.
+  skip_days: ["שבת"]
   posts_per_day: 1
   stories_per_day: 1
   post_times:  ["08:00"]

@@ -16,7 +16,7 @@
   "ends": "2026-10-11",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-03T18:41:10.665Z",
+  "generated_at": "2026-10-03T18:45:45.641Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -50,11 +50,33 @@
           "headline": "יצא עכשיו מהתנור",
           "subline": "7:10 בבוקר"
         }
-      ],
-      "images": [
-        "images/story-01.png"
-      ],
-      "image": "images/story-01.png"
+      ]
+    },
+    {
+      "id": "story-07",
+      "format": "story",
+      "channel": "instagram",
+      "date": "2026-10-05",
+      "day_he": "שני",
+      "time": "07:30",
+      "status": "draft",
+      "type": "single",
+      "pillar": "sell",
+      "layout": "statement",
+      "headline": "פתוח עד 19:00",
+      "subline": "האתרוג 25, גבעת שמואל",
+      "cta": "לינק בביו",
+      "manual": true,
+      "slides": [
+        {
+          "pillar": "sell",
+          "layout": "statement",
+          "headline": "פתוח עד 19:00",
+          "subline": "האתרוג 25, גבעת שמואל",
+          "cta": "לינק בביו",
+          "manual": true
+        }
+      ]
     },
     {
       "id": "post-01",
@@ -92,15 +114,47 @@
           "headline": "זה לא סגנון",
           "subline": "זה פשוט כמה זמן שזה לוקח"
         }
-      ],
-      "images": [
-        "images/post-01-01.png",
-        "images/post-01-02.png",
-        "images/post-01-03.png",
-        "images/post-01-04.png",
-        "images/post-01-05.png"
-      ],
-      "image": "images/post-01-01.png"
+      ]
+    },
+    {
+      "id": "post-07",
+      "format": "post",
+      "type": "carousel",
+      "channel": "instagram",
+      "date": "2026-10-05",
+      "day_he": "שני",
+      "time": "08:00",
+      "status": "draft",
+      "pillar": "sell",
+      "caption": "הרבה אנשים מכירים אותנו רק מהלחם ולא יודעים שיש כאן גם איפה לשבת.\n\nקפה, משהו טרי, וחצי שעה שקטה לפני שממשיכים.\n\nא׳-ה׳ 7:00-19:00",
+      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
+      "slides": [
+        {
+          "layout": "statement",
+          "headline": "בית הקפה פתוח"
+        },
+        {
+          "layout": "statement",
+          "headline": "סלטים · פסטות · כריכים",
+          "subline": "והמאפים של אותו בוקר"
+        },
+        {
+          "layout": "statement",
+          "headline": "יש גם טבעוני",
+          "subline": "ויש גם בלי סוכר"
+        },
+        {
+          "layout": "statement",
+          "headline": "א׳-ה׳ 7:00-19:00",
+          "subline": "ו׳ מ-7:00 עד שעתיים לפני כניסת השבת"
+        },
+        {
+          "layout": "dark",
+          "headline": "האתרוג 25, גבעת שמואל",
+          "subline": "מתחם הולמס פלייס",
+          "cta": "lehem.co"
+        }
+      ]
     },
     {
       "id": "story-02",
@@ -124,11 +178,7 @@
           "subline": "זה מייבש אותו מהר יותר",
           "cta": "לינק בביו"
         }
-      ],
-      "images": [
-        "images/story-02.png"
-      ],
-      "image": "images/story-02.png"
+      ]
     },
     {
       "id": "post-02",
@@ -169,15 +219,7 @@
           "subline": "הבוקר",
           "cta": "שמרו את זה 🔖"
         }
-      ],
-      "images": [
-        "images/post-02-01.png",
-        "images/post-02-02.png",
-        "images/post-02-03.png",
-        "images/post-02-04.png",
-        "images/post-02-05.png"
-      ],
-      "image": "images/post-02-01.png"
+      ]
     },
     {
       "id": "story-03",
@@ -203,11 +245,7 @@
           "cta": "lehem.co",
           "manual": true
         }
-      ],
-      "images": [
-        "images/story-03.png"
-      ],
-      "image": "images/story-03.png"
+      ]
     },
     {
       "id": "post-03",
@@ -247,15 +285,7 @@
           "subline": "האתרוג 25, גבעת שמואל",
           "cta": "lehem.co"
         }
-      ],
-      "images": [
-        "images/post-03-01.png",
-        "images/post-03-02.png",
-        "images/post-03-03.png",
-        "images/post-03-04.png",
-        "images/post-03-05.png"
-      ],
-      "image": "images/post-03-01.png"
+      ]
     },
     {
       "id": "story-04",
@@ -285,11 +315,7 @@
           "poll": true,
           "manual": true
         }
-      ],
-      "images": [
-        "images/story-04.png"
-      ],
-      "image": "images/story-04.png"
+      ]
     },
     {
       "id": "post-04",
@@ -333,15 +359,7 @@
           "subline": "תבואו, נחתוך לכם לטעום",
           "cta": "האתרוג 25"
         }
-      ],
-      "images": [
-        "images/post-04-01.png",
-        "images/post-04-02.png",
-        "images/post-04-03.png",
-        "images/post-04-04.png",
-        "images/post-04-05.png"
-      ],
-      "image": "images/post-04-01.png"
+      ]
     },
     {
       "id": "story-05",
@@ -363,11 +381,7 @@
           "headline": "מחמצת לוקחת יומיים",
           "subline": "אין קיצור דרך"
         }
-      ],
-      "images": [
-        "images/story-05.png"
-      ],
-      "image": "images/story-05.png"
+      ]
     },
     {
       "id": "post-05",
@@ -406,22 +420,14 @@
           "headline": "זה כל הסוד",
           "subline": "אין עוד אחד"
         }
-      ],
-      "images": [
-        "images/post-05-01.png",
-        "images/post-05-02.png",
-        "images/post-05-03.png",
-        "images/post-05-04.png",
-        "images/post-05-05.png"
-      ],
-      "image": "images/post-05-01.png"
+      ]
     },
     {
       "id": "story-06",
       "format": "story",
       "channel": "instagram",
-      "date": "2026-10-10",
-      "day_he": "שבת",
+      "date": "2026-10-11",
+      "day_he": "ראשון",
       "time": "07:30",
       "status": "draft",
       "type": "single",
@@ -436,19 +442,15 @@
           "headline": "לחם שנשאר רך שבוע",
           "subline": "תשאלו את עצמכם למה"
         }
-      ],
-      "images": [
-        "images/story-06.png"
-      ],
-      "image": "images/story-06.png"
+      ]
     },
     {
       "id": "post-06",
       "format": "post",
       "type": "carousel",
       "channel": "instagram",
-      "date": "2026-10-10",
-      "day_he": "שבת",
+      "date": "2026-10-11",
+      "day_he": "ראשון",
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
@@ -480,93 +482,7 @@
           "subline": "הוא הטוסט הכי טוב שתאכלו",
           "cta": "שמרו 🔖"
         }
-      ],
-      "images": [
-        "images/post-06-01.png",
-        "images/post-06-02.png",
-        "images/post-06-03.png",
-        "images/post-06-04.png",
-        "images/post-06-05.png"
-      ],
-      "image": "images/post-06-01.png"
-    },
-    {
-      "id": "story-07",
-      "format": "story",
-      "channel": "instagram",
-      "date": "2026-10-11",
-      "day_he": "ראשון",
-      "time": "07:30",
-      "status": "draft",
-      "type": "single",
-      "pillar": "sell",
-      "layout": "statement",
-      "headline": "פתוח עד 19:00",
-      "subline": "האתרוג 25, גבעת שמואל",
-      "cta": "לינק בביו",
-      "manual": true,
-      "slides": [
-        {
-          "pillar": "sell",
-          "layout": "statement",
-          "headline": "פתוח עד 19:00",
-          "subline": "האתרוג 25, גבעת שמואל",
-          "cta": "לינק בביו",
-          "manual": true
-        }
-      ],
-      "images": [
-        "images/story-07.png"
-      ],
-      "image": "images/story-07.png"
-    },
-    {
-      "id": "post-07",
-      "format": "post",
-      "type": "carousel",
-      "channel": "instagram",
-      "date": "2026-10-11",
-      "day_he": "ראשון",
-      "time": "08:00",
-      "status": "draft",
-      "pillar": "sell",
-      "caption": "הרבה אנשים מכירים אותנו רק מהלחם ולא יודעים שיש כאן גם איפה לשבת.\n\nקפה, משהו טרי, וחצי שעה שקטה לפני שממשיכים.\n\nא׳-ה׳ 7:00-19:00",
-      "hashtags": "#מאפייה #לחםמחמצת #גבעתשמואל #מאפיםבעבודתיד #כשר #בוטיקשללחם",
-      "slides": [
-        {
-          "layout": "statement",
-          "headline": "בית הקפה פתוח"
-        },
-        {
-          "layout": "statement",
-          "headline": "סלטים · פסטות · כריכים",
-          "subline": "והמאפים של אותו בוקר"
-        },
-        {
-          "layout": "statement",
-          "headline": "יש גם טבעוני",
-          "subline": "ויש גם בלי סוכר"
-        },
-        {
-          "layout": "statement",
-          "headline": "א׳-ה׳ 7:00-19:00",
-          "subline": "ו׳ מ-7:00 עד שעתיים לפני כניסת השבת"
-        },
-        {
-          "layout": "dark",
-          "headline": "האתרוג 25, גבעת שמואל",
-          "subline": "מתחם הולמס פלייס",
-          "cta": "lehem.co"
-        }
-      ],
-      "images": [
-        "images/post-07-01.png",
-        "images/post-07-02.png",
-        "images/post-07-03.png",
-        "images/post-07-04.png",
-        "images/post-07-05.png"
-      ],
-      "image": "images/post-07-01.png"
+      ]
     }
   ]
 }

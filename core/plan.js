@@ -41,11 +41,20 @@ function buildRound(brandId, week) {
   const monday = isoWeekStart(week);
   const items = [];
 
+  // Days this brand does not post on. A shomer-shabbat bakery does not publish
+  // on Shabbat, and filling the week mechanically would have scheduled one.
+  // Named in Hebrew so brand.yaml reads the way the owner thinks about it.
+  const skip = new Set(s.skip_days || []);
+  const runDays = HEB_DAYS.map((name, i) => ({ name, i })).filter((d) => !skip.has(d.name));
+  if (!runDays.length) throw new Error('schedule.skip_days leaves no day to post on');
+  // Day N of the round maps to the Nth day the brand actually posts.
+  const dayOffset = (n) => runDays[n % runDays.length].i;
+
   // Posts: fill day by day, one per configured time slot.
   // A post is always a slides[] array - a single image is just a carousel of
   // one, so nothing downstream needs two code paths.
   content.posts.forEach((post, i) => {
-    const day = Math.floor(i / s.post_times.length);
+    const day = dayOffset(Math.floor(i / s.post_times.length));
     const slot = i % s.post_times.length;
     const date = addDays(monday, day);
     const { slides, ...rest } = post;
@@ -65,7 +74,7 @@ function buildRound(brandId, week) {
 
   // Stories: same idea, on their own time slots.
   content.stories.forEach((story, i) => {
-    const day = Math.floor(i / s.story_times.length);
+    const day = dayOffset(Math.floor(i / s.story_times.length));
     const slot = i % s.story_times.length;
     const date = addDays(monday, day);
     items.push({
