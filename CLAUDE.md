@@ -270,6 +270,28 @@ rather than improvising a photo brief.
 `--trim-top 19` is only for the brand's older artwork, which has the heart
 burned into the top of the frame; the template draws its own.
 
+## The product layout
+
+`layout: 'product'` is the cut-out look: one flat ground, one object floating
+in the middle with a soft shadow, a short line above and/or below it, and
+nothing else. It draws no frame, no mark and no rules - the air around the
+product IS the design, and every piece of furniture eats into it. It returns
+early in `render()` for that reason, before the blocks every other layout
+shares.
+
+`dark: true` flips the ground from `cream` to `blue` (the brand's dark ink).
+The furniture follows the GROUND, not the layout name: the old
+`[data-layout="dark"]` selectors do not match here, so the signature and the
+engagement marks need their own `.on-dark` rules or they are drawn in the ink
+colour on a ground of the same colour and disappear.
+
+It reads from `assets/photos/cutout/`, not `post/` - a different folder because
+it needs a different file. `core/photos.js --cutout` fills it: PNG or WebP
+only, alpha kept, trimmed to the subject's bounding box and never cropped to
+fill. A JPEG is refused by name, because a JPEG has no transparency and so
+cannot be a cut-out however it was produced. The ordinary pass is the opposite
+job - it bleeds a photograph to the edges as a JPEG on black.
+
 ## Engagement marks
 
 Instagram's like / comment / send / save marks, drawn inline as SVG, sit above

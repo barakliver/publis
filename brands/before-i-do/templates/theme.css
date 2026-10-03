@@ -63,6 +63,9 @@ html, body {
 .canvas[data-layout="dilemma"]   { background: var(--white); }
 .canvas[data-layout="dark"]      { background: var(--blue);  }
 .canvas[data-layout="photo"]     { background: var(--blue);  }
+/* The product layout is a flat ground and nothing else - see below. */
+.canvas[data-layout="product"]        { background: var(--cream); }
+.canvas[data-layout="product"].on-dark { background: var(--blue);  }
 
 /* --- Photo layer ------------------------------------------------------ */
 .photo {
@@ -320,3 +323,66 @@ html, body {
 
 /* A brand with no mark keeps the frame gap closed. */
 .canvas.no-mark .frame { --gap-top: 0px; }
+
+
+/* --- The product layout ----------------------------------------------
+   One flat colour, one cut-out product floating in the middle, a short line
+   above it and/or below it, and nothing else. No frame, no mark, no rules -
+   the whole point of the look is the air around the product, and every piece
+   of furniture we normally draw eats into it.
+
+   The product is a PNG with its background already removed. It is NOT the
+   `photo` layout: that one bleeds a photograph to the edges, this one floats
+   an object on a colour. They resolve from different folders for that reason.
+   ------------------------------------------------------------------------ */
+.canvas[data-layout="product"] .stack {
+  position: relative;
+  z-index: 2;
+  width: 82%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--stack-gap, 5%);
+  text-align: center;
+}
+
+.product-shot {
+  display: block;
+  width: auto; height: auto;
+  max-width: var(--shot-w, 58%);
+  max-height: var(--shot-h, 46vh);
+  object-fit: contain;
+  /* The references all ground the object with a soft shadow. Without it the
+     cut-out reads as pasted on rather than sitting there. */
+  filter: drop-shadow(0 18px 34px rgba(0,0,0,.26));
+}
+.canvas[data-layout="product"].on-dark .product-shot {
+  filter: drop-shadow(0 18px 38px rgba(0,0,0,.45));
+}
+
+/* Type here is lighter than the statement layouts: these lines are an aside
+   around the picture, not the message itself. The picture is the message. */
+.canvas[data-layout="product"] .lead,
+.canvas[data-layout="product"] .kicker {
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+  color: var(--blue);
+}
+.canvas[data-layout="product"].on-dark .lead,
+.canvas[data-layout="product"].on-dark .kicker { color: var(--cream); }
+
+/* The accent is for one word, a price or a button - never a ground, never
+   body copy. One warm colour doing the asking. */
+/* The furniture follows the ground, not the layout name. */
+.canvas[data-layout="product"].on-dark .wordmark-text { color: var(--cream); }
+.canvas[data-layout="product"].on-dark .social svg    { stroke: var(--cream); }
+.canvas[data-layout="product"] .social                { opacity: .46; }
+
+.canvas[data-layout="product"] .lead em,
+.canvas[data-layout="product"] .kicker em {
+  font-style: normal;
+  color: var(--red);
+}

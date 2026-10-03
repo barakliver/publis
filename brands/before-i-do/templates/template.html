@@ -70,6 +70,23 @@ const SOCIAL = `<div class="social">
   <span class="save"><svg viewBox="0 0 24 24"><path d="M19 21.2 12 16.2 5 21.2V4.4a1.9 1.9 0 0 1 1.9-1.9h10.2A1.9 1.9 0 0 1 19 4.4z"/></svg></span>
 </div>`;
 
+/* How a brand signs an image. An image where it has a wordmark, otherwise its
+   name set in type - a new brand is legible before it has artwork. The card
+   layouts are signed by the company and the open ones by the brand, the way
+   the printed deck does it. */
+function signature(BRAND, onDark, size, preferCompany) {
+  const wm = BRAND.wordmarks || {};
+  const co = wm.company || {};
+  const set = (preferCompany && (co.light || co.dark)) ? co : wm;
+  const file = onDark ? (set.dark || set.light) : (set.light || set.dark);
+  if (file) return '<img class="wordmark" src="' + esc(file) + '">';
+  if (BRAND.name) {
+    return '<div class="wordmark-text" style="font-size:' + size + 'px">' +
+           esc(BRAND.name) + '</div>';
+  }
+  return '';
+}
+
 window.render = function (item, pos) {
   /* `pos` describes where this slide sits in its carousel:
      {index, total}. A single-image post passes total <= 1. */
@@ -92,7 +109,7 @@ window.render = function (item, pos) {
   if (layout === 'photo' && item.photo) {
     const photoSrc = item.photo.includes('/')
       ? item.photo
-      : `../assets/photos/${isStory ? 'story' : 'post'}/${item.photo}.jpg`;
+      : `${BRAND.photos || '../assets/photos'}/${isStory ? 'story' : 'post'}/${item.photo}.jpg`;
     parts.push(`<img class="photo" src="${esc(photoSrc)}">`);
     parts.push(`<div class="scrim"></div>`);
   }
@@ -110,6 +127,56 @@ window.render = function (item, pos) {
     parts.push(
       `<div class="badge" style="font-size:${clamp(headSize * 0.34, 36, 52)}px">${bidi(item.badge)}</div>`
     );
+  }
+
+  /* The product layout is its own thing: a flat ground, one cut-out object
+     and a short line above and/or below it. It draws none of the usual
+     furniture, so it returns before the frame, badge and body blocks that
+     every other layout shares. */
+  if (layout === 'product') {
+    const onDarkGround = item.dark === true;
+    const shot = item.photo
+      ? (item.photo.includes('/') ? item.photo
+         : `${BRAND.photos || '../assets/photos'}/cutout/${item.photo}.png`)
+      : '';
+    const lead   = autoSize(item.headline, isStory ? 68 : 72);
+    const kicker = autoSize(item.subline,  isStory ? 62 : 66);
+
+    const stack = [];
+    if (item.headline) {
+      stack.push(`<div class="lead" style="font-size:${lead}px">${bidi(item.headline)}</div>`);
+    }
+    stack.push(shot
+      ? `<img class="product-shot" src="${esc(shot)}">`
+      // Nothing to show yet - a neutral stand-in, so the geometry can be
+      // judged before the photographs exist.
+      : `<div class="product-shot" style="width:46%;aspect-ratio:1;border-radius:50%;
+           background:rgba(128,128,128,.22);box-shadow:0 18px 34px rgba(0,0,0,.18)"></div>`);
+    if (item.subline) {
+      stack.push(`<div class="kicker" style="font-size:${kicker}px">${bidi(item.subline)}</div>`);
+    }
+
+    const marks = (idx === total - 1) ? SOCIAL : '';
+    const sign  = signature(BRAND, onDarkGround, Math.min(46, Math.max(30, lead * 0.30)));
+
+    document.getElementById('stage').innerHTML =
+      `<div class="canvas${onDarkGround ? ' on-dark' : ''}${(idx === total - 1) ? ' has-social' : ''}"
+            id="canvas" data-layout="product"
+            style="width:${W}px;height:${H}px;
+                   --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
+                   --red:${esc(BRAND.colors?.red || '#F64C3B')};
+                   --cream:${esc(BRAND.colors?.cream || '#FFF9F3')};
+                   --shot-w:${isStory ? '66%' : '58%'};
+                   --shot-h:${isStory ? '42%' : '52%'};
+                   --stack-gap:${isStory ? '7%' : '6%'};
+                   --social-bottom:${isStory ? '9.4%' : '10.5%'};
+                   --social-size:${isStory ? '40px' : '44px'};
+                   --wordmark-bottom:${isStory ? '2.8%' : '3.4%'}">
+         <div class="stack">${stack.join('')}</div>
+         ${marks}
+         ${sign}
+       </div>`;
+    return { w: W, h: H };
   }
 
   /* Body */
@@ -158,21 +225,10 @@ window.render = function (item, pos) {
     </div>`);
   }
 
-  /* Wordmark, bottom centre. An image where the brand has one, otherwise
-     its name set in type - a new brand is legible before it has artwork. */
+  /* Wordmark, bottom centre. */
   const onDark = (layout === 'dark' || layout === 'photo');
-  const wm = BRAND.wordmarks || {};
-  // The card layouts are signed by the company, the open ones by the brand -
-  // the way the printed deck does it.
-  const co = wm.company || {};
-  const useCompany = (layout === 'dilemma' || layout === 'dark') && (co.light || co.dark);
-  const set = useCompany ? co : wm;
-  const file = onDark ? (set.dark || set.light) : (set.light || set.dark);
-  if (file) {
-    parts.push(`<img class="wordmark" src="${esc(file)}">`);
-  } else if (BRAND.name) {
-    parts.push(`<div class="wordmark-text" style="font-size:${clamp(headSize * 0.30, 30, 46)}px">${esc(BRAND.name)}</div>`);
-  }
+  parts.push(signature(BRAND, onDark, clamp(headSize * 0.30, 30, 46),
+                       (layout === 'dilemma' || layout === 'dark')));
 
   document.getElementById('stage').innerHTML =
     `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}" id="canvas" data-layout="${esc(layout)}"

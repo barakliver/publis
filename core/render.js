@@ -51,6 +51,11 @@ async function renderRound(brandId, roundDir) {
   await page.evaluate((b) => { window.BRAND = b; }, {
     name: brand.brand?.name || brandId,
     colors: brand.visual?.colors || {},
+    // Where THIS brand's photos live, relative to the template that is about
+    // to draw them. A brand with no templates folder borrows another brand's
+    // template, so a path relative to the template would look for its photos
+    // inside someone else's folder - which is exactly what it used to do.
+    photos: rel(path.join('assets', 'photos')),
     mark: rel(a.heart || a.mark),
     wordmarks: {
       light: rel(a.wordmark_brand),
@@ -71,6 +76,13 @@ async function renderRound(brandId, roundDir) {
       const size = await page.evaluate(([sl, ps]) => window.render(sl, ps), [slide, pos]);
       await page.setViewportSize({ width: size.w, height: size.h });
       await page.evaluate(() => document.fonts.ready);
+      // And wait for the pictures. Fonts were the only thing being waited on,
+      // so a slide carrying a photograph was a race the renderer usually won
+      // and sometimes lost - losing it ships the layout with a hole in it.
+      await page.waitForFunction(() => {
+        const imgs = [...document.querySelectorAll('#canvas img')];
+        return imgs.every((i) => i.complete && i.naturalWidth > 0);
+      }, { timeout: 15000 });
 
       const name = item.slides.length > 1
         ? `${item.id}-${String(i + 1).padStart(2, '0')}.png`
