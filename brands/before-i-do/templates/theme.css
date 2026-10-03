@@ -129,12 +129,15 @@ html, body {
   filter: drop-shadow(0 2px 12px rgba(0,0,0,.55));
 }
 
-/* Wordmark: 60% of width including the two flanking rules. */
+/* Wordmark: 60% of width by default, but the width is per brand - a mark
+   that is tall for its width rises through the engagement marks at a width
+   that suits a wide one. Before I Do's lockups are 4:1 and 7.7:1; lehem's is
+   2.9:1 and needs roughly a third of the width to occupy the same band. */
 .wordmark {
   position: absolute;
   left: 50%; transform: translateX(-50%);
   bottom: var(--wordmark-bottom, 4.6%);
-  width: 60%;
+  width: var(--wordmark-w, 60%);
   height: auto;
   z-index: 3;
 }

@@ -5,18 +5,19 @@
   "kind": "מאפייה · קונדיטוריה · בית קפה",
   "instagram": "lehem.bakery",
   "colors": {
-    "blue": "#4A3826",
-    "blue_light": "#8A6F52",
-    "red": "#C4612E",
-    "cream": "#FBF4E8",
-    "white": "#FFFFFF"
+    "blue": "#3A322A",
+    "blue_light": "#8A7656",
+    "red": "#C09C60",
+    "cream": "#F5EDE2",
+    "white": "#FFFFFF",
+    "seed": "#90C06C"
   },
   "week": "2026-W42",
   "starts": "2026-10-12",
   "ends": "2026-10-18",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-03T18:47:06.671Z",
+  "generated_at": "2026-10-03T18:50:29.394Z",
   "approval": {
     "status": "pending",
     "approved_by": null,

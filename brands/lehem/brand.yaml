@@ -48,18 +48,31 @@ audience:
 # Crust, sourdough crumb and a warm oven red, so the feed reads as a bakery.
 # ---------------------------------------------------------------------------
 visual:
+  # Measured off the supplied logo artwork, not proposed. The earlier palette
+  # here was my invention and is gone - rule 4: where a palette was proposed
+  # rather than supplied, replace it, do not defend it.
   colors:
-    blue: "#4A3826"        # the primary ink here is dark crust brown
-    blue_light: "#8A6F52"
-    red: "#C4612E"         # the accent. baked terracotta
-    cream: "#FBF4E8"       # the crumb
+    blue: "#3A322A"        # the dark ground. the logo sits on #242424 charcoal;
+                           # warmed slightly toward the chocolate brown asked for
+    blue_light: "#8A7656"
+    red: "#C09C60"         # wheat gold - the brush outline of the logo
+    cream: "#F5EDE2"       # warm off-white, from the wordmark's own #F0E4E4
     white: "#FFFFFF"
+    seed: "#90C06C"        # the green seeds. a true accent - tiny, never a ground
 
   fonts:
     hebrew: "Assistant"
     fallback: "Heebo"
 
-  assets: {}               # no logo files yet - the name is set in type
+  # This mark is 2.9:1 - tall for its width. At the default 60% it reaches
+  # straight up through the engagement marks.
+  wordmark_width: "24%"
+
+  assets:
+    # Cut from the two supplied PDFs to transparent PNGs. The mono version
+    # rides light grounds, the colour one rides dark.
+    wordmark_brand: "assets/wordmark-lehem.png"
+    wordmark_brand_dark: "assets/wordmark-lehem-dark.png"
 
   sizes:
     post:  { w: 1080, h: 1350 }

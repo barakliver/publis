@@ -56,6 +56,9 @@ async function renderRound(brandId, roundDir) {
     // template, so a path relative to the template would look for its photos
     // inside someone else's folder - which is exactly what it used to do.
     photos: rel(path.join('assets', 'photos')),
+    // How wide this brand's wordmark sits. 60% suits a wide lockup and is
+    // far too much for a tall one - see theme.css.
+    wordmarkWidth: brand.visual?.wordmark_width || null,
     mark: rel(a.heart || a.mark),
     wordmarks: {
       light: rel(a.wordmark_brand),
