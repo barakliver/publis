@@ -348,6 +348,38 @@ and has to land at a thumb's distance while scrolling. Anything sized off the
 headline (the pill, the badge, the wordmark in type) goes through `clamp()`,
 or a three-word hook inflates the whole bottom of the frame.
 
+## Writing for lehem
+
+The voice lives in `persona` in its brand.yaml, written as a creative brief
+rather than a list of adjectives - because "warm, authentic, artisanal" is the
+brief every bakery in the country is working from, and it is exactly why they
+all sound identical.
+
+Four named devices, used until the audience recognises them before reading the
+words. That recognition is the brand:
+
+1. **The clock.** Everything carries a time. Not "fresh" - "out at 6:40". A
+   time cannot be faked and it trains people to come early; "fresh" is what
+   everyone says.
+2. **Sold out.** Posted as a fact, never an apology. "The country loaf went at
+   10:40. More tomorrow." Every business hides this. Posting it builds
+   scarcity and trust at once, and costs nothing.
+3. **The hand.** One line in handwriting - a note, a price, an aside. One line,
+   not a week of them: a whole run in the hand turns it back into a font.
+4. **The position.** An opinion about industrial bread, sharp and unapologetic.
+   A bakery with an opinion can be followed. One without is a shop.
+
+The banned list is every phrase a bakery reaches for when it has nothing
+specific to say. The ban is the point: it forces the specific thing out.
+`node test/voice.test.js` enforces it, and it is a plain substring match, so
+it will occasionally catch an innocent use - rewrite the line rather than
+weakening the rule.
+
+`Gveret Levin` (`assets/fonts/GveretLevin.ttf`) is the hand, set with
+`hand: true`. It is real marker handwriting rather than a display face
+pretending to be one. Its strokes are thinner than Rubik's, so over a
+photograph it needs a heavier shadow than the body face does.
+
 ## Writing for this brand
 
 The voice is the client's own copywriting brief, now config under `persona`

@@ -105,6 +105,9 @@ window.render = function (item, pos) {
   // quiet - above a pastry held low in the frame, below one held high. Centred
   // is only right when the middle of the picture is empty.
   const align = (item.align === 'top' || item.align === 'bottom') ? item.align : '';
+  // One line in a hand says a person wrote it. A whole week in a hand says
+  // nobody did - it becomes the font, and the point is lost.
+  const hand = item.hand === true;
 
   const headSize = autoSize(item.headline, isStory ? 118 : 124);
   const subSize  = Math.max(46, headSize * 0.47);
@@ -173,7 +176,7 @@ window.render = function (item, pos) {
     const sign  = signature(BRAND, onDarkGround, Math.min(46, Math.max(30, lead * 0.30)));
 
     document.getElementById('stage').innerHTML =
-      `<div class="canvas${onDarkGround ? ' on-dark' : ''}${(idx === total - 1) ? ' has-social' : ''}"
+      `<div class="canvas${onDarkGround ? ' on-dark' : ''}${(idx === total - 1) ? ' has-social' : ''}${item.hand === true ? ' hand' : ''}"
             id="canvas" data-layout="product"
             style="width:${W}px;height:${H}px;
                    --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
@@ -244,7 +247,7 @@ window.render = function (item, pos) {
                        (layout === 'dilemma' || layout === 'dark')));
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}${align ? ' text-' + align : ''}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}${align ? ' text-' + align : ''}${hand ? ' hand' : ''}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
                  --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};
