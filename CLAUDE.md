@@ -219,6 +219,42 @@ git-ignored, since it is a second copy of every image.
 This is the current delivery path. It stays useful after Metricool is
 connected, for the manual items.
 
+## Taking in references and photos
+
+Two kinds of image arrive from the client, they go to different places, and
+confusing them is how a private reference ends up on a public page.
+
+**References** - what he likes the look of. Someone else's work: a competitor,
+a Pinterest board, a brand from another field. They go to
+`brands/<brand>/knowledge/references/`, which is **git-ignored**, so they never
+reach the public repo - and never survive a session either. That is the right
+shape: the references are not the asset. What we learn from them is, and that
+lands in `brand.yaml` under `visual_language`, which IS tracked.
+
+Never reproduce a reference. Read the motif off it - palette, crop, type
+weight, how a person is framed, how the product sits - and write the motif
+down. The artwork stays theirs.
+
+**Photos to publish** - his own, of his product or his people. They go to
+`brands/<brand>/assets/photos/source/` and `core/photos.js` turns each into
+both crops. That folder **is committed, and the repo is public.** Anything that
+goes through it is public the moment it is pushed. That is fine for a photo
+headed to Instagram anyway, and it is the whole reason Metricool can fetch the
+images - but it means nothing private goes down this path.
+
+The 4:5 post crop and the 9:16 story crop are cut from the same frame, so a
+subject sitting near an edge survives one and dies in the other. Check both
+before telling him a photo is usable.
+
+**Reading a reference batch.** He asked to be asked, specifically. So: list
+every motif actually visible, split by palette / framing / type / composition /
+mood / how people appear / how the product appears; say which ones look
+deliberate and which look incidental; then ask closed questions about the
+ambiguous ones. "The dark ground in 3 and 7 - is that the direction, or was it
+the plate?" Never "what did you like?" - that question hands the work back.
+
+One brand per batch. Two voices get sharpened by being held apart.
+
 ## Photos
 
 `core/photos.js` ingests anything dropped in
