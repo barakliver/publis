@@ -98,6 +98,9 @@ window.render = function (item, pos) {
   const W = 1080;
   const H = isStory ? 1920 : 1350;
   const layout = item.layout || 'statement';
+  // A light photograph needs the brand's ink, not white. The scrim flips with
+  // it, or the gradient that was making white legible now fights the ink.
+  const inkDark = item.ink === 'dark';
 
   const headSize = autoSize(item.headline, isStory ? 118 : 124);
   const subSize  = Math.max(46, headSize * 0.47);
@@ -110,7 +113,11 @@ window.render = function (item, pos) {
     const photoSrc = item.photo.includes('/')
       ? item.photo
       : `${BRAND.photos || '../assets/photos'}/${isStory ? 'story' : 'post'}/${item.photo}.jpg`;
-    parts.push(`<img class="photo" src="${esc(photoSrc)}">`);
+    // `zoom` pushes into the frame - the references turn a crumb into the
+    // background itself, which a normal cover crop is too wide to do.
+    const z = Number(item.zoom) > 1 ? Number(item.zoom) : 1;
+    parts.push(`<img class="photo" src="${esc(photoSrc)}"` +
+               (z > 1 ? ` style="transform:scale(${z})"` : '') + `>`);
     parts.push(`<div class="scrim"></div>`);
   }
 
@@ -146,12 +153,14 @@ window.render = function (item, pos) {
     if (item.headline) {
       stack.push(`<div class="lead" style="font-size:${lead}px">${bidi(item.headline)}</div>`);
     }
-    stack.push(shot
-      ? `<img class="product-shot" src="${esc(shot)}">`
-      // Nothing to show yet - a neutral stand-in, so the geometry can be
-      // judged before the photographs exist.
-      : `<div class="product-shot" style="width:46%;aspect-ratio:1;border-radius:50%;
+    if (shot) {
+      stack.push(`<img class="product-shot" src="${esc(shot)}">`);
+    } else if (item.placeholder) {
+      // A neutral stand-in, so the geometry can be judged before the
+      // photographs exist. Only when asked for.
+      stack.push(`<div class="product-shot" style="width:46%;aspect-ratio:1;border-radius:50%;
            background:rgba(128,128,128,.22);box-shadow:0 18px 34px rgba(0,0,0,.18)"></div>`);
+    }
     if (item.subline) {
       stack.push(`<div class="kicker" style="font-size:${kicker}px">${bidi(item.subline)}</div>`);
     }
@@ -231,7 +240,7 @@ window.render = function (item, pos) {
                        (layout === 'dilemma' || layout === 'dark')));
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
                  --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};

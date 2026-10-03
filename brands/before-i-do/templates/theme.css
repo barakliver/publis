@@ -386,3 +386,30 @@ html, body {
   font-style: normal;
   color: var(--red);
 }
+
+
+/* --- A light photograph -----------------------------------------------
+   Pushed-in crumb and pastry shots are pale, and white type vanishes on
+   them. `ink: 'dark'` sets the type in the brand's own ink and flips the
+   scrim to match - a pale wash instead of a dark one, so the gradient keeps
+   helping the type instead of fighting it. */
+.canvas[data-layout="photo"].ink-dark .scrim {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,.34) 0%,
+    rgba(255,255,255,.12) 26%,
+    rgba(255,255,255,.14) 48%,
+    rgba(255,255,255,.62) 100%
+  );
+}
+.canvas[data-layout="photo"].ink-dark .headline,
+.canvas[data-layout="photo"].ink-dark .subline,
+.canvas[data-layout="photo"].ink-dark .story-cta,
+.canvas[data-layout="photo"].ink-dark .wordmark-text {
+  color: var(--blue);
+  text-shadow: 0 2px 18px rgba(255,255,255,.55);
+}
+.canvas[data-layout="photo"].ink-dark .social svg { stroke: var(--blue); }
+
+/* The photo scales from its own centre, so a zoom crops evenly. */
+.photo { transform-origin: center center; }

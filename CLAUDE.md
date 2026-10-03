@@ -292,6 +292,29 @@ fill. A JPEG is refused by name, because a JPEG has no transparency and so
 cannot be a cut-out however it was produced. The ordinary pass is the opposite
 job - it bleeds a photograph to the edges as a JPEG on black.
 
+## Story formats from the bakery references
+
+Four shapes, all buildable from a photograph and type, no illustration system
+to maintain:
+
+- **The flat card.** `layout: 'product'` with a headline and subline and NO
+  photo - opening hours, "we're open", one plain claim. The quiet beat between
+  the appetising ones. A stand-in circle is drawn only with
+  `placeholder: true`, so an absent photo means an absent photo.
+- **Texture as the ground.** `layout: 'photo'` with `zoom` pushed past 1 until
+  the bake fills the frame and becomes the background itself. A pale bake needs
+  `ink: 'dark'`, which sets the type in the brand's ink and flips the scrim from
+  a dark wash to a pale one - white type on a golden crumb is unreadable, and
+  the gradient that was helping it starts fighting it.
+- **Appetite.** `layout: 'photo'` at normal scale, white type, tight on the
+  product, ending with where to come.
+- **The found object.** A handwritten note, a napkin, a receipt - social proof
+  photographed rather than set in type. Needs nothing but a pen and a phone.
+
+Translate the motif, never the palette: the references are someone else's
+navy and burgundy, and the client has said twice that lehem is beige and
+chocolate brown whatever the reference wears.
+
 ## Engagement marks
 
 Instagram's like / comment / send / save marks, drawn inline as SVG, sit above
