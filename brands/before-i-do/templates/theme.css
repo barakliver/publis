@@ -413,3 +413,20 @@ html, body {
 
 /* The photo scales from its own centre, so a zoom crops evenly. */
 .photo { transform-origin: center center; }
+
+
+/* --- Where the type sits on a photograph ------------------------------
+   Centred is the default and it is wrong whenever the subject is centred
+   too. `align: 'top'` and `align: 'bottom'` move the block into the quiet
+   part of the frame; the bottom stop clears the call to action, the marks
+   and the signature. */
+.canvas.text-top .content {
+  position: absolute;
+  top: var(--text-top, 11%);
+  margin-top: 0;
+}
+.canvas.text-bottom .content {
+  position: absolute;
+  bottom: var(--text-bottom, 26%);
+  margin-top: 0;
+}

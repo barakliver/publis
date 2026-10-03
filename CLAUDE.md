@@ -311,6 +311,16 @@ to maintain:
 - **The found object.** A handwritten note, a napkin, a receipt - social proof
   photographed rather than set in type. Needs nothing but a pen and a phone.
 
+`align: 'top' | 'bottom'` moves the type out of the subject's way. Centred is
+the default and it is wrong whenever the subject is centred too - a pastry held
+low in the frame wants its line in the sky above it. Look at the photograph
+before choosing, every time.
+
+A phone video is usually portrait with a rotation flag, so ffprobe reports it
+as landscape. ffmpeg honours the flag, so a still pulled from an 8-second clip
+comes out 1080x1920 - already story-sized, and a perfectly good photograph for
+a format that only needs one frame.
+
 Translate the motif, never the palette: the references are someone else's
 navy and burgundy, and the client has said twice that lehem is beige and
 chocolate brown whatever the reference wears.

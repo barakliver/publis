@@ -101,6 +101,10 @@ window.render = function (item, pos) {
   // A light photograph needs the brand's ink, not white. The scrim flips with
   // it, or the gradient that was making white legible now fights the ink.
   const inkDark = item.ink === 'dark';
+  // Where the type sits. The references always put it where the photograph is
+  // quiet - above a pastry held low in the frame, below one held high. Centred
+  // is only right when the middle of the picture is empty.
+  const align = (item.align === 'top' || item.align === 'bottom') ? item.align : '';
 
   const headSize = autoSize(item.headline, isStory ? 118 : 124);
   const subSize  = Math.max(46, headSize * 0.47);
@@ -240,7 +244,7 @@ window.render = function (item, pos) {
                        (layout === 'dilemma' || layout === 'dark')));
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}${align ? ' text-' + align : ''}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
                  --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};
