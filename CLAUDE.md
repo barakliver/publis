@@ -112,7 +112,13 @@ client's word; do not put them back.
 
 Shape a carousel so slide one earns the swipe and the last one asks for
 something. Four to six slides; one idea per slide, short enough to read
-without stopping. Instagram stories have no carousel - stories stay single.
+without stopping.
+
+Instagram stories have no swipeable carousel - that is a post format. But a
+story CAN be a run of consecutive frames the viewer taps through, and a story
+item may carry its own `slides` array for exactly that. `type` comes out as
+`sequence` rather than `single` when it does. Do not confuse the two: a
+carousel is one post you swipe, a sequence is several stories you tap.
 
 ## Two builds of the approval page
 
@@ -376,6 +382,34 @@ Two formats, and the lengths are hers:
 
 No hashtags inside the body text. Airy paragraphs, because it is read on a
 phone.
+
+### The family and the rota
+
+Three generations, named in `persona.family` because they ARE the brand: רן
+founded and runs it, סבא (85) bakes the focaccias, makes the shakshuka and the
+jam, סבתא packs and seats people, and דני is the pastry chef who brought the
+technique back from her stage in France. Write about them by name.
+
+`product.bake_days` holds which loaf comes out on which day. That rota is the
+only thing that makes anticipation real - "today is Monday, which means the
+babila is back" - so content checks it and never guesses.
+
+### Day-pinned content
+
+Any post or story may carry `day: 'שני'`, and the planner places it there
+instead of using its position in the array. **Anything that names a day must
+pin itself.** A line that says "today is Monday" is simply false if the planner
+drops it on Tuesday, and that is exactly what happened the first time this
+round was built - the Friday sequence landed on Sunday. Position is a default,
+never a fact. Pinning to a day in `schedule.skip_days`, or to a name that is
+not a weekday, throws rather than silently sliding.
+
+### Story sequences
+
+`persona.story_sequence` holds the client's four-frame shape: hook that stops
+the scroll, the process behind it, the close-up or the reason it is good, then
+the ask. Three to five frames. A story item carries them in its own `slides`
+array.
 
 `core/write.js` feeds the whole brief - role, goal, pillars, both formats and
 the allowed emoji - to the weekly job, so Saturday produces this and not

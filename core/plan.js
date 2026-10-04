@@ -50,14 +50,26 @@ function buildRound(brandId, week) {
   // Day N of the round maps to the Nth day the brand actually posts.
   const dayOffset = (n) => runDays[n % runDays.length].i;
 
+  // Content that names a day is PINNED to it. A bakery whose loaves come out
+  // on a rota writes "today is Monday, the babila is back" - and that line is
+  // simply false if the planner drops it on Tuesday because of where it sat in
+  // the array. Position is a default, never a fact.
+  const pinnedDay = (item, fallback) => {
+    if (!item.day) return fallback;
+    const i = HEB_DAYS.indexOf(item.day);
+    if (i < 0) throw new Error(`unknown day "${item.day}" - use one of ${HEB_DAYS.join(', ')}`);
+    if (skip.has(item.day)) throw new Error(`content pinned to ${item.day}, which schedule.skip_days excludes`);
+    return i;
+  };
+
   // Posts: fill day by day, one per configured time slot.
   // A post is always a slides[] array - a single image is just a carousel of
   // one, so nothing downstream needs two code paths.
   content.posts.forEach((post, i) => {
-    const day = dayOffset(Math.floor(i / s.post_times.length));
+    const day = pinnedDay(post, dayOffset(Math.floor(i / s.post_times.length)));
     const slot = i % s.post_times.length;
     const date = addDays(monday, day);
-    const { slides, ...rest } = post;
+    const { slides, day: _pinned, ...rest } = post;
     items.push({
       id: `post-${String(i + 1).padStart(2, '0')}`,
       format: 'post',
@@ -73,10 +85,16 @@ function buildRound(brandId, week) {
   });
 
   // Stories: same idea, on their own time slots.
+  // A story can be one frame or a sequence the viewer taps through. Instagram
+  // has no swipeable CAROUSEL in stories - that is a post format - but a run
+  // of consecutive frames is exactly how a story works, and it is the shape
+  // this brand's brief asks for: hook, process, close-up, call to action.
   content.stories.forEach((story, i) => {
-    const day = dayOffset(Math.floor(i / s.story_times.length));
+    const day = pinnedDay(story, dayOffset(Math.floor(i / s.story_times.length)));
     const slot = i % s.story_times.length;
     const date = addDays(monday, day);
+    const { slides, day: _pinned, ...rest } = story;
+    const frames = (slides && slides.length) ? slides : [story];
     items.push({
       id: `story-${String(i + 1).padStart(2, '0')}`,
       format: 'story',
@@ -85,9 +103,9 @@ function buildRound(brandId, week) {
       day_he: HEB_DAYS[day % 7],
       time: s.story_times[slot],
       status: 'draft',
-      type: 'single',
-      ...story,
-      slides: [story],
+      type: frames.length > 1 ? 'sequence' : 'single',
+      ...rest,
+      slides: frames,
     });
   });
 

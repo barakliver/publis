@@ -17,7 +17,7 @@
   "ends": "2026-10-18",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T08:10:22.626Z",
+  "generated_at": "2026-10-04T08:23:50.981Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -28,38 +28,50 @@
     "stories": 6,
     "manual": 0,
     "carousels": 0,
-    "slides": 12
+    "slides": 30
   },
   "items": [
     {
-      "id": "story-01",
+      "id": "story-02",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-12",
       "day_he": "שני",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
+      "type": "sequence",
       "pillar": "value",
-      "layout": "photo",
-      "photo": "spread-plates",
-      "align": "top",
-      "hand": true,
-      "headline": "התנור הראשון בחוץ",
       "slides": [
         {
-          "pillar": "value",
-          "layout": "photo",
-          "photo": "spread-plates",
-          "align": "top",
+          "layout": "product",
           "hand": true,
-          "headline": "התנור הראשון בחוץ"
+          "headline": "היום יום שני"
+        },
+        {
+          "layout": "product",
+          "dark": true,
+          "headline": "וזה אומר שהבבילה חזר"
+        },
+        {
+          "layout": "photo",
+          "photo": "quiche-rings",
+          "zoom": 2.4,
+          "ink": "dark",
+          "headline": "עגבניות מיובשות, קלמטה",
+          "subline": "קרום שנשבר ביד"
+        },
+        {
+          "layout": "product",
+          "headline": "תייגו את מי ששומר לכם אחד"
         }
       ],
       "images": [
-        "images/story-01.png"
+        "images/story-02-01.png",
+        "images/story-02-02.png",
+        "images/story-02-03.png",
+        "images/story-02-04.png"
       ],
-      "image": "images/story-01.png"
+      "image": "images/story-02-01.png"
     },
     {
       "id": "post-01",
@@ -71,15 +83,14 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "identity",
-      "caption": "שלושה מרכיבים, והשלישי הוא הארוך שבהם.\n\nההתפחה לוקחת את כל הלילה. בלי סוכר, בלי חומרים משמרים, ובלי שום דרך לקצר אותה.\n\nהאתרוג 25, גבעת שמואל 🌾",
+      "caption": "רן פתח את המקום. סבא, בן 85, אופה את הפוקצ׳ות מאחורי הקלעים ומכין את הריבה.\n\nסבתא אורזת ומושיבה, ודני חזרה מצרפת עם הטכניקות ונכנסה למטבח.\n\nהאתרוג 25, גבעת שמואל 🌿",
       "hashtags": "",
       "slides": [
         {
           "layout": "photo",
-          "photo": "quiche-rings",
-          "zoom": 2.4,
-          "ink": "dark",
-          "headline": "קמח, מים, זמן"
+          "photo": "spread-plates",
+          "align": "top",
+          "headline": "שלושה דורות"
         }
       ],
       "images": [
@@ -88,30 +99,48 @@
       "image": "images/post-01.png"
     },
     {
-      "id": "story-02",
+      "id": "story-03",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-13",
       "day_he": "שלישי",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
+      "type": "sequence",
       "pillar": "identity",
-      "layout": "product",
-      "hand": true,
-      "headline": "רק קמח, מים וזמן",
       "slides": [
         {
-          "pillar": "identity",
           "layout": "product",
           "hand": true,
-          "headline": "רק קמח, מים וזמן"
+          "headline": "סבא מערבב מאז שש"
+        },
+        {
+          "layout": "photo",
+          "photo": "spread-plates",
+          "align": "top",
+          "headline": "הריבה שלו",
+          "subline": "אותה מתכונת. אותן ידיים."
+        },
+        {
+          "layout": "photo",
+          "photo": "brioche-plate",
+          "align": "top",
+          "headline": "מגיעה עם ארוחת הבוקר",
+          "subline": "לצד גרנולה שאנחנו מכינים כאן"
+        },
+        {
+          "layout": "product",
+          "dark": true,
+          "headline": "תייגו את מי שחייב לטעום"
         }
       ],
       "images": [
-        "images/story-02.png"
+        "images/story-03-01.png",
+        "images/story-03-02.png",
+        "images/story-03-03.png",
+        "images/story-03-04.png"
       ],
-      "image": "images/story-02.png"
+      "image": "images/story-03-01.png"
     },
     {
       "id": "post-02",
@@ -123,14 +152,15 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
-      "caption": "כל מאפה מדופדף כאן מקופל ביד, מוקדם.\n\nהחמאה נכנסת קרה, הבצק נח, וחוזר חלילה — וזה מה שאתם שומעים בביס הראשון.\n\nהאתרוג 25, גבעת שמואל 🥐",
+      "caption": "שלושה מרכיבים, והשלישי הוא הארוך שבהם.\n\nתפיחה איטית, בלי סוכר ובלי חומרים משמרים. זה מה שנותן את הקרום שנשבר ביד.\n\nהאתרוג 25, גבעת שמואל 🌾",
       "hashtags": "",
       "slides": [
         {
           "layout": "photo",
-          "photo": "brioche-plate",
-          "align": "top",
-          "headline": "קיפולי בוקר"
+          "photo": "quiche-rings",
+          "zoom": 2.4,
+          "ink": "dark",
+          "headline": "קמח, מים, זמן"
         }
       ],
       "images": [
@@ -139,34 +169,46 @@
       "image": "images/post-02.png"
     },
     {
-      "id": "story-03",
+      "id": "story-04",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-14",
       "day_he": "רביעי",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
+      "type": "sequence",
       "pillar": "value",
-      "layout": "photo",
-      "photo": "cinnamon-hands-wide",
-      "align": "top",
-      "hand": true,
-      "headline": "עוד חם",
       "slides": [
         {
-          "pillar": "value",
-          "layout": "photo",
-          "photo": "cinnamon-hands-wide",
-          "align": "top",
+          "layout": "product",
           "hand": true,
-          "headline": "עוד חם"
+          "headline": "קיפול, קירור, קיפול"
+        },
+        {
+          "layout": "product",
+          "dark": true,
+          "headline": "דני הביאה את זה מצרפת"
+        },
+        {
+          "layout": "photo",
+          "photo": "cinnamon-hands",
+          "align": "top",
+          "headline": "פאן סוויס · מריטוצו · סינבון",
+          "subline": "נכרכים ביד, כל בוקר"
+        },
+        {
+          "layout": "product",
+          "headline": "בואו מוקדם",
+          "subline": "הם נגמרים"
         }
       ],
       "images": [
-        "images/story-03.png"
+        "images/story-04-01.png",
+        "images/story-04-02.png",
+        "images/story-04-03.png",
+        "images/story-04-04.png"
       ],
-      "image": "images/story-03.png"
+      "image": "images/story-04-01.png"
     },
     {
       "id": "post-03",
@@ -178,14 +220,14 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
-      "caption": "הזיגוג עדיין נוזלי כשהוא יוצא.\n\nכעשרים דקות אחר כך הוא מתייצב, והמאפה כבר אחר. שניהם טובים — פשוט לא אותו דבר.\n\nהאתרוג 25, גבעת שמואל",
+      "caption": "דני הביאה את הטכניקה מהסטאז׳ בצרפת, והבצקים כאן נכרכים ביד בכל בוקר.\n\nפאן סוויס, מריטוצו, בריוש, סינבון. השכבות שאתם שומעים בביס — זה מה שהן.\n\nהאתרוג 25, גבעת שמואל 🥐",
       "hashtags": "",
       "slides": [
         {
           "layout": "photo",
-          "photo": "cinnamon-hands",
+          "photo": "brioche-plate",
           "align": "top",
-          "headline": "סינבון, עוד חם"
+          "headline": "קיפול, קירור, קיפול"
         }
       ],
       "images": [
@@ -194,32 +236,49 @@
       "image": "images/post-03.png"
     },
     {
-      "id": "story-04",
+      "id": "story-05",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-15",
       "day_he": "חמישי",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
-      "pillar": "identity",
-      "layout": "product",
-      "dark": true,
-      "hand": true,
-      "headline": "קיפולי בוקר",
+      "type": "sequence",
+      "pillar": "value",
       "slides": [
         {
-          "pillar": "identity",
+          "layout": "product",
+          "hand": true,
+          "headline": "הבצק נפתח"
+        },
+        {
+          "layout": "photo",
+          "photo": "brioche-plate",
+          "align": "top",
+          "headline": "פסטה טרייה, כאן",
+          "subline": "עם הרטבים שלנו"
+        },
+        {
+          "layout": "photo",
+          "photo": "cookies-three",
+          "align": "top",
+          "headline": "לאכול במקום",
+          "subline": "או לקחת הביתה"
+        },
+        {
           "layout": "product",
           "dark": true,
-          "hand": true,
-          "headline": "קיפולי בוקר"
+          "headline": "שלחו לחברה",
+          "subline": "שחייבת להזמין אתכם"
         }
       ],
       "images": [
-        "images/story-04.png"
+        "images/story-05-01.png",
+        "images/story-05-02.png",
+        "images/story-05-03.png",
+        "images/story-05-04.png"
       ],
-      "image": "images/story-04.png"
+      "image": "images/story-05-01.png"
     },
     {
       "id": "post-04",
@@ -231,12 +290,12 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "identity",
-      "caption": "יש בפנים פינה ירוקה ושקטה, גם כשבחוץ פחות.\n\nקפה, מאפה, ועשרים דקות לפני שהיום מתחיל באמת.\n\nהאתרוג 25, גבעת שמואל ☕",
+      "caption": "אותה מתכונת, אותן ידיים, כבר שנים.\n\nהיא מגיעה עם ארוחת הבוקר לצד גרנולה שאנחנו מכינים כאן — ויש אנשים שחוזרים בשבילה.\n\nהאתרוג 25, גבעת שמואל ☕",
       "hashtags": "",
       "slides": [
         {
           "layout": "product",
-          "headline": "לשבת רגע"
+          "headline": "הריבה של סבא"
         }
       ],
       "images": [
@@ -245,36 +304,47 @@
       "image": "images/post-04.png"
     },
     {
-      "id": "story-05",
+      "id": "story-06",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-16",
       "day_he": "שישי",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
-      "pillar": "value",
-      "layout": "photo",
-      "photo": "quiche-rings",
-      "zoom": 2.2,
-      "ink": "dark",
-      "hand": true,
-      "headline": "יצא עכשיו",
+      "type": "sequence",
+      "pillar": "sell",
       "slides": [
         {
-          "pillar": "value",
+          "layout": "product",
+          "hand": true,
+          "headline": "שישי"
+        },
+        {
+          "layout": "product",
+          "dark": true,
+          "headline": "ארבעת הלחמים",
+          "subline": "כולם. רק היום."
+        },
+        {
           "layout": "photo",
           "photo": "quiche-rings",
           "zoom": 2.2,
           "ink": "dark",
-          "hand": true,
-          "headline": "יצא עכשיו"
+          "headline": "בבילה · קלמטה · כוסמין · אגוזים"
+        },
+        {
+          "layout": "product",
+          "headline": "הזמינו מראש",
+          "subline": "שישי נגמר מהר"
         }
       ],
       "images": [
-        "images/story-05.png"
+        "images/story-06-01.png",
+        "images/story-06-02.png",
+        "images/story-06-03.png",
+        "images/story-06-04.png"
       ],
-      "image": "images/story-05.png"
+      "image": "images/story-06-01.png"
     },
     {
       "id": "post-05",
@@ -286,13 +356,13 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
-      "caption": "כשחותכים כיכר טרייה — שומעים אותה.\n\nהקרום הזה נוצר מהתפחה ארוכה ומחום גבוה, לא מתוסף. כוסמין, חיטה מלאה ושיפון, כל אחד עם הצליל שלו.\n\nהאתרוג 25, גבעת שמואל 🌾",
+      "caption": "נפתח כאן, נמכר כאן.\n\nלאכול במקום או לקחת הביתה עם הרטבים שלנו — ולסיים את הערב בלי לחשוב מה מבשלים.\n\nהאתרוג 25, גבעת שמואל",
       "hashtags": "",
       "slides": [
         {
           "layout": "product",
           "dark": true,
-          "headline": "הקרום"
+          "headline": "בצק פסטה, טרי"
         }
       ],
       "images": [
@@ -301,30 +371,49 @@
       "image": "images/post-05.png"
     },
     {
-      "id": "story-06",
+      "id": "story-01",
       "format": "story",
       "channel": "instagram",
       "date": "2026-10-18",
       "day_he": "ראשון",
       "time": "07:30",
       "status": "draft",
-      "type": "single",
-      "pillar": "identity",
-      "layout": "product",
-      "hand": true,
-      "headline": "שקט, שמונה בבוקר",
+      "type": "sequence",
+      "pillar": "value",
       "slides": [
         {
-          "pillar": "identity",
           "layout": "product",
           "hand": true,
-          "headline": "שקט, שמונה בבוקר"
+          "headline": "ריח של אגוזים קלויים"
+        },
+        {
+          "layout": "photo",
+          "photo": "spread-plates",
+          "align": "top",
+          "headline": "הם נכנסים לבצק ביד"
+        },
+        {
+          "layout": "photo",
+          "photo": "quiche-rings",
+          "zoom": 2.2,
+          "ink": "dark",
+          "headline": "כוסמין מלא",
+          "subline": "בלי סוכר. בלי קיצורים."
+        },
+        {
+          "layout": "product",
+          "dark": true,
+          "headline": "היום ומחרתיים",
+          "subline": "אחר כך שוב בשלישי"
         }
       ],
       "images": [
-        "images/story-06.png"
+        "images/story-01-01.png",
+        "images/story-01-02.png",
+        "images/story-01-03.png",
+        "images/story-01-04.png"
       ],
-      "image": "images/story-06.png"
+      "image": "images/story-01-01.png"
     },
     {
       "id": "post-06",
@@ -336,14 +425,14 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "sell",
-      "caption": "פיסטוק, שוקולד, רד ולווט.\n\nנאפות בבוקר ובדרך כלל נגמרות עד הצהריים.\n\nהאתרוג 25, גבעת שמואל",
+      "caption": "ביום שישי יוצאים כל ארבעת הלחמים. בבילה, קלמטה, כוסמין חלק וכוסמין אגוזים.\n\nזה היום היחיד בשבוע שבו כולם כאן יחד, והוא גם היום שבו נגמר הכי מהר.\n\nהאתרוג 25, גבעת שמואל 🌾",
       "hashtags": "",
       "slides": [
         {
           "layout": "photo",
           "photo": "cookies-three",
           "align": "top",
-          "headline": "שלוש עוגיות"
+          "headline": "שישי"
         }
       ],
       "images": [
