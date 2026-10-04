@@ -341,6 +341,41 @@ Translate the motif, never the palette: the references are someone else's
 navy and burgundy, and the client has said twice that lehem is beige and
 chocolate brown whatever the reference wears.
 
+## The editorial layout
+
+`layout: 'editorial'` is the carousel look for Before I Do, asked for off a
+batch of couples references: a photograph of two people doing something
+ordinary, and **one line of thin centred type over it**. The type is the same
+Rubik the rest of the brand uses - only the weight changes, 300 instead of 600 -
+so it is the brand's own voice spoken quietly, not a second typeface.
+
+Three grounds, one look:
+
+- **With `photo`** - the picture is full-bleed, type white, scrim an even wash
+  rather than the bottom-heavy gradient the other photo layouts use, because
+  this type is centred. The heart is **not** drawn: flat on a photograph it
+  lands on whatever happens to be at the top of the frame and reads as a
+  sticker. The wordmark still signs the slide.
+- **Without one** - ink on cream. This is the quiet beat between the pictures
+  and it is deliberate, but it is not a substitute for a photograph.
+- **`dark: true`** - white on the brand's ink, for the slide that does the
+  asking. Same thin line, so the carousel does not change typeface at the end.
+
+The ground is a **class** here (`on-photo`, `on-dark`), not the layout name,
+so every piece of furniture needs its own rule or it is drawn in the ink on a
+ground of the ink and disappears - the engagement marks did exactly that, same
+as they once did on the product layout. The wordmark also goes to 30%: at the
+default 60% it is taller than the gap the engagement row sits in and the two
+collide on the last slide.
+
+`headCap` is 88 rather than 124. The other layouts carry the whole frame on
+one line and are sized to land at a thumb's distance; here the photograph does
+that work, and type at the old scale simply covers the people in it.
+
+`align: 'top' | 'bottom'` decides where the line sits. Look at the photograph
+every time - the opener works because the type sits on the wall above the
+couple, and sat across her face before it was moved.
+
 ## Engagement marks
 
 Instagram's like / comment / send / save marks, drawn inline as SVG, sit above

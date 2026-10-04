@@ -144,6 +144,13 @@ html, body {
 [data-layout="statement"] .wordmark,
 [data-layout="photo"]     .wordmark { width: 34%; }
 [data-layout="photo"]     .wordmark { filter: drop-shadow(0 2px 10px rgba(0,0,0,.5)); }
+/* Editorial signs smaller still. At the default 60% the wordmark is taller
+   than the gap the engagement row sits in, so the two collided on the last
+   slide - and a wordmark that size fights a look built on restraint. */
+[data-layout="editorial"] .wordmark { width: 30%; }
+.canvas[data-layout="editorial"].on-photo .wordmark {
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.5));
+}
 [data-layout="photo"]     .social svg { filter: drop-shadow(0 1px 6px rgba(0,0,0,.5)); }
 
 /* --- Text block ------------------------------------------------------- */
@@ -185,6 +192,54 @@ html, body {
 [data-layout="dark"]      .subline  { color: var(--white); opacity: .90; }
 [data-layout="photo"]     .headline { color: var(--white); text-shadow: 0 2px 26px rgba(0,0,0,.55); }
 [data-layout="photo"]     .subline  { color: var(--white); text-shadow: 0 2px 20px rgba(0,0,0,.55); }
+
+/* --- Editorial: the couples look ------------------------------------- */
+/* Taken off the references the client sent - a photograph of two people
+   doing something ordinary, and one line of thin type centred over it. The
+   type is the brand's own Rubik at 300: the weight is the whole difference,
+   so nothing else about the frame moves. Without a photograph the same slide
+   falls back to ink on cream, which is the quiet beat between the pictures,
+   NOT a mistake - the look is one idea per slide either way. */
+.canvas[data-layout="editorial"] { background: var(--cream); }
+.canvas[data-layout="editorial"].on-photo { background: var(--blue); }
+.canvas[data-layout="editorial"].on-dark   { background: var(--blue); }
+
+[data-layout="editorial"] .headline {
+  font-weight: 300;
+  line-height: 1.26;
+  /* Thin type closes up at this size; a hair of tracking opens it again. */
+  letter-spacing: 0.004em;
+}
+[data-layout="editorial"] .subline {
+  font-weight: 300;
+  line-height: 1.44;
+  opacity: .92;
+}
+[data-layout="editorial"] .headline { color: var(--blue); }
+[data-layout="editorial"] .subline  { color: var(--blue); opacity: .78; }
+
+/* Over a photograph the type turns white, and the shadow carries it rather
+   than a heavier weight - going back to 600 here would undo the look. */
+[data-layout="editorial"].on-photo .headline {
+  color: var(--white);
+  text-shadow: 0 2px 30px rgba(0,0,0,.62), 0 0 90px rgba(0,0,0,.42);
+}
+[data-layout="editorial"].on-photo .subline {
+  color: var(--white);
+  text-shadow: 0 2px 22px rgba(0,0,0,.6);
+}
+
+/* The closing ask: same thin line, on the brand's ink. */
+[data-layout="editorial"].on-dark .headline { color: var(--white); }
+[data-layout="editorial"].on-dark .subline  { color: var(--white); opacity: .90; }
+
+/* The stock scrim is bottom-heavy, for type that sits low. Editorial type is
+   centred, so it needs an even wash with the middle held down instead. */
+.canvas[data-layout="editorial"] .scrim {
+  background:
+    radial-gradient(118% 76% at 50% 48%, rgba(0,0,0,.50) 0%, rgba(0,0,0,.20) 58%, rgba(0,0,0,0) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,.34) 0%, rgba(0,0,0,.10) 34%, rgba(0,0,0,.22) 66%, rgba(0,0,0,.62) 100%);
+}
 
 /* --- The "A or B" dilemma, the brand's signature device --------------- */
 .dilemma { display: flex; flex-direction: column; align-items: center; gap: 0.30em; }
@@ -276,7 +331,8 @@ html, body {
   font-weight: 700; color: var(--blue); opacity: .72;
 }
 [data-layout="dark"]  .swipe,
-[data-layout="photo"] .swipe { color: var(--white); opacity: .85; }
+[data-layout="photo"] .swipe,
+.canvas.on-photo     .swipe { color: var(--white); opacity: .85; }
 .swipe .chev {
   width: .46em; height: .46em;
   border-left: .11em solid currentColor;
@@ -318,6 +374,16 @@ html, body {
 [data-layout="dark"]  .social svg,
 [data-layout="photo"] .social svg { stroke: var(--white); }
 [data-layout="photo"] .social { opacity: .82; }
+/* Editorial's ground is a class, not the layout name, so the marks need their
+   own rule here - drawn in the ink on a ground of the ink they vanish, which
+   is exactly what the product layout already had to be taught. */
+.canvas[data-layout="editorial"].on-dark  .social svg,
+.canvas[data-layout="editorial"].on-photo .social svg { stroke: var(--white); }
+.canvas[data-layout="editorial"].on-dark  .social { opacity: .74; }
+.canvas[data-layout="editorial"].on-photo .social { opacity: .82; }
+.canvas[data-layout="editorial"].on-photo .social svg {
+  filter: drop-shadow(0 1px 6px rgba(0,0,0,.5));
+}
 
 
 /* --- Text wordmark, for a brand with no logo file yet ------------------ */

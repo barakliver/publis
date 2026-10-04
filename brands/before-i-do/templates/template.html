@@ -112,14 +112,25 @@ window.render = function (item, pos) {
   // conditional that still emits whitespace changes the render by a hair.
   const wmVar = BRAND.wordmarkWidth ? `--wordmark-w:${esc(BRAND.wordmarkWidth)};` : '';
 
-  const headSize = autoSize(item.headline, isStory ? 118 : 124);
+  /* The editorial look is set smaller on purpose. The other layouts carry the
+     whole frame on one line, so they are sized to land at a thumb's distance;
+     here the photograph is doing that work and type at the same scale simply
+     covers the people in it. Thin at this size still reads while scrolling. */
+  const editorial = layout === 'editorial';
+  // Editorial also takes the brand's ink as a ground - `dark: true` - which is
+  // what the closing ask wants: the same thin line, on blue, so the slide that
+  // does the asking still pops without changing typeface mid-carousel.
+  const editorialDark = editorial && item.dark === true;
+  const headCap = editorial ? (isStory ? 84 : 88) : (isStory ? 118 : 124);
+  const headSize = autoSize(item.headline, headCap);
   const subSize  = Math.max(46, headSize * 0.47);
 
   const parts = [];
 
   /* Photo layer. Content names a photo ("couple-cafe"); the library folder
      and the right crop for this format are resolved here. */
-  if (layout === 'photo' && item.photo) {
+  const photoLed = (layout === 'photo' || layout === 'editorial') && !!item.photo;
+  if (photoLed) {
     const photoSrc = item.photo.includes('/')
       ? item.photo
       : `${BRAND.photos || '../assets/photos'}/${isStory ? 'story' : 'post'}/${item.photo}.jpg`;
@@ -136,8 +147,13 @@ window.render = function (item, pos) {
     parts.push(`<div class="frame"></div>`);
   }
 
-  /* The brand mark, top centre. Not every brand has one. */
-  if (BRAND.mark) parts.push(`<img class="heart" src="${esc(BRAND.mark)}">`);
+  /* The brand mark, top centre. Not every brand has one.
+     Not over an editorial photograph either: the mark is drawn flat, so on a
+     picture it lands on whatever happens to be at the top of the frame - a
+     plate of food, in the first slide that tried it - and reads as a sticker.
+     The wordmark at the bottom still signs the slide. */
+  const drawMark = BRAND.mark && !(editorial && photoLed);
+  if (drawMark) parts.push(`<img class="heart" src="${esc(BRAND.mark)}">`);
 
   /* Optional price badge */
   if (item.badge) {
@@ -224,7 +240,10 @@ window.render = function (item, pos) {
         ${bidi(item.cta)}<span class="arrow"></span>
       </div>`);
     } else {
-      const ghost = (layout === 'statement' || layout === 'dilemma') ? ' ghost' : '';
+      // A ghost pill is an outline in the ink, so it only works on a pale
+      // ground: on the editorial dark slide it would be blue on blue.
+      const ghost = (layout === 'statement' || layout === 'dilemma'
+                     || (editorial && !photoLed && !editorialDark)) ? ' ghost' : '';
       parts.push(`<div class="cta${ghost}" style="font-size:${clamp(headSize * 0.34, 38, 52)}px">${bidi(item.cta)}</div>`);
     }
   }
@@ -245,12 +264,14 @@ window.render = function (item, pos) {
   }
 
   /* Wordmark, bottom centre. */
-  const onDark = (layout === 'dark' || layout === 'photo');
+  // Editorial is white type on a photograph and ink on cream without one -
+  // the furniture follows the ground, exactly as the product layout does.
+  const onDark = (layout === 'dark' || layout === 'photo' || photoLed || editorialDark);
   parts.push(signature(BRAND, onDark, clamp(headSize * 0.30, 30, 46),
                        (layout === 'dilemma' || layout === 'dark')));
 
   document.getElementById('stage').innerHTML =
-    `<div class="canvas${isLast ? ' has-social' : ''}${BRAND.mark ? '' : ' no-mark'}${inkDark ? ' ink-dark' : ''}${align ? ' text-' + align : ''}${hand ? ' hand' : ''}" id="canvas" data-layout="${esc(layout)}"
+    `<div class="canvas${isLast ? ' has-social' : ''}${drawMark ? '' : ' no-mark'}${photoLed ? ' on-photo' : ''}${editorialDark ? ' on-dark' : ''}${inkDark ? ' ink-dark' : ''}${align ? ' text-' + align : ''}${hand ? ' hand' : ''}" id="canvas" data-layout="${esc(layout)}"
           style="width:${W}px;height:${H}px;
                  --blue:${esc(BRAND.colors?.blue || '#4E6BA5')};
                  --blue-light:${esc(BRAND.colors?.blue_light || '#7F9ACE')};

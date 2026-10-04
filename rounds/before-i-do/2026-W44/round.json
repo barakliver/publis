@@ -16,7 +16,7 @@
   "ends": "2026-11-01",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T21:47:43.604Z",
+  "generated_at": "2026-10-04T22:03:27.410Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -44,35 +44,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "לא כל החלטה בחתונה צריכה פגישה של שניכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "בחרו מה חשוב לשניכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "חלקו תחומי אחריות"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "קבעו סכום שמעליו מתייעצים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אל תבקשו אישור על כל פרט"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כן תעדכנו בהחלטות שמשפיעות על שניכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "השאירו זמן שבו לא מדברים חתונה"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לחלוקת משימות"
         }
       ],
@@ -102,35 +103,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אם הכול מרגיש חשוב, הנה דרך לבחור מה באמת חשוב לכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כל אחד כותב 3 דברים שחייבים להיות טובים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כל אחד כותב 3 דברים שפחות אכפת לו מהם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "משווים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מסמנים חפיפות"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מחלקים את התקציב לפי סדר העדיפויות"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "חוזרים לרשימה לפני כל הוצאה גדולה"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לפגישת התקציב"
         }
       ],

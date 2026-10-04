@@ -8,6 +8,12 @@
  *
  * Seven of the nine - a week holds seven at one a day.
  *
+ * The look is `editorial`: a photograph of two people doing something
+ * ordinary where one exists, and the same line of thin centred type on cream
+ * where one does not. Only the two slides carrying a `photo` have a picture -
+ * the brand owns four photographs and two of them have the heart burned into
+ * the top, where the template draws its own.
+ *
  * pillar: pain | value | identity | social_proof | sell
  */
 
@@ -17,14 +23,14 @@ module.exports = {
     { // יום 3
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: '6 דברים ששניכם בטוחים שאתם מסכימים עליהם, עד שמתחילים לתכנן חתונה' },
-        { layout: 'statement', headline: 'כמה גדולה החתונה' },
-        { layout: 'statement', headline: 'כמה כסף הגיוני להוציא' },
-        { layout: 'statement', headline: 'כמה מקום נותנים להורים' },
-        { layout: 'statement', headline: 'מה נחשב מבחינתכם חובה' },
-        { layout: 'statement', headline: 'על מה שווה להתפשר' },
-        { layout: 'statement', headline: 'איזה חלק ביום הזה הוא בכלל בשבילכם' },
-        { layout: 'dark', headline: 'שמרו לערב הבא שלכם' },
+        { layout: 'editorial', photo: 'couple-cards-bar', align: 'top', headline: '6 דברים ששניכם בטוחים שאתם מסכימים עליהם, עד שמתחילים לתכנן חתונה' },
+        { layout: 'editorial', headline: 'כמה גדולה החתונה' },
+        { layout: 'editorial', headline: 'כמה כסף הגיוני להוציא' },
+        { layout: 'editorial', headline: 'כמה מקום נותנים להורים' },
+        { layout: 'editorial', headline: 'מה נחשב מבחינתכם חובה' },
+        { layout: 'editorial', headline: 'על מה שווה להתפשר' },
+        { layout: 'editorial', headline: 'איזה חלק ביום הזה הוא בכלל בשבילכם' },
+        { layout: 'editorial', dark: true, headline: 'שמרו לערב הבא שלכם' },
       ],
       caption: 'יש דברים שעדיף להבין ביניכם לפני שהספק שואל.',
       hashtags: '',
@@ -32,14 +38,14 @@ module.exports = {
     { // יום 10
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'משפטים תמימים שמתחילים ויכוח בתכנון חתונה' },
-        { layout: 'statement', headline: 'לי לא משנה' },
-        { layout: 'statement', headline: 'כמה כבר זה עולה' },
-        { layout: 'statement', headline: 'אמא שלי אמרה ש...' },
-        { layout: 'statement', headline: 'אבל כולם עושים ככה' },
-        { layout: 'statement', headline: 'זה רק עוד כמה מוזמנים' },
-        { layout: 'statement', headline: 'נדבר על זה אחר כך' },
-        { layout: 'dark', headline: 'שלחו למי שאמר לי לא משנה' },
+        { layout: 'editorial', headline: 'משפטים תמימים שמתחילים ויכוח בתכנון חתונה' },
+        { layout: 'editorial', headline: 'לי לא משנה' },
+        { layout: 'editorial', headline: 'כמה כבר זה עולה' },
+        { layout: 'editorial', headline: 'אמא שלי אמרה ש...' },
+        { layout: 'editorial', headline: 'אבל כולם עושים ככה' },
+        { layout: 'editorial', headline: 'זה רק עוד כמה מוזמנים' },
+        { layout: 'editorial', headline: 'נדבר על זה אחר כך' },
+        { layout: 'editorial', dark: true, headline: 'שלחו למי שאמר לי לא משנה' },
       ],
       caption: 'אם אמרתם אחד מהם השבוע, אתם בחברה טובה.',
       hashtags: '',
@@ -47,15 +53,15 @@ module.exports = {
     { // יום 17
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: '7 דברים שכדאי לדבר עליהם לפני שסוגרים אולם' },
-        { layout: 'statement', headline: 'מסגרת תקציב' },
-        { layout: 'statement', headline: 'כמות מוזמנים' },
-        { layout: 'statement', headline: 'אזור בארץ' },
-        { layout: 'statement', headline: 'יום בשבוע' },
-        { layout: 'statement', headline: 'מה חשוב באווירה' },
-        { layout: 'statement', headline: 'כמה מעורבות משפחתית נכנסת להחלטה' },
-        { layout: 'statement', headline: 'על מה לא מתפשרים' },
-        { layout: 'dark', headline: 'שמרו לפני הסבב' },
+        { layout: 'editorial', headline: '7 דברים שכדאי לדבר עליהם לפני שסוגרים אולם' },
+        { layout: 'editorial', headline: 'מסגרת תקציב' },
+        { layout: 'editorial', headline: 'כמות מוזמנים' },
+        { layout: 'editorial', headline: 'אזור בארץ' },
+        { layout: 'editorial', headline: 'יום בשבוע' },
+        { layout: 'editorial', headline: 'מה חשוב באווירה' },
+        { layout: 'editorial', headline: 'כמה מעורבות משפחתית נכנסת להחלטה' },
+        { layout: 'editorial', headline: 'על מה לא מתפשרים' },
+        { layout: 'editorial', dark: true, headline: 'שמרו לפני הסבב' },
       ],
       caption: 'סבב אולמות נהיה קל יותר כשאתם יודעים מה אתם מחפשים.',
       hashtags: '',
@@ -63,14 +69,14 @@ module.exports = {
     { // יום 24
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'כשהחתונה שלכם פוגשת את הציפיות של ההורים' },
-        { layout: 'statement', headline: 'מי משתתף בהחלטות' },
-        { layout: 'statement', headline: 'האם כסף נותן גם זכות החלטה' },
-        { layout: 'statement', headline: 'כמה מוזמנים כל צד מקבל' },
-        { layout: 'statement', headline: 'אילו מסורות חשובות למשפחה' },
-        { layout: 'statement', headline: 'איפה עובר הגבול שלכם' },
-        { layout: 'statement', headline: 'מה אומרים כשלא מסכימים' },
-        { layout: 'dark', headline: 'שמרו לשיחה ביניכם' },
+        { layout: 'editorial', headline: 'כשהחתונה שלכם פוגשת את הציפיות של ההורים' },
+        { layout: 'editorial', headline: 'מי משתתף בהחלטות' },
+        { layout: 'editorial', headline: 'האם כסף נותן גם זכות החלטה' },
+        { layout: 'editorial', headline: 'כמה מוזמנים כל צד מקבל' },
+        { layout: 'editorial', headline: 'אילו מסורות חשובות למשפחה' },
+        { layout: 'editorial', headline: 'איפה עובר הגבול שלכם' },
+        { layout: 'editorial', headline: 'מה אומרים כשלא מסכימים' },
+        { layout: 'editorial', dark: true, headline: 'שמרו לשיחה ביניכם' },
       ],
       caption: 'לא חייבים להסכים עם המשפחה על הכול. כן כדאי להסכים ביניכם.',
       hashtags: '',
@@ -78,14 +84,14 @@ module.exports = {
     { // יום 31
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'הוצאות שכל אחד מכם בטוח שהשני מסכים עליהן' },
-        { layout: 'statement', headline: 'צילום' },
-        { layout: 'statement', headline: 'עיצוב' },
-        { layout: 'statement', headline: 'אלכוהול' },
-        { layout: 'statement', headline: 'בגדים' },
-        { layout: 'statement', headline: 'אטרקציות' },
-        { layout: 'statement', headline: 'מתנות לאורחים' },
-        { layout: 'dark', headline: 'שמרו לשיחת תקציב' },
+        { layout: 'editorial', headline: 'הוצאות שכל אחד מכם בטוח שהשני מסכים עליהן' },
+        { layout: 'editorial', headline: 'צילום' },
+        { layout: 'editorial', headline: 'עיצוב' },
+        { layout: 'editorial', headline: 'אלכוהול' },
+        { layout: 'editorial', headline: 'בגדים' },
+        { layout: 'editorial', headline: 'אטרקציות' },
+        { layout: 'editorial', headline: 'מתנות לאורחים' },
+        { layout: 'editorial', dark: true, headline: 'שמרו לשיחת תקציב' },
       ],
       caption: 'אותו סכום מרגיש אחרת כשכל אחד נותן לו ערך אחר.',
       hashtags: '',
@@ -93,13 +99,13 @@ module.exports = {
     { // יום 38
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: '5 דברים שלא צריך לשאול את האינסטגרם, צריך לשאול אחד את השנייה' },
-        { layout: 'statement', headline: 'כמה גדולה החתונה' },
-        { layout: 'statement', headline: 'כמה מוציאים' },
-        { layout: 'statement', headline: 'כמה מקום נותנים למשפחה' },
-        { layout: 'statement', headline: 'מה באמת חשוב ביום הזה' },
-        { layout: 'statement', headline: 'איפה מוכנים להתפשר' },
-        { layout: 'dark', headline: 'שלחו לבן הזוג' },
+        { layout: 'editorial', photo: 'box-table', headline: '5 דברים שלא צריך לשאול את האינסטגרם, צריך לשאול אחד את השנייה' },
+        { layout: 'editorial', headline: 'כמה גדולה החתונה' },
+        { layout: 'editorial', headline: 'כמה מוציאים' },
+        { layout: 'editorial', headline: 'כמה מקום נותנים למשפחה' },
+        { layout: 'editorial', headline: 'מה באמת חשוב ביום הזה' },
+        { layout: 'editorial', headline: 'איפה מוכנים להתפשר' },
+        { layout: 'editorial', dark: true, headline: 'שלחו לבן הזוג' },
       ],
       caption: 'לפני סקר לעוקבים, סקר בבית.',
       hashtags: '',
@@ -107,14 +113,14 @@ module.exports = {
     { // יום 45
       pillar: 'value',
       slides: [
-        { layout: 'statement', headline: 'לפני שאתם מעבירים עוד מקדמה, 6 דברים לבדוק ביניכם' },
-        { layout: 'statement', headline: 'שנינו רוצים את הספק הזה' },
-        { layout: 'statement', headline: 'המחיר נכנס למסגרת שקבענו' },
-        { layout: 'statement', headline: 'ברור לנו מה מקבלים' },
-        { layout: 'statement', headline: 'בדקנו מה תנאי הביטול' },
-        { layout: 'statement', headline: 'ההחלטה לא מגיעה מלחץ' },
-        { layout: 'statement', headline: 'ההוצאה מתאימה לסדר העדיפויות שלנו' },
-        { layout: 'dark', headline: 'שמרו לפני הספק הבא' },
+        { layout: 'editorial', headline: 'לפני שאתם מעבירים עוד מקדמה, 6 דברים לבדוק ביניכם' },
+        { layout: 'editorial', headline: 'שנינו רוצים את הספק הזה' },
+        { layout: 'editorial', headline: 'המחיר נכנס למסגרת שקבענו' },
+        { layout: 'editorial', headline: 'ברור לנו מה מקבלים' },
+        { layout: 'editorial', headline: 'בדקנו מה תנאי הביטול' },
+        { layout: 'editorial', headline: 'ההחלטה לא מגיעה מלחץ' },
+        { layout: 'editorial', headline: 'ההוצאה מתאימה לסדר העדיפויות שלנו' },
+        { layout: 'editorial', dark: true, headline: 'שמרו לפני הספק הבא' },
       ],
       caption: 'שתי דקות ביניכם לפני חתימה שוות הרבה.',
       hashtags: '',

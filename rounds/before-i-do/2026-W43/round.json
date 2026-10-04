@@ -16,7 +16,7 @@
   "ends": "2026-10-25",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T21:47:33.977Z",
+  "generated_at": "2026-10-04T22:03:16.941Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -44,35 +44,38 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
+          "photo": "couple-cards-bar",
+          "align": "top",
           "headline": "6 דברים ששניכם בטוחים שאתם מסכימים עליהם, עד שמתחילים לתכנן חתונה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה גדולה החתונה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה כסף הגיוני להוציא"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה מקום נותנים להורים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מה נחשב מבחינתכם חובה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "על מה שווה להתפשר"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "איזה חלק ביום הזה הוא בכלל בשבילכם"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לערב הבא שלכם"
         }
       ],
@@ -102,35 +105,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "משפטים תמימים שמתחילים ויכוח בתכנון חתונה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "לי לא משנה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה כבר זה עולה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אמא שלי אמרה ש..."
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אבל כולם עושים ככה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "זה רק עוד כמה מוזמנים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "נדבר על זה אחר כך"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שלחו למי שאמר לי לא משנה"
         }
       ],
@@ -160,39 +164,40 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "7 דברים שכדאי לדבר עליהם לפני שסוגרים אולם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מסגרת תקציב"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמות מוזמנים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אזור בארץ"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "יום בשבוע"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מה חשוב באווירה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה מעורבות משפחתית נכנסת להחלטה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "על מה לא מתפשרים"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לפני הסבב"
         }
       ],
@@ -223,35 +228,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כשהחתונה שלכם פוגשת את הציפיות של ההורים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מי משתתף בהחלטות"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "האם כסף נותן גם זכות החלטה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה מוזמנים כל צד מקבל"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אילו מסורות חשובות למשפחה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "איפה עובר הגבול שלכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מה אומרים כשלא מסכימים"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לשיחה ביניכם"
         }
       ],
@@ -281,35 +287,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "הוצאות שכל אחד מכם בטוח שהשני מסכים עליהן"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "צילום"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "עיצוב"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אלכוהול"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "בגדים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "אטרקציות"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מתנות לאורחים"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לשיחת תקציב"
         }
       ],
@@ -339,31 +346,33 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
+          "photo": "box-table",
           "headline": "5 דברים שלא צריך לשאול את האינסטגרם, צריך לשאול אחד את השנייה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה גדולה החתונה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה מוציאים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "כמה מקום נותנים למשפחה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "מה באמת חשוב ביום הזה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "איפה מוכנים להתפשר"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שלחו לבן הזוג"
         }
       ],
@@ -392,35 +401,36 @@
       "hashtags": "",
       "slides": [
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "לפני שאתם מעבירים עוד מקדמה, 6 דברים לבדוק ביניכם"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "שנינו רוצים את הספק הזה"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "המחיר נכנס למסגרת שקבענו"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "ברור לנו מה מקבלים"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "בדקנו מה תנאי הביטול"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "ההחלטה לא מגיעה מלחץ"
         },
         {
-          "layout": "statement",
+          "layout": "editorial",
           "headline": "ההוצאה מתאימה לסדר העדיפויות שלנו"
         },
         {
-          "layout": "dark",
+          "layout": "editorial",
+          "dark": true,
           "headline": "שמרו לפני הספק הבא"
         }
       ],

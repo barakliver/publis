@@ -60,12 +60,34 @@ visual:
     wordmark_company: "assets/wordmark-liver-production.png"
     wordmark_company_dark: "assets/wordmark-liver-production-white.png"
 
-  # The four layouts the renderer knows. All share the same frame and logo.
+  # The layouts the renderer knows.
   layouts:
     statement: "רקע קרם, טקסט כחול גדול, לב למעלה. למשפטים חזקים"
     dilemma:   "רקע לבן, 'א או ב', מסגרת מעוגלת. שפת הקלפים"
     dark:      "רקע כחול, טקסט לבן. למכירה ולמסרים חדים"
     photo:     "צילום מלא + כותרת. דורש קובץ צילום"
+    editorial: "הלוק של הקרוסלות. כתב דק במרכז - על צילום של זוג אם יש, ועל קרם אם אין. dark: true לשקף הסוגר"
+
+# ---------------------------------------------------------------------------
+# What the references say, not what they look like. The artwork stays theirs;
+# the motif is what we keep. Read off the batch the client sent on 04.10.2026:
+# a couple laughing over a table in London, two coffees shot from above with
+# only shoes in frame, a man leaning into a cornetto in Rome, and a couple on
+# the floor of an empty flat with one small centred caption over the picture.
+# ---------------------------------------------------------------------------
+visual_language:
+  deliberate:
+    - "אנשים בתוך רגע, לא בפוזה. צוחקים, רוכנים, מחזיקים כוס - אף אחד לא מסתכל למצלמה"
+    - "שולחן. כמעט כל רפרנס הוא שני אנשים משני צדי שולחן, או צילום-על של שולחן בלי פנים בכלל"
+    - "אור טבעי או אור נרות. בלי פלאש, בלי סטודיו"
+    - "הטקסט קטן ביחס לפריים, במרכז, בכתב דק - התמונה נושאת, לא הכיתוב"
+    - "קאדר רחב מספיק שרואים את המקום: ריצוף, ספסל, חלון, רחוב"
+  incidental:
+    - "הנבי והבורדו של הרפרנסים - זה הצבע שלהם. הפלטה כאן נשארת של Before I Do"
+    - "אנגלית על התמונה. העתק את הגודל והמיקום, לא את השפה"
+  rules:
+    - "לעולם לא לשחזר רפרנס. לוקחים ממנו מוטיב וכותבים אותו, האמנות נשארת שלהם"
+    - "הכיתוב יושב איפה שהתמונה שקטה: align top/bottom לפי מה שבפריים, לא לפי הרגל"
 
   sizes:
     post:  { w: 1080, h: 1350 }   # 4:5 - matches the brand's existing feed

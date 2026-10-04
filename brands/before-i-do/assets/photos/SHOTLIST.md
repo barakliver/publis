@@ -1,7 +1,23 @@
 # Photo shot list — Before I Do
 
-The `photo` layout needs photographs. Claude renders the graphics but cannot
-produce a photograph, so these come from a shoot or an image generator.
+The `photo` and `editorial` layouts need photographs. Claude renders the
+graphics but cannot produce a photograph, so these come from a shoot or an
+image generator.
+
+**`editorial` is the carousel look** - a photograph of two people doing
+something ordinary, with one thin centred line over it. It is only as good as
+the pictures it is given, and right now the brand owns four:
+
+| File | Usable? |
+|---|---|
+| `couple-cards-bar` | Yes. The best one - warm, candid, the deck in play. Opens W43. |
+| `box-table` | Yes. A flat-lay with no faces, which the references do too. |
+| `couple-cafe` | No. The heart is burned into the top of the frame, where the template draws its own. Needs a clean re-export, or `--trim-top`. |
+| `box-sushi` | No. Same burned-in heart, and the frame is mirrored - the Hebrew on the cards reads backwards. |
+
+So two usable photographs against nine carousels. Everything else falls back
+to the same line on cream, which is a deliberate quiet beat but is not a
+substitute for a picture. The table below is what to shoot.
 
 ## How to add one
 
@@ -14,11 +30,14 @@ produce a photograph, so these come from a shoot or an image generator.
 
 ## What makes a photo work here
 
-The template lays a heart at the top, a headline across the middle and a
-wordmark, engagement marks and dots across the bottom. So:
+The template lays a headline across the middle and a wordmark, with the
+engagement marks on the last slide, across the bottom. On `editorial` over a
+photograph the heart is not drawn at all - flat on a picture it reads as a
+sticker - so the top of the frame is free. So:
 
-- **Leave the middle third quiet.** A face or the product dead centre fights
-  the headline. Put the subject low, or off to one side.
+- **Leave one band quiet.** The headline goes where the picture is calm:
+  `align: 'top'` or `align: 'bottom'` moves it there, and centred is only
+  right when the middle is empty. Decide it by looking at the photograph.
 - **Shoot wider than you need.** Feed is 4:5 and story is 9:16, cropped from
   the same file. A tight frame loses its edges in the story crop.
 - **Warm light, shallow depth.** Golden hour, a lamp, candles. It has to sit
