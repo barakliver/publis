@@ -14,8 +14,23 @@ const yaml = require('js-yaml');
 
 const ROOT = path.resolve(__dirname, '..');
 
-/** Every brand folder, with its latest built round if it has one. */
-function surveyBrands() {
+/**
+ * The round the team needs to look at: the nearest one that has not started
+ * yet, because that is the one still waiting for approval. Nothing upcoming
+ * leaves the week in progress, and failing that the last one built.
+ *
+ * The furthest week is the wrong answer - two weeks built ahead used to hide
+ * next week's round behind the one after it.
+ */
+function currentWeek(rounds, today) {
+  return rounds.find((r) => r.starts && r.starts > today)
+    || rounds.find((r) => !r.ends || r.ends >= today)
+    || rounds[rounds.length - 1]
+    || null;
+}
+
+/** Every brand folder, with the round it is currently on if it has one. */
+function surveyBrands(today = new Date().toISOString().slice(0, 10)) {
   const brandsDir = path.join(ROOT, 'brands');
   if (!fs.existsSync(brandsDir)) return [];
 
@@ -24,18 +39,22 @@ function surveyBrands() {
     .map((id) => {
       const brand = yaml.load(fs.readFileSync(path.join(brandsDir, id, 'brand.yaml'), 'utf8'));
       const roundsDir = path.join(ROOT, 'rounds', id);
-      const weeks = fs.existsSync(roundsDir)
+      const rounds = (fs.existsSync(roundsDir)
         ? fs.readdirSync(roundsDir)
             .filter((w) => fs.existsSync(path.join(roundsDir, w, 'round.json')))
             .sort()
-        : [];
-      const week = weeks[weeks.length - 1] || null;
+        : []
+      ).map((w) => {
+        const r = JSON.parse(fs.readFileSync(path.join(roundsDir, w, 'round.json'), 'utf8'));
+        return { week: w, starts: r.starts, ends: r.ends, counts: r.counts };
+      });
 
-      let counts = null;
-      if (week) {
-        const r = JSON.parse(fs.readFileSync(path.join(roundsDir, week, 'round.json'), 'utf8'));
-        counts = r.counts;
-      }
+      const current = currentWeek(rounds, today);
+      const week = current ? current.week : null;
+      const counts = current ? current.counts : null;
+      // Every other round still live - the week in progress as well as the ones
+      // further out - so building ahead never makes a round unreachable.
+      const ahead = rounds.filter((r) => r.week !== week && (!r.ends || r.ends >= today));
       return {
         id,
         name: brand.brand?.name || id,
@@ -43,7 +62,7 @@ function surveyBrands() {
         kind: brand.brand?.kind || '',
         setup: brand.setup_needed || null,
         colors: brand.visual?.colors || {},
-        week, weeks, counts,
+        week, counts, ahead,
       };
     })
     .sort((a, b) => (b.week ? 1 : 0) - (a.week ? 1 : 0) || a.name.localeCompare(b.name));
@@ -81,7 +100,10 @@ function card(b) {
         </p>
       </div>
       <span class="go">‹</span>
-    </a>`;
+    </a>
+    ${b.ahead && b.ahead.length ? `<p class="ahead">גם מוכן:
+      ${b.ahead.map((r) => `<a href="rounds/${esc(b.id)}/${esc(r.week)}/">${esc(r.week.replace('-W', ' · שבוע '))}</a>`).join(' ')}
+    </p>` : ''}`;
 }
 
 function buildHub() {
@@ -148,6 +170,10 @@ header p{margin:5px 0 0;color:var(--ink-soft);font-size:14px}
 .stat{margin:6px 0 0;font-size:13px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 .need{margin:6px 0 0;font-size:13px;color:var(--ink-faint)}
 .go{flex:none;font-size:22px;color:var(--ink-faint);line-height:1}
+.ahead{margin:-6px 0 12px;padding-inline:16px;font-size:12.5px;color:var(--ink-faint)}
+.ahead a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line);
+         margin-inline-start:6px;font-variant-numeric:tabular-nums}
+.ahead a:hover{color:var(--brand);border-color:var(--brand)}
 .foot{margin-top:30px;padding:15px;border-radius:15px;background:var(--sunken);
       border:1px solid var(--line);font-size:13px;color:var(--ink-soft)}
 .foot b{color:var(--ink)}

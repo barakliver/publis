@@ -146,9 +146,17 @@ reachable at their own path - never duplicate them into a docs folder.
 ## The hub
 
 `core/hub.js` writes the root `index.html`: every business under `brands/`,
-each linking to its latest built round. It owns that file - `review.js` must
-not touch it. A brand with no round yet shows as waiting, with the
+each linking to the round it is currently on. It owns that file - `review.js`
+must not touch it. A brand with no round yet shows as waiting, with the
 `setup_needed` line from its `brand.yaml` saying what is missing.
+
+**The round it links to is the nearest one that has not started yet**, read off
+`starts` in each `round.json` - that is the one still waiting for approval.
+The *latest* round is the wrong answer: once two weeks are built ahead, it hides
+next week's round behind the one after it, which is how seven carousels ended up
+one tap further away than two. Every other still-live round, the week in
+progress included, is listed under the card as "גם מוכן", so building ahead
+never strands a round.
 
 Businesses: `before-i-do`, `liver-productions` (Barak Lior, wedding
 production - shares the palette, separate voice and audience) and `lehem`
