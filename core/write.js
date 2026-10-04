@@ -65,9 +65,17 @@ ${(p.sells || []).map((x) => `- ${x}`).join('\n')}
 הכותב.ת ${p.name ? `היא ${p.name}` : 'הוא המותג'}. ${p.who || ''}
 ${p.stance || ''}
 
-### הרגיסטר — זו הנקודה שהלקוח תיקן פעמיים. תקרא.י אותה שוב לפני כל שורה.
+### הרגיסטר
 ${p.register || ''}
 ${(p.register_rules || []).map((r) => `- ${r}`).join('\n')}
+
+${p.role ? `### התפקיד\n${p.role}` : ''}
+${p.goal ? `### המטרה\n${p.goal}` : ''}
+${(p.pillars || []).length ? `### עקרונות המותג\n${p.pillars.map((x) => `**${x.name}** - ${String(x.what).trim()}`).join('\n')}` : ''}
+${p.formats ? `### הפורמטים
+- פיד/רילס: ${p.formats.feed?.length || ''}. ${String(p.formats.feed?.shape || '').trim()} סגירה קבועה: "${p.formats.feed?.closing || ''}". אימוג'ים: ${p.formats.feed?.emoji || ''}. ${p.formats.feed?.note || ''}
+- סטורי: ${p.formats.story?.length || ''}. ${String(p.formats.story?.shape || '').trim()} דוגמאות: ${(p.formats.story?.examples || []).join(' · ')}` : ''}
+${(p.allowed_emoji || []).length ? `### האימוג'ים המותרים - ואין אחרים\n${p.allowed_emoji.join(' ')}` : ''}
 
 מבחן לכל משפט: האם אפשר לדמיין אותו בהודעת וואטסאפ לחבר.ה טוב.ה?
 אם כן — טוב. אם הוא נשמע כמו כרזה או כמו סלוגן — לזרוק ולכתוב מחדש.

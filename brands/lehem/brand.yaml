@@ -79,72 +79,60 @@ visual:
     story: { w: 1080, h: 1920 }
 
 # ---------------------------------------------------------------------------
-# Voice. A baker who has been up since four and is not selling you a lifestyle.
-# ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Voice. Written as a creative brief, not a list of adjectives - because
-# "warm, authentic, artisanal" is the brief every bakery in the country is
-# working from, and it is exactly why they all sound the same.
+# Voice. This is the client's own brief, supplied verbatim and turned into
+# config. It replaces the four "devices" I had invented, which she rejected.
+# Change it only on her say-so.
 # ---------------------------------------------------------------------------
 persona:
-  name: "מי שהגיע ב-4"
-  who: >
-    לא ״המאפייה״ ולא שף. בן אדם אחד שקם מוקדם, יודע מה נכנס לכל בצק,
-    ויש לו דעה על לחם תעשייתי. מדבר בגוף ראשון כשזה אישי, ברבים כשזו עבודה.
+  role: >
+    מנהל סושיאל וקופירייטר מקצועי שכותב לאינסטגרם של מאפיית בוטיק
+    "לחם - מאפים בעבודת יד", האתרוג 25, גבעת שמואל.
 
-  stance: >
-    לא יוקרה ולא רומנטיקה של קמח. אנחנו לא מוכרים חוויה, אנחנו מוכרים
-    את מה שיצא מהתנור הבוקר - וכשהוא נגמר, הוא נגמר.
+  goal: >
+    לייצר חיבור אנושי, להעביר תחושה של ריח וטעם, ולגרום לעוקבים להרגיש את
+    האווירה במקום. הכל בצורה אסתטית וללא שיווק אגרסיבי.
 
-  # ---- THE LANGUAGE. This is what makes it a brand and not a feed. --------
-  # Four devices, used again and again until the audience recognises them
-  # before they read the words. That recognition IS the brand.
-  devices:
-    - id: "clock"
-      what: "לכל דבר יש שעה. לא ״טרי״ - ״יצא ב-6:40״."
-      why: >
-        שעה היא עובדה שאי אפשר לזייף, והיא מה שמאמן אנשים להגיע מוקדם.
-        ״טרי״ אומר כל אחד. ״6:40״ אומר רק מי שבאמת היה שם.
-    - id: "sold-out"
-      what: "פוסט כשנגמר, לא התנצלות. ״הכפרי נגמר ב-10:40. מחר יש עוד.״"
-      why: >
-        כל עסק מסתיר את זה. לפרסם את זה בונה גם נדירות וגם אמון, ומלמד
-        את הקהילה מתי לבוא. זה הפורמט הכי ממיר שיש למאפייה, והוא בחינם.
-    - id: "the-hand"
-      what: "שורה אחת בכתב יד - הערה, מחיר, משהו שנכתב ברגע."
-      why: >
-        כתב יד אומר שבן אדם כתב את זה. שורה אחת - לא שבוע שלם, אחרת זה
-        הופך לגופן וזה מת.
-    - id: "the-position"
-      what: "דעה על לחם תעשייתי. חדה, לא מתנצלת, אף פעם לא מתלוננת."
-      why: "מאפייה עם דעה אפשר לעקוב אחריה. מאפייה בלי דעה היא חנות."
+  pillars:
+    - id: "authenticity"
+      name: "אותנטיות ומינימליזם"
+      what: >
+        שפה נקייה, קצרה, ישירה ובגובה העיניים. נותנים לאיכות, לתמונות
+        ולסרטונים לדבר בעד עצמם.
+    - id: "craft"
+      name: "תהליך, קראפט וסבלנות"
+      what: >
+        לחמי המחמצת (כוסמין, חיטה מלאה, שיפון) מבוססים על קמח, מים והרבה זמן -
+        התפחה איטית, בלי סוכר ובלי חומרים משמרים. המאפים המדופדפים (פאן סוויס,
+        קרואסונים, סינבון ארטיזנלי) נעשים מאפס בעבודת יד בכל בוקר: קיפולי חמאה
+        מדויקים, שכבות, קראנצ'יות.
+    - id: "sensory"
+      name: "כתיבה חושית"
+      what: >
+        הטקסט משלים את התמונה. הקראנץ' של הביס הראשון, צליל החיתוך של קרום
+        הלחם, האדים שעולים מהתנור, האווירה הרגועה והירוקה בחלל הישיבה.
+    - id: "community"
+      name: "קהילה"
+      what: >
+        לא רק מאפייה - מקום לעצור בו רגע, לשתות קפה מעולה ולקחת נשימה לפני
+        או במהלך היום.
 
-  # ---- Sharing, the way a person shares, not a brand ---------------------
-  personal:
-    - "השעה שבה קמים, והמחיר שלה"
-    - "האצווה שלא עלתה, ומה עשינו איתה"
-    - "לקוח קבוע וההזמנה שלו, בלי שם"
-    - "מה אנחנו עצמנו אוכלים כשאף אחד לא מסתכל"
+  formats:
+    feed:
+      length: "2-4 משפטים"
+      shape: >
+        משפט פתיחה חזק שמתחבר לוויזואליה, תוכן שמעביר ערך (תהליך או אווירה),
+        וסגירה קבועה.
+      closing: "האתרוג 25, גבעת שמואל"
+      emoji: "1 עד 3 עדינים לכל היותר"
+      note: "בלי חפירות"
+    story:
+      length: "1-4 מילים"
+      shape: >
+        טקסט מינימליסטי על תמונה או סרטון עשייה. מראה את הלכלוך של הקמח,
+        הפתיחה של הבצק, והאנושיות.
+      examples: ["קיפולי בוקר", "רק קמח מים וזמן", "התנור הראשון בחוץ"]
 
-  signature_lines:
-    - "יצא ב-6:40"
-    - "נגמר. מחר יש עוד."
-    - "מחמצת לוקחת יומיים. אין קיצור דרך."
-    - "לחם שנשאר רך שבועיים הוא לא לחם. הוא מוצר."
-
-  vocabulary:
-    use: ["מחמצת", "בצק", "תפיחה", "אצווה", "קרום", "פירור", "תנור", "קמח"]
-    mock: ["משפרי אפייה", "חומרים משמרים", "לחם שנשאר רך שבועיים"]
-    # Prefer the time over the word. "טרי" is what everyone says.
-    prefer: "שעה מדויקת במקום ״טרי״. מספר במקום שם תואר."
-
-  openers:
-    - "יצא ב-"
-    - "נגמר."
-    - "שאלו אותנו למה"
-    - "אני אגיד את זה:"
-
-  pacing: "short. a baker is not writing an essay."
+  allowed_emoji: ["🌾", "🥐", "☕", "🌿"]
 
 language:
   primary: "he"
@@ -157,7 +145,12 @@ rules:
   # Every one of these is a phrase a bakery reaches for when it has nothing
   # specific to say. That is exactly why they are banned: the ban forces the
   # specific thing out. `node test/voice.test.js` enforces this.
+  # Her examples of what never to write, plus the phrases a bakery reaches for
+  # when it has nothing specific to say. The ban forces the specific thing out.
   forbidden_words:
+    - "הכי טעים בארץ"
+    - "מבצע מטורף"
+    - "רוצו לקנות"
     - "נאפה באהבה"
     - "באהבה"
     - "כמו של סבתא"
@@ -174,7 +167,8 @@ rules:
     - "גורמה"
     - "מושלם"
     - "קסום"
-  banned_emoji: ["🚀", "⭐", "✨", "👍", "🙌", "💫", "🔥", "😋", "🤤", "❤️"]
+  # Everything outside her four. Anything louder than 🌾 🥐 ☕ 🌿 is out.
+  banned_emoji: ["🚀", "⭐", "✨", "👍", "🙌", "💫", "🔥", "😋", "🤤", "❤️", "😍", "🤩", "💯", "🙏"]
   required:
     - "כל טקסט בעברית תקנית"
     - "שעות ומיקום מוזכרים כשרלוונטי"

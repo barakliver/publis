@@ -350,35 +350,36 @@ or a three-word hook inflates the whole bottom of the frame.
 
 ## Writing for lehem
 
-The voice lives in `persona` in its brand.yaml, written as a creative brief
-rather than a list of adjectives - because "warm, authentic, artisanal" is the
-brief every bakery in the country is working from, and it is exactly why they
-all sound identical.
+The voice is the client's own brief, supplied verbatim and now config under
+`persona` in its brand.yaml. It replaced four "devices" I had invented - a
+clock on everything, sold-out as a flex, handwriting, an opinion about
+industrial bread - which she rejected outright, along with three voice
+directions and six visual puns. Do not reintroduce any of them. Read the brief
+and follow it.
 
-Four named devices, used until the audience recognises them before reading the
-words. That recognition is the brand:
+Four pillars: **authenticity and minimalism** (clean, short, eye-level; never
+a shouty sales line - her examples are "הכי טעים בארץ", "מבצע מטורף",
+"רוצו לקנות"), **process and patience** (sourdough is flour, water and a lot
+of time; laminated pastry is folded by hand every morning), **sensory writing**
+(the crunch of the first bite, the sound of a crust being cut, steam off the
+oven, the quiet green corner inside), and **community** (a place to stop for a
+moment, not just a shop).
 
-1. **The clock.** Everything carries a time. Not "fresh" - "out at 6:40". A
-   time cannot be faked and it trains people to come early; "fresh" is what
-   everyone says.
-2. **Sold out.** Posted as a fact, never an apology. "The country loaf went at
-   10:40. More tomorrow." Every business hides this. Posting it builds
-   scarcity and trust at once, and costs nothing.
-3. **The hand.** One line in handwriting - a note, a price, an aside. One line,
-   not a week of them: a whole run in the hand turns it back into a font.
-4. **The position.** An opinion about industrial bread, sharp and unapologetic.
-   A bakery with an opinion can be followed. One without is a shop.
+Two formats, and the lengths are hers:
 
-The banned list is every phrase a bakery reaches for when it has nothing
-specific to say. The ban is the point: it forces the specific thing out.
-`node test/voice.test.js` enforces it, and it is a plain substring match, so
-it will occasionally catch an innocent use - rewrite the line rather than
-weakening the rule.
+- **Feed and Reels** - 2 to 4 sentences. A strong opening tied to the picture,
+  then process or atmosphere, then the fixed close `האתרוג 25, גבעת שמואל`.
+  One to three gentle emoji at most, only from 🌾 🥐 ☕ 🌿.
+- **Stories** - one to four words over a photograph of the making. Flour on
+  hands, dough being opened. Her own examples: "קיפולי בוקר",
+  "רק קמח מים וזמן", "התנור הראשון בחוץ".
 
-`Gveret Levin` (`assets/fonts/GveretLevin.ttf`) is the hand, set with
-`hand: true`. It is real marker handwriting rather than a display face
-pretending to be one. Its strokes are thinner than Rubik's, so over a
-photograph it needs a heavier shadow than the body face does.
+No hashtags inside the body text. Airy paragraphs, because it is read on a
+phone.
+
+`core/write.js` feeds the whole brief - role, goal, pillars, both formats and
+the allowed emoji - to the weekly job, so Saturday produces this and not
+something I invented between rounds.
 
 ## Writing for this brand
 

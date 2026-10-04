@@ -17,7 +17,7 @@
   "ends": "2026-10-18",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-03T18:50:29.394Z",
+  "generated_at": "2026-10-04T08:10:22.626Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -27,8 +27,8 @@
     "posts": 6,
     "stories": 6,
     "manual": 0,
-    "carousels": 2,
-    "slides": 17
+    "carousels": 0,
+    "slides": 12
   },
   "items": [
     {
@@ -41,17 +41,19 @@
       "status": "draft",
       "type": "single",
       "pillar": "value",
-      "layout": "product",
+      "layout": "photo",
+      "photo": "spread-plates",
+      "align": "top",
       "hand": true,
-      "headline": "פתחנו",
-      "subline": "א׳-ה׳ 7:00-19:00 · ו׳ עד שעתיים לפני כניסת השבת",
+      "headline": "התנור הראשון בחוץ",
       "slides": [
         {
           "pillar": "value",
-          "layout": "product",
+          "layout": "photo",
+          "photo": "spread-plates",
+          "align": "top",
           "hand": true,
-          "headline": "פתחנו",
-          "subline": "א׳-ה׳ 7:00-19:00 · ו׳ עד שעתיים לפני כניסת השבת"
+          "headline": "התנור הראשון בחוץ"
         }
       ],
       "images": [
@@ -62,39 +64,28 @@
     {
       "id": "post-01",
       "format": "post",
-      "type": "carousel",
+      "type": "single",
       "channel": "instagram",
       "date": "2026-10-12",
       "day_he": "שני",
       "time": "08:00",
       "status": "draft",
       "pillar": "identity",
-      "caption": "שאלו אותנו למה הלחם שלנו לא נשאר רך שבוע.\n\nכי מה שמשאיר לחם רך שבוע הוא לא קמח.\n\nלחם מחמצת מתייבש. אחר כך הוא נהיה טוסט, ואחרי זה פירורי לחם. ככה זה עבד מאז ומתמיד.",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "caption": "שלושה מרכיבים, והשלישי הוא הארוך שבהם.\n\nההתפחה לוקחת את כל הלילה. בלי סוכר, בלי חומרים משמרים, ובלי שום דרך לקצר אותה.\n\nהאתרוג 25, גבעת שמואל 🌾",
+      "hashtags": "",
       "slides": [
         {
-          "layout": "product",
-          "headline": "לחם שנשאר רך שבועיים",
-          "subline": "הוא לא לחם. הוא מוצר."
-        },
-        {
-          "layout": "product",
-          "headline": "לחם אמיתי מתייבש",
-          "subline": "זה לא פגם. זה הסימן."
-        },
-        {
-          "layout": "product",
-          "dark": true,
-          "headline": "אנחנו אופים בלי משפרי אפייה",
-          "subline": "אז שלנו מתייבש ביום השלישי. ככה זה אמור לעבוד."
+          "layout": "photo",
+          "photo": "quiche-rings",
+          "zoom": 2.4,
+          "ink": "dark",
+          "headline": "קמח, מים, זמן"
         }
       ],
       "images": [
-        "images/post-01-01.png",
-        "images/post-01-02.png",
-        "images/post-01-03.png"
+        "images/post-01.png"
       ],
-      "image": "images/post-01-01.png"
+      "image": "images/post-01.png"
     },
     {
       "id": "story-02",
@@ -105,22 +96,16 @@
       "time": "07:30",
       "status": "draft",
       "type": "single",
-      "pillar": "value",
-      "layout": "photo",
-      "photo": "quiche-rings",
-      "zoom": 2.4,
-      "ink": "dark",
-      "headline": "זה לא פילטר.",
-      "subline": "זה הקיש שיצא הבוקר",
+      "pillar": "identity",
+      "layout": "product",
+      "hand": true,
+      "headline": "רק קמח, מים וזמן",
       "slides": [
         {
-          "pillar": "value",
-          "layout": "photo",
-          "photo": "quiche-rings",
-          "zoom": 2.4,
-          "ink": "dark",
-          "headline": "זה לא פילטר.",
-          "subline": "זה הקיש שיצא הבוקר"
+          "pillar": "identity",
+          "layout": "product",
+          "hand": true,
+          "headline": "רק קמח, מים וזמן"
         }
       ],
       "images": [
@@ -138,15 +123,14 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
-      "caption": "אנחנו לא כותבים ״טרי״, כי כל אחד כותב ״טרי״.\n\nכתוב 6:40 כי בשעה 6:40 הוא יצא מהתנור, ואפשר לבדוק אותנו.\n\nהאתרוג 25, גבעת שמואל",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "caption": "כל מאפה מדופדף כאן מקופל ביד, מוקדם.\n\nהחמאה נכנסת קרה, הבצק נח, וחוזר חלילה — וזה מה שאתם שומעים בביס הראשון.\n\nהאתרוג 25, גבעת שמואל 🥐",
+      "hashtags": "",
       "slides": [
         {
           "layout": "photo",
-          "photo": "cinnamon-hands",
+          "photo": "brioche-plate",
           "align": "top",
-          "headline": "יצא ב-6:40",
-          "subline": "רול קינמון. יש שמונה."
+          "headline": "קיפולי בוקר"
         }
       ],
       "images": [
@@ -163,20 +147,20 @@
       "time": "07:30",
       "status": "draft",
       "type": "single",
-      "pillar": "pain",
-      "layout": "product",
-      "dark": true,
+      "pillar": "value",
+      "layout": "photo",
+      "photo": "cinnamon-hands-wide",
+      "align": "top",
       "hand": true,
-      "headline": "נגמר.",
-      "subline": "מחר ב-7:00 יש עוד",
+      "headline": "עוד חם",
       "slides": [
         {
-          "pillar": "pain",
-          "layout": "product",
-          "dark": true,
+          "pillar": "value",
+          "layout": "photo",
+          "photo": "cinnamon-hands-wide",
+          "align": "top",
           "hand": true,
-          "headline": "נגמר.",
-          "subline": "מחר ב-7:00 יש עוד"
+          "headline": "עוד חם"
         }
       ],
       "images": [
@@ -193,16 +177,15 @@
       "day_he": "רביעי",
       "time": "08:00",
       "status": "draft",
-      "pillar": "pain",
-      "caption": "כל יום אנחנו אופים כמות שאפשר לאפות ביום אחד. לא יותר.\n\nזה אומר שלפעמים נגמר ב-10:40 ומישהו מגיע ב-11 ומתאכזב. אני יודע. גם אני הייתי מתאכזב.\n\nאבל האלטרנטיבה היא לאפות אתמול, ואת זה לא נעשה.",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "pillar": "value",
+      "caption": "הזיגוג עדיין נוזלי כשהוא יוצא.\n\nכעשרים דקות אחר כך הוא מתייצב, והמאפה כבר אחר. שניהם טובים — פשוט לא אותו דבר.\n\nהאתרוג 25, גבעת שמואל",
+      "hashtags": "",
       "slides": [
         {
-          "layout": "product",
-          "dark": true,
-          "hand": true,
-          "headline": "הכפרי נגמר ב-10:40",
-          "subline": "מחר יש עוד. בואו מוקדם."
+          "layout": "photo",
+          "photo": "cinnamon-hands",
+          "align": "top",
+          "headline": "סינבון, עוד חם"
         }
       ],
       "images": [
@@ -221,14 +204,16 @@
       "type": "single",
       "pillar": "identity",
       "layout": "product",
-      "headline": "מחמצת לוקחת יומיים",
-      "subline": "אין קיצור דרך. באמת אין.",
+      "dark": true,
+      "hand": true,
+      "headline": "קיפולי בוקר",
       "slides": [
         {
           "pillar": "identity",
           "layout": "product",
-          "headline": "מחמצת לוקחת יומיים",
-          "subline": "אין קיצור דרך. באמת אין."
+          "dark": true,
+          "hand": true,
+          "headline": "קיפולי בוקר"
         }
       ],
       "images": [
@@ -246,16 +231,12 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "identity",
-      "caption": "ארבע ועשרה. בלי שעון מעורר כבר שנים, הגוף פשוט יודע.\n\nשעתיים אחר כך זה נראה ככה, ואז פותחים את הדלת.\n\nזה לא סיפור על מסירות. זה פשוט מה שלוקח לאפות מחמצת.",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "caption": "יש בפנים פינה ירוקה ושקטה, גם כשבחוץ פחות.\n\nקפה, מאפה, ועשרים דקות לפני שהיום מתחיל באמת.\n\nהאתרוג 25, גבעת שמואל ☕",
+      "hashtags": "",
       "slides": [
         {
-          "layout": "photo",
-          "photo": "spread-plates",
-          "align": "top",
-          "hand": true,
-          "headline": "קמתי ב-4:10",
-          "subline": "זה מה שהיה על השולחן ב-6:15"
+          "layout": "product",
+          "headline": "לשבת רגע"
         }
       ],
       "images": [
@@ -274,20 +255,20 @@
       "type": "single",
       "pillar": "value",
       "layout": "photo",
-      "photo": "brioche-plate",
-      "align": "top",
-      "headline": "שוקולד צ׳יפס",
-      "subline": "ועוד חם",
-      "cta": "האתרוג 25, גבעת שמואל",
+      "photo": "quiche-rings",
+      "zoom": 2.2,
+      "ink": "dark",
+      "hand": true,
+      "headline": "יצא עכשיו",
       "slides": [
         {
           "pillar": "value",
           "layout": "photo",
-          "photo": "brioche-plate",
-          "align": "top",
-          "headline": "שוקולד צ׳יפס",
-          "subline": "ועוד חם",
-          "cta": "האתרוג 25, גבעת שמואל"
+          "photo": "quiche-rings",
+          "zoom": 2.2,
+          "ink": "dark",
+          "hand": true,
+          "headline": "יצא עכשיו"
         }
       ],
       "images": [
@@ -298,45 +279,26 @@
     {
       "id": "post-05",
       "format": "post",
-      "type": "carousel",
+      "type": "single",
       "channel": "instagram",
       "date": "2026-10-16",
       "day_he": "שישי",
       "time": "08:00",
       "status": "draft",
       "pillar": "value",
-      "caption": "אנשים שואלים אותנו מאיזה להתחיל, וכמעט תמיד אנחנו עונים ״הקל״.\n\nלא כי הוא הכי טוב, אלא כי מחמצת זה טעם שלוקח כמה פעמים. אין טעם לזרוק מישהו ישר לשיפון.\n\nתגידו לנו בתגובות מה אתם לוקחים ואנחנו נגיד מה הבא בתור.",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "caption": "כשחותכים כיכר טרייה — שומעים אותה.\n\nהקרום הזה נוצר מהתפחה ארוכה ומחום גבוה, לא מתוסף. כוסמין, חיטה מלאה ושיפון, כל אחד עם הצליל שלו.\n\nהאתרוג 25, גבעת שמואל 🌾",
+      "hashtags": "",
       "slides": [
         {
           "layout": "product",
-          "headline": "שמונה לחמים",
-          "subline": "ואף אחד מהם לא צריך להיות הראשון שתנסו"
-        },
-        {
-          "layout": "product",
-          "headline": "הקל",
-          "subline": "אם אתם מתחילים. רך, לא חמוץ, הילדים אוכלים."
-        },
-        {
-          "layout": "product",
-          "headline": "הכפרי",
-          "subline": "אם אתם כבר יודעים מה אתם רוצים."
-        },
-        {
-          "layout": "product",
           "dark": true,
-          "headline": "השיפון",
-          "subline": "אם אתם רוצים משהו שיחזיק שלושה ימים וישתפר ביום השני."
+          "headline": "הקרום"
         }
       ],
       "images": [
-        "images/post-05-01.png",
-        "images/post-05-02.png",
-        "images/post-05-03.png",
-        "images/post-05-04.png"
+        "images/post-05.png"
       ],
-      "image": "images/post-05-01.png"
+      "image": "images/post-05.png"
     },
     {
       "id": "story-06",
@@ -347,24 +309,16 @@
       "time": "07:30",
       "status": "draft",
       "type": "single",
-      "pillar": "sell",
-      "layout": "photo",
-      "photo": "cinnamon-hands-wide",
-      "align": "top",
+      "pillar": "identity",
+      "layout": "product",
       "hand": true,
-      "headline": "מחר יש שוב",
-      "subline": "ב-6:40 בערך",
-      "cta": "האתרוג 25, גבעת שמואל",
+      "headline": "שקט, שמונה בבוקר",
       "slides": [
         {
-          "pillar": "sell",
-          "layout": "photo",
-          "photo": "cinnamon-hands-wide",
-          "align": "top",
+          "pillar": "identity",
+          "layout": "product",
           "hand": true,
-          "headline": "מחר יש שוב",
-          "subline": "ב-6:40 בערך",
-          "cta": "האתרוג 25, גבעת שמואל"
+          "headline": "שקט, שמונה בבוקר"
         }
       ],
       "images": [
@@ -382,16 +336,14 @@
       "time": "08:00",
       "status": "draft",
       "pillar": "sell",
-      "caption": "מגש נראה פשוט עד שצריך אותו ביום חמישי בערב.\n\nצריך 48 שעות, כי אנחנו אופים אותו ולא שולפים אותו ממקפיא.\n\nכריכים, ירקות, מתוק, מלוח. איסוף מהמאפייה.",
-      "hashtags": "#לחם #מחמצת #מאפייה #גבעתשמואל #לחםמחמצת #מאפיםבעבודתיד",
+      "caption": "פיסטוק, שוקולד, רד ולווט.\n\nנאפות בבוקר ובדרך כלל נגמרות עד הצהריים.\n\nהאתרוג 25, גבעת שמואל",
+      "hashtags": "",
       "slides": [
         {
           "layout": "photo",
           "photo": "cookies-three",
           "align": "top",
-          "headline": "מגשי אירוח",
-          "subline": "הזמנה 48 שעות מראש, איסוף עצמי",
-          "cta": "האתרוג 25, גבעת שמואל"
+          "headline": "שלוש עוגיות"
         }
       ],
       "images": [
