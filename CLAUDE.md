@@ -111,8 +111,10 @@ and a second row under it read as a printing error. They were removed at the
 client's word; do not put them back.
 
 Shape a carousel so slide one earns the swipe and the last one asks for
-something. Four to six slides; one idea per slide, short enough to read
-without stopping.
+something; one idea per slide, short enough to read without stopping. Four to
+six is a good default, but the client's own carousels run seven to nine and
+Instagram allows ten - her sheet wins over the default, and content is never
+truncated to fit a guideline of mine.
 
 Instagram stories have no swipeable carousel - that is a post format. But a
 story CAN be a run of consecutive frames the viewer taps through, and a story
@@ -414,6 +416,34 @@ array.
 `core/write.js` feeds the whole brief - role, goal, pillars, both formats and
 the allowed emoji - to the weekly job, so Saturday produces this and not
 something I invented between rounds.
+
+## The 60-day system (Before I Do)
+
+`content/system-60day.json` is the client's own workbook, extracted and
+tracked: her 60-day calendar, a 60-entry story bank, 17 POV scripts with shot
+direction, 9 fully written carousels, 3 highlight sets and her voice sheet.
+It is the source of truth and it supersedes anything I wrote for this brand.
+
+**Only part of it is renderable here.** Across the 60 days: 9 carousels and 17
+story cards this pipeline can make, and 17 POV videos, 8 talking reels, 1
+personal reel and 8 product/lifestyle shots that need a camera. Say that
+plainly rather than quietly producing the easy third.
+
+Her cadence is one post and one story a day, which is why `schedule` was moved
+off three-and-two.
+
+`persona.voice_sheet` is her table verbatim - each principle with what it
+sounds like and what to avoid. Where it disagrees with anything else in the
+persona, it wins. `persona.content_test` is the only test that matters:
+**"האם מאורסת תשלח את זה לארוס שלה?"** - not "did we mention the product
+enough".
+
+### Capacity
+
+A round holds `posting days x times-per-day` items. More than that used to wrap
+silently back onto day one and stack two posts on the same slot - which looks
+fine in round.json and loses a post in real life. `plan.js` now throws and says
+how many fit, so the content gets split across rounds deliberately.
 
 ## Writing for this brand
 

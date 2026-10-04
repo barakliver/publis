@@ -45,6 +45,19 @@ function buildRound(brandId, week) {
   // on Shabbat, and filling the week mechanically would have scheduled one.
   // Named in Hebrew so brand.yaml reads the way the owner thinks about it.
   const skip = new Set(s.skip_days || []);
+  // How much a week can actually hold. More content than slots used to wrap
+  // silently back onto day one and stack two items on the same time - which
+  // looks fine in the round and loses a post in real life.
+  const capacity = (perDay) => Math.max(0, (7 - (s.skip_days || []).length)) * perDay;
+  const checkFits = (n, perDay, what) => {
+    const cap = capacity(perDay);
+    if (n > cap) {
+      throw new Error(
+        `${n} ${what} do not fit one week: ${cap} slots ` +
+        `(${7 - (s.skip_days || []).length} posting days x ${perDay} a day). ` +
+        `Split them across rounds.`);
+    }
+  };
   const runDays = HEB_DAYS.map((name, i) => ({ name, i })).filter((d) => !skip.has(d.name));
   if (!runDays.length) throw new Error('schedule.skip_days leaves no day to post on');
   // Day N of the round maps to the Nth day the brand actually posts.
@@ -61,6 +74,9 @@ function buildRound(brandId, week) {
     if (skip.has(item.day)) throw new Error(`content pinned to ${item.day}, which schedule.skip_days excludes`);
     return i;
   };
+
+  checkFits(content.posts.length, s.post_times.length, 'posts');
+  checkFits(content.stories.length, s.story_times.length, 'stories');
 
   // Posts: fill day by day, one per configured time slot.
   // A post is always a slides[] array - a single image is just a carousel of

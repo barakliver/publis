@@ -125,6 +125,46 @@ persona:
     - "הקאפשן הוא המקום שבו הקול הזה חי. שם מותר לנשום ולהתפזר קצת"
     - "היא לא מפיקה חתונות ולא יועצת. היא חברה שישבה בהרבה חתונות"
 
+  # ---- THE VOICE SHEET, supplied by the client in the 60-day system. -----
+  # Where it disagrees with anything above, it wins.
+  voice_sheet:
+    - principle: "גובה עיניים"
+      sounds_like: "כאילו חברה מאורסת מספרת משהו בקבוצה"
+      never: "שפה טיפולית, הרצאות, מילים גדולות"
+    - principle: "ספציפיות"
+      sounds_like: "סיטואציה: 40 מוזמנים שההורים רוצים להוסיף"
+      never: "אמירות כלליות על תקשורת זוגית"
+    - principle: "הומור"
+      sounds_like: "מבט למצלמה, משפט קצר, זיהוי עצמי"
+      never: "בדיחות שמקטינות בן או בת זוג"
+    - principle: "מכירה"
+      sounds_like: "המוצר נכנס כחלק מערב אמיתי"
+      never: "כל פוסט מסתיים ברכישה"
+    - principle: "CTA"
+      sounds_like: "תשלחי לו, שמרו לערב, מה אצלכם?"
+      never: "קנו עכשיו בכל פוסט"
+    - principle: "צילום"
+      sounds_like: "טלפון, בית, מסעדה, רכב, שולחן אמיתי"
+      never: "סטודיו מלוטש בכל תוכן"
+    - principle: "מוצר"
+      sounds_like: "קטן בפריים ברוב התוכן"
+      never: "קופסה במרכז בכל צילום"
+    - principle: "משפט כן"
+      sounds_like: "לפני עוד ספק, רגע ביניכם."
+      never: "שפרו את התקשורת הזוגית שלכם"
+    - principle: "משפט כן"
+      sounds_like: "אז מסתבר שהיינו צריכים להגדיר מה זה קטן."
+      never: "תיאום ציפיות הוא שלב חשוב"
+    - principle: "משפט כן"
+      sounds_like: "אין תשובה נכונה. יש שיחה שכדאי לעשות."
+      never: "המשחק שלנו יפתור לכם את הריבים"
+    - principle: "בדיקת תוכן"
+      sounds_like: "האם מאורסת תשלח את זה לארוס שלה?"
+      never: "האם הזכרנו מספיק את המוצר?"
+
+  # The only test that matters. Not "did we mention the product enough".
+  content_test: "האם מאורסת תשלח את זה לארוס שלה?"
+
   # Rhythm: short sentences. One-line paragraphs. A hook that punches.
   pacing: "punchy"
 
@@ -176,10 +216,11 @@ rules:
 # ---------------------------------------------------------------------------
 schedule:
   timezone: "Asia/Jerusalem"
-  posts_per_day: 3
-  stories_per_day: 2
-  post_times:  ["09:00", "12:00", "18:00"]
-  story_times: ["10:30", "20:00"]
+  # The 60-day system is one content day per day: one item and one story.
+  posts_per_day: 1
+  stories_per_day: 1
+  post_times:  ["18:00"]
+  story_times: ["10:30"]
   approval_lead_days: 2
 
   # Rough mix across a week. The planner balances to these weights.
