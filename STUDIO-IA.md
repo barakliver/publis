@@ -86,7 +86,9 @@ internal notes → status.
 
 ---
 
-## Three decisions that need answering before code
+## Three decisions
+
+One is settled; two are still open.
 
 ### 1. Horizontal drag and vertical scroll in the same region
 
@@ -99,16 +101,21 @@ Once the sheet is engaged at all, horizontal drag is disabled until it returns.
 Inside a carousel the horizontal drag changes slide, so the decision there is a
 long drag or the button - never a guess.
 
-### 2. There is no third outcome for "not sure"
+### 2. "Not sure" — DECIDED 05.10.2026
 
 Approve, reject and change cover three intents. The fourth is the common one:
-**not now**. Without it an item she is undecided about blocks the queue and the
-product forces a decision she is not ready to make.
+**not sure**. Without it an item the client is undecided about blocks the queue
+and the product forces a decision that is not ready.
 
-**Proposal:** swipe up, or long press, returns the item to the end of the queue
-quietly. No confirmation, no new status in the database - ordering only. An item
-still there after three passes is a real signal, and a better one than a
-rejection.
+**Built as:** swipe up, or the small `לא בטוחה` control. It sits **above** the
+three buttons rather than in the row with them - four controls at equal weight
+would flatten the primary decision, and this is not a decision but a deferral of
+one.
+
+The item returns to the end of the queue quietly: no confirmation, no toast, and
+**no new status in the database** - ordering plus a counter. On the third return
+of the same item, one line appears ("עברת על זה שלוש פעמים") and the change
+sheet opens ready. The hesitation becomes information instead of staying stuck.
 
 ### 3. Thin Hebrew on a dark ground
 
