@@ -1,78 +1,102 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import type { FeedItem } from "@/lib/content";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { decide, fetchQueue, skip, type Approval, type FeedItem } from "@/lib/feed";
+import { ChangeSheet } from "@/components/feed/change-sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-type Decision = "approved" | "rejected";
-
-const FILTERS = [
-  { id: "today", label: "היום" },
-  { id: "new", label: "חדשים" },
+const FILTERS: { id: Approval; label: string }[] = [
+  { id: "pending", label: "ממתינים" },
   { id: "approved", label: "אושרו" },
-] as const;
+  { id: "rejected", label: "נדחו" },
+];
 
-type FilterId = (typeof FILTERS)[number]["id"];
-
-export function FeedDeck({ items }: { items: FeedItem[] }) {
-  const [filter, setFilter] = useState<FilterId>("new");
-  const [decisions, setDecisions] = useState<Record<string, Decision>>({});
-  // "Not sure" is ordering, not a status: the item goes to the back of the
-  // queue and the count is what turns hesitation into information.
-  const [skips, setSkips] = useState<Record<string, number>>({});
-  const [order, setOrder] = useState<string[]>(() => items.map((i) => i.id));
+export function FeedDeck({ onSignOut }: { onSignOut: () => void }) {
+  const [filter, setFilter] = useState<Approval>("pending");
+  const [items, setItems] = useState<FeedItem[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [flash, setFlash] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [changing, setChanging] = useState<FeedItem | null>(null);
 
-  const byId = useMemo(
-    () => Object.fromEntries(items.map((i) => [i.id, i])),
-    [items],
-  );
-
-  const queue = useMemo(() => {
-    if (filter === "approved") {
-      return order.filter((id) => decisions[id] === "approved");
+  const load = useCallback(async (which: Approval) => {
+    setItems(null);
+    setError(null);
+    try {
+      setItems(await fetchQueue(which));
+    } catch {
+      setError("לא הצלחנו לטעון את התוכן.");
     }
-    return order.filter((id) => !decisions[id]);
-  }, [order, decisions, filter]);
+  }, []);
 
-  const current = queue.length > 0 ? byId[queue[0]] : null;
+  useEffect(() => {
+    void load(filter);
+  }, [filter, load]);
 
-  function decide(id: string, decision: Decision) {
-    setDecisions((d) => ({ ...d, [id]: decision }));
-    setFlash(decision === "approved" ? "אושר" : "נדחה");
+  function say(text: string) {
+    setFlash(text);
     window.setTimeout(() => setFlash(null), 1100);
   }
 
-  function skip(id: string) {
-    setSkips((s) => ({ ...s, [id]: (s[id] ?? 0) + 1 }));
-    setOrder((o) => [...o.filter((x) => x !== id), id]);
+  async function onDecide(item: FeedItem, approval: "approved" | "rejected") {
+    setBusy(true);
+    // Leave the deck immediately; the write is confirmed or undone after.
+    setItems((list) => (list ?? []).filter((i) => i.id !== item.id));
+    try {
+      await decide(item.id, approval);
+      say(approval === "approved" ? "אושר" : "נדחה");
+    } catch {
+      setItems((list) => [item, ...(list ?? [])]);
+      say("לא נשמר. נסי שוב.");
+    } finally {
+      setBusy(false);
+    }
   }
 
-  const approvedCount = Object.values(decisions).filter(
-    (d) => d === "approved",
-  ).length;
+  async function onSkip(item: FeedItem) {
+    setBusy(true);
+    setItems((list) => {
+      const rest = (list ?? []).filter((i) => i.id !== item.id);
+      return [...rest, { ...item, skipCount: item.skipCount + 1 }];
+    });
+    try {
+      await skip(item.id, item.skipCount);
+    } catch {
+      say("לא נשמר. נסי שוב.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const current = items?.[0] ?? null;
 
   return (
     <div className="flex h-full flex-col">
       <Header
         filter={filter}
         onFilter={setFilter}
-        remaining={filter === "approved" ? approvedCount : queue.length}
+        count={items?.length ?? null}
+        onSignOut={onSignOut}
       />
 
       <main className="relative flex min-h-0 flex-1 flex-col">
-        {current ? (
+        {items === null ? (
+          <Loading />
+        ) : error ? (
+          <Message title={error} action="נסי שוב" onAction={() => void load(filter)} />
+        ) : current ? (
           <Card
             key={current.id}
             item={current}
-            skipped={skips[current.id] ?? 0}
-            onApprove={() => decide(current.id, "approved")}
-            onReject={() => decide(current.id, "rejected")}
-            onSkip={() => skip(current.id)}
-            decided={filter === "approved"}
+            busy={busy}
+            decided={filter !== "pending"}
+            onApprove={() => void onDecide(current, "approved")}
+            onReject={() => void onDecide(current, "rejected")}
+            onSkip={() => void onSkip(current)}
+            onChange={() => setChanging(current)}
           />
         ) : (
-          <Empty filter={filter} />
+          <Empty filter={filter} onGoPending={() => setFilter("pending")} />
         )}
 
         {flash && (
@@ -88,6 +112,18 @@ export function FeedDeck({ items }: { items: FeedItem[] }) {
       </main>
 
       <BottomNav />
+
+      {changing && (
+        <ChangeSheet
+          item={changing}
+          onClose={() => setChanging(null)}
+          onApplied={() => {
+            setChanging(null);
+            say("נשמר");
+            void load(filter);
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -95,11 +131,13 @@ export function FeedDeck({ items }: { items: FeedItem[] }) {
 function Header({
   filter,
   onFilter,
-  remaining,
+  count,
+  onSignOut,
 }: {
-  filter: FilterId;
-  onFilter: (f: FilterId) => void;
-  remaining: number;
+  filter: Approval;
+  onFilter: (f: Approval) => void;
+  count: number | null;
+  onSignOut: () => void;
 }) {
   return (
     <header
@@ -117,21 +155,24 @@ function Header({
               onClick={() => onFilter(f.id)}
               className={
                 "tap rounded-full px-3.5 py-1.5 text-[13px] transition-colors duration-200 " +
-                (on
-                  ? "bg-surface-2 text-ink"
-                  : "text-ink-3 hover:text-ink-2")
+                (on ? "bg-surface-2 text-ink" : "text-ink-3 hover:text-ink-2")
               }
             >
               {f.label}
-              {on && remaining > 0 && (
-                <span className="ms-1.5 tabular-nums text-ink-3">
-                  {remaining}
-                </span>
+              {on && count !== null && count > 0 && (
+                <span className="ms-1.5 tabular-nums text-ink-3">{count}</span>
               )}
             </button>
           );
         })}
       </div>
+      <button
+        type="button"
+        onClick={onSignOut}
+        className="tap text-[12px] text-ink-3 hover:text-ink-2"
+      >
+        יציאה
+      </button>
       <ThemeToggle />
     </header>
   );
@@ -139,31 +180,32 @@ function Header({
 
 function Card({
   item,
-  skipped,
+  busy,
+  decided,
   onApprove,
   onReject,
   onSkip,
-  decided,
+  onChange,
 }: {
   item: FeedItem;
-  skipped: number;
+  busy: boolean;
+  decided: boolean;
   onApprove: () => void;
   onReject: () => void;
   onSkip: () => void;
-  decided: boolean;
+  onChange: () => void;
 }) {
   const [slide, setSlide] = useState(0);
   const strip = useRef<HTMLDivElement>(null);
+  const shown = item.slides.filter((s) => s.image);
 
   function onScroll() {
     const el = strip.current;
     if (!el) return;
     const w = el.clientWidth || 1;
-    // RTL scrollLeft runs negative in every engine that matters here.
+    // scrollLeft runs negative in an RTL container.
     setSlide(Math.round(Math.abs(el.scrollLeft) / w));
   }
-
-  const total = item.slides.length;
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -173,14 +215,14 @@ function Card({
         dir="rtl"
         className="flex min-h-0 flex-1 snap-x snap-mandatory overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {item.slides.map((s) => (
+        {shown.map((s) => (
           <div
             key={s.id}
             className="flex w-full flex-none snap-center items-center justify-center px-4"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={s.image}
+              src={s.image ?? ""}
               alt={s.text}
               width={1080}
               height={1350}
@@ -192,9 +234,9 @@ function Card({
 
       <div className="flex-none px-5 pt-2.5 text-center">
         <p className="text-[12px] text-ink-3 tabular-nums">
-          {total > 1 && (
+          {shown.length > 1 && (
             <span>
-              שקף {slide + 1} מתוך {total}
+              שקף {slide + 1} מתוך {shown.length}
             </span>
           )}
           {item.planDay && (
@@ -210,9 +252,9 @@ function Card({
           </p>
         )}
 
-        {skipped >= 3 && (
+        {item.skipCount >= 3 && !decided && (
           <p className="mt-2 text-[13px] text-ink-2">
-            עברת על זה שלוש פעמים. אולי כדאי לשנות משהו?
+            עברת על זה {item.skipCount} פעמים. אולי כדאי לשנות משהו?
           </p>
         )}
       </div>
@@ -222,7 +264,8 @@ function Card({
           <button
             type="button"
             onClick={onSkip}
-            className="tap mx-auto mt-3 block text-[12.5px] text-ink-3 transition-colors hover:text-ink-2"
+            disabled={busy}
+            className="tap mx-auto mt-3 block text-[12.5px] text-ink-3 transition-colors hover:text-ink-2 disabled:opacity-40"
           >
             לא בטוחה <span aria-hidden>↑</span>
           </button>
@@ -230,18 +273,20 @@ function Card({
           <div className="mt-2 flex items-center justify-center gap-4 pb-1">
             {/* The heart sits on the start side - the right, in Hebrew -
                 because that is where the dominant action belongs here. */}
-            <Round label="אישור" onClick={onApprove} tone="yes">
+            <Round label="אישור" onClick={onApprove} tone="yes" disabled={busy}>
               <path d="M12 20.3 4.6 13a4.9 4.9 0 0 1 7-6.9l.4.4.4-.4a4.9 4.9 0 0 1 7 6.9Z" />
             </Round>
 
             <button
               type="button"
-              className="tap h-[38px] rounded-full border border-line bg-surface px-5 text-[13.5px] text-ink transition-colors hover:bg-surface-2"
+              onClick={onChange}
+              disabled={busy}
+              className="tap h-[38px] rounded-full border border-line bg-surface px-5 text-[13.5px] text-ink transition-colors hover:bg-surface-2 disabled:opacity-40"
             >
               שינוי
             </button>
 
-            <Round label="דחייה" onClick={onReject} tone="no">
+            <Round label="דחייה" onClick={onReject} tone="no" disabled={busy}>
               <path d="M6 6l12 12M18 6L6 18" />
             </Round>
           </div>
@@ -255,20 +300,23 @@ function Round({
   label,
   onClick,
   tone,
+  disabled,
   children,
 }: {
   label: string;
   onClick: () => void;
   tone: "yes" | "no";
+  disabled?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-label={label}
       className={
-        "tap grid h-12 w-12 place-items-center rounded-full border bg-surface transition-[transform,background-color] duration-150 active:scale-95 " +
+        "tap grid h-12 w-12 place-items-center rounded-full border bg-surface transition-[transform,background-color] duration-150 active:scale-95 disabled:opacity-40 " +
         (tone === "yes"
           ? "border-yes/40 text-yes hover:bg-yes/10"
           : "border-line text-no hover:bg-surface-2")
@@ -291,22 +339,53 @@ function Round({
   );
 }
 
-function Empty({ filter }: { filter: FilterId }) {
-  const copy =
-    filter === "approved"
-      ? { title: "עוד לא אישרת משהו.", action: "בואי נעבור על החדשים" }
-      : { title: "עברת על הכל.", action: "תכין לי עוד 3" };
+function Loading() {
+  return (
+    <div className="flex flex-1 items-center justify-center px-4">
+      <div className="h-full max-h-[62vh] w-full animate-pulse rounded-[var(--radius-card)] bg-surface" />
+    </div>
+  );
+}
 
+function Message({
+  title,
+  action,
+  onAction,
+}: {
+  title: string;
+  action: string;
+  onAction: () => void;
+}) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-      <p className="t-display text-[26px] text-ink">{copy.title}</p>
+      <p className="t-display text-[24px] text-ink">{title}</p>
       <button
         type="button"
+        onClick={onAction}
         className="tap rounded-full border border-line bg-surface px-5 py-2.5 text-[14px] text-ink transition-colors hover:bg-surface-2"
       >
-        {copy.action}
+        {action}
       </button>
     </div>
+  );
+}
+
+function Empty({
+  filter,
+  onGoPending,
+}: {
+  filter: Approval;
+  onGoPending: () => void;
+}) {
+  if (filter === "pending") {
+    return <Message title="עברת על הכל." action="רענון" onAction={onGoPending} />;
+  }
+  return (
+    <Message
+      title={filter === "approved" ? "עוד לא אישרת משהו." : "עוד לא דחית כלום."}
+      action="בואי נעבור על הממתינים"
+      onAction={onGoPending}
+    />
   );
 }
 
@@ -328,17 +407,19 @@ function BottomNav() {
         <button
           key={t.id}
           type="button"
+          disabled={!t.on}
           aria-current={t.on ? "page" : undefined}
+          title={t.on ? undefined : "עוד לא נבנה"}
           className={
             "tap flex flex-1 flex-col items-center gap-1 py-1 text-[10.5px] transition-colors " +
-            (t.action ? "text-yes" : t.on ? "text-ink" : "text-ink-3")
+            (t.on ? "text-ink" : "text-ink-3 opacity-45")
           }
         >
           <span
             aria-hidden
             className={
               t.action
-                ? "h-[18px] w-[18px] rounded-full bg-yes"
+                ? "h-[18px] w-[18px] rounded-full border-[1.5px] border-current"
                 : "h-[18px] w-[18px] rounded-[5px] border-[1.5px] border-current"
             }
           />
