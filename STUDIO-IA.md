@@ -8,17 +8,17 @@ interface code is written, and these decisions are awaiting her answer.
 
 ---
 
-## What was and was not audited
+## There is nothing to audit
 
-She asked for an audit of what the current implementation inherited from the old
-content machine. **The current implementation is not in this repository** - there
-is no application code in `publis`, only the CLI pipeline. A repo named
-`danipro` was pushed two hours after the Supabase project was created and may be
-it; adding it to the session was denied on permissions.
+**No application exists.** No interface inherited anything from the old content
+machine, because no interface has been written. What exists is the Supabase
+schema (29 tables, RLS on every one) and the old CLI pipeline, which is not an
+app. The client confirmed on 05.10.2026 that `danipro` is a separate project and
+unrelated.
 
-So the audit below covers only what was read first-hand: the Supabase schema
-(29 tables, read through the MCP) and this pipeline. Any interface living in
-`danipro` is unexamined, and must not be described as if it were not.
+So the three categories below are not a review of existing code. They are a
+decision taken up front: what may be carried over from the pipeline, and what is
+written from scratch precisely so it does not get dragged in.
 
 ---
 
