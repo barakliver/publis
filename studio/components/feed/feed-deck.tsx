@@ -11,7 +11,7 @@ const FILTERS: { id: Approval; label: string }[] = [
   { id: "rejected", label: "נדחו" },
 ];
 
-export function FeedDeck({ onSignOut }: { onSignOut: () => void }) {
+export function FeedDeck() {
   const [filter, setFilter] = useState<Approval>("pending");
   const [items, setItems] = useState<FeedItem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +76,6 @@ export function FeedDeck({ onSignOut }: { onSignOut: () => void }) {
         filter={filter}
         onFilter={setFilter}
         count={items?.length ?? null}
-        onSignOut={onSignOut}
       />
 
       <main className="relative flex min-h-0 flex-1 flex-col">
@@ -132,12 +131,10 @@ function Header({
   filter,
   onFilter,
   count,
-  onSignOut,
 }: {
   filter: Approval;
   onFilter: (f: Approval) => void;
   count: number | null;
-  onSignOut: () => void;
 }) {
   return (
     <header
@@ -166,13 +163,6 @@ function Header({
           );
         })}
       </div>
-      <button
-        type="button"
-        onClick={onSignOut}
-        className="tap text-[12px] text-ink-3 hover:text-ink-2"
-      >
-        יציאה
-      </button>
       <ThemeToggle />
     </header>
   );

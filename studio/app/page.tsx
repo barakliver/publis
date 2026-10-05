@@ -1,40 +1,18 @@
-"use client";
-
-import { useCallback, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import { SignIn } from "@/components/auth/sign-in";
 import { FeedDeck } from "@/components/feed/feed-deck";
 
-type State = "loading" | "out" | "in";
-
+/**
+ * The feed opens straight away - no sign-in.
+ *
+ * The client asked for it, and the app is a static site, so "no sign-in" means
+ * the anon role reads and writes directly under row level security. The
+ * policies allow exactly three things inside this one workspace: read the
+ * content, record a decision, and write the history that keeps a decision
+ * reversible. Nothing can be deleted and no other workspace is reachable.
+ */
 export default function Page() {
-  const [state, setState] = useState<State>("loading");
-
-  const check = useCallback(async () => {
-    const { data } = await supabase().auth.getSession();
-    setState(data.session ? "in" : "out");
-  }, []);
-
-  useEffect(() => {
-    void check();
-    const { data } = supabase().auth.onAuthStateChange((_event, session) => {
-      setState(session ? "in" : "out");
-    });
-    return () => data.subscription.unsubscribe();
-  }, [check]);
-
-  async function signOut() {
-    await supabase().auth.signOut();
-    setState("out");
-  }
-
   return (
     <div className="mx-auto flex h-dvh w-full max-w-[520px] flex-col">
-      {state === "loading" ? null : state === "out" ? (
-        <SignIn onSignedIn={() => setState("in")} />
-      ) : (
-        <FeedDeck onSignOut={() => void signOut()} />
-      )}
+      <FeedDeck />
     </div>
   );
 }

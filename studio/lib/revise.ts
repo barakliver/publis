@@ -21,15 +21,15 @@ export async function requestRevision(
   contentId: string,
   instruction: string,
 ): Promise<Revision> {
-  const { data } = await supabase().auth.getSession();
-  const token = data.session?.access_token;
-  if (!token) throw new Error("לא מחוברת.");
-
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
   const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/revise`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${token}`,
+      // No session to send: the function runs as anon, under the same
+      // policies the app itself does.
+      apikey: key,
+      Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ contentId, instruction }),
@@ -58,7 +58,6 @@ export async function applyRevision(
   instruction: string,
 ) {
   const db = supabase();
-  const { data: auth } = await db.auth.getUser();
 
   const { data: row, error: readError } = await db
     .from("content_items")
@@ -72,7 +71,6 @@ export async function applyRevision(
     content_id: item.id,
     snapshot: { hook: row.hook, caption: row.caption, cta: row.cta, body: row.body },
     reason: `revise: ${instruction}`.slice(0, 500),
-    created_by: auth.user?.id ?? null,
   });
   if (versionError) throw versionError;
 

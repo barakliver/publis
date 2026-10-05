@@ -2,9 +2,12 @@
  * revise - rewrites one piece of content from a free-text instruction.
  *
  * The studio is a static site, so the Anthropic key cannot live in it. This
- * runs on Supabase instead: the key is a function secret, and the caller's own
- * JWT is forwarded to PostgREST so row level security decides what can be read
- * and written. The function never uses the service role.
+ * runs on Supabase instead, with the key as a function secret.
+ *
+ * There is no sign-in, by the client's decision, so the function runs as the
+ * anon role under the same row level security policies the app itself obeys -
+ * read this one workspace, write its history. It never uses the service role,
+ * so it cannot reach anything the app could not reach anyway.
  *
  * It changes TEXT only. The slide pictures are rendered upstream from the
  * words, so a revision rides the next render - the app says so rather than
@@ -52,18 +55,11 @@ Deno.serve(async (req) => {
     );
   }
 
-  const auth = req.headers.get("Authorization");
-  if (!auth) return json({ error: "unauthorized" }, 401);
-
-  // The caller's token, not the service role: row level security still applies.
+  // Anon, not the service role: row level security still decides everything.
   const db = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_ANON_KEY")!,
-    { global: { headers: { Authorization: auth } } },
   );
-
-  const { data: userData } = await db.auth.getUser();
-  if (!userData?.user) return json({ error: "unauthorized" }, 401);
 
   let body: { contentId?: string; instruction?: string };
   try {
@@ -179,7 +175,6 @@ Deno.serve(async (req) => {
       output: after,
       status: "ok",
       latency_ms: Date.now() - started,
-      created_by: userData.user.id,
     });
 
     return json({
@@ -204,7 +199,6 @@ Deno.serve(async (req) => {
       status: "error",
       error: message.slice(0, 500),
       latency_ms: Date.now() - started,
-      created_by: userData.user.id,
     });
     return json({ error: "generation_failed", message: "הגרסה הזאת לא הסתדרה." }, 502);
   }

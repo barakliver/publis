@@ -106,14 +106,11 @@ export async function fetchQueue(approval: Approval): Promise<FeedItem[]> {
 }
 
 export async function decide(id: string, approval: Exclude<Approval, "pending">) {
-  const { data: auth } = await supabase().auth.getUser();
+  // No sign-in, so there is nobody to credit: decided_by stays null and
+  // decided_at carries the only fact there is.
   const { error } = await supabase()
     .from("content_items")
-    .update({
-      approval,
-      decided_by: auth.user?.id ?? null,
-      decided_at: new Date().toISOString(),
-    })
+    .update({ approval, decided_at: new Date().toISOString() })
     .eq("id", id);
   if (error) throw error;
 }
