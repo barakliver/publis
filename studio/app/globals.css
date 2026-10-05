@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Before I Do Content Studio - semantic tokens.
+
+   Two themes, one token set. Nothing in a component names a colour; everything
+   reads a token, so a theme switch is a change of nine values and not a sweep
+   through the codebase.
+
+   Dark is the product's own ground. Light follows Apple's structure - layered
+   neutrals, hairline separators, white cards floating on a slightly darker
+   ground - but in warm neutrals rather than Apple's cool greys, so it sits
+   beside the brand's cream instead of fighting it.
+
+   The dark ground is #0B0D10 and not pure black on purpose. Light type blooms
+   on an absolute black ground, and Hebrew has no ascenders or descenders to
+   help a blurred word stay readable.
+--------------------------------------------------------------------------- */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --ground: #F6F4F1;        /* the page itself */
+  --surface: #FFFFFF;       /* cards, sheets, rows */
+  --surface-2: #ECE9E4;     /* active chip, field, pressed */
+  --line: #DEDAD3;          /* hairline separator */
+  --line-soft: #E9E5DF;
+
+  --ink: #14161A;           /* primary text */
+  --ink-2: #5B6069;         /* secondary - 4.5:1 on surface */
+  --ink-3: #8A8F98;         /* labels only, never body */
+
+  --yes: #E0402F;           /* approve - the brand heart, darkened for light */
+  --no: #6F7681;            /* reject - a decision, not an error */
+
+  --shadow-card: 0 1px 2px rgb(20 22 26 / 0.05), 0 8px 24px rgb(20 22 26 / 0.06);
+  --scrim: rgb(20 22 26 / 0.28);
+}
+
+/* No stored choice and no JavaScript: follow the system. The guard lets an
+   explicit light choice win over a dark OS setting. Values repeat the block
+   below on purpose - CSS has no way to share a custom-property set. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  --ground: #0B0D10;
+  --surface: #15181D;
+  --surface-2: #1E222A;
+  --line: #272C35;
+  --line-soft: #1C2027;
+
+  --ink: #F2F1EE;
+  --ink-2: #9BA1AC;
+  --ink-3: #6B717C;
+
+  --yes: #F64C3B;
+  --no: #737C8C;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.42);
+  --scrim: rgb(0 0 0 / 0.55);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ground: #0B0D10;
+  --surface: #15181D;
+  --surface-2: #1E222A;
+  --line: #272C35;
+  --line-soft: #1C2027;
+
+  --ink: #F2F1EE;           /* warm white, not #FFF */
+  --ink-2: #9BA1AC;
+  --ink-3: #6B717C;
+
+  --yes: #F64C3B;           /* the brand red, unmuted on dark */
+  --no: #737C8C;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 12px 32px rgb(0 0 0 / 0.42);
+  --scrim: rgb(0 0 0 / 0.55);
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-yes: var(--yes);
+  --color-no: var(--no);
+
+  --font-ui: var(--font-rubik), "Assistant", system-ui, sans-serif;
+  --font-display: var(--font-frank), var(--font-rubik), Georgia, serif;
+
+  /* Radius. Restrained on purpose - not everything is a rounded card. */
+  --radius-sheet: 18px;
+  --radius-card: 14px;
+  --radius-control: 10px;
+
+  /* Motion. Exit is faster than enter, and both are short enough to feel
+     like a response rather than an animation. */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.26, 0.64, 1);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* The theme switch repaints the whole page; without this it snaps. */
+  transition: background-color 220ms var(--ease-out-soft),
+              color 220ms var(--ease-out-soft);
+}
+
+/* Hebrew on a dark ground blooms, so thin weights blur at small sizes while
+   large ones gain. The floor is 400 under 20px; 300 is only for display. */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.t-hero {
+  font-weight: 300;
+  line-height: 1.22;
+  letter-spacing: 0.004em;
+  text-wrap: balance;
+}
+.t-body { font-weight: 400; line-height: 1.6; }
+.t-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+}
+
+/* Focus is visible in both themes and never removed. */
+:where(a, button, [role="button"], input, textarea, select):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Every touch target clears 44px, including the ones that look smaller. */
+.tap {
+  position: relative;
+}
+.tap::after {
+  content: "";
+  position: absolute;
+  inset: 50% 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(50%, 50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
