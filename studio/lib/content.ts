@@ -31,6 +31,25 @@ export type FeedItem = {
 type RawCarousel = Record<string, string>;
 
 /**
+ * Where the rendered slides are served from.
+ *
+ * The images already exist once under `rounds/`, and that folder is already
+ * served by GitHub Pages, so the static build points straight at them instead
+ * of shipping a second copy. In development the sync script mirrors the same
+ * path shape under public/, so only the base changes - never the code.
+ */
+const SLIDES_BASE = process.env.NEXT_PUBLIC_SLIDES_BASE ?? "/content";
+
+/** Her nine carousels were built across two rounds: seven, then two. */
+function slideSource(carousel: number, slide: number): string {
+  const round = carousel <= 7 ? "2026-W43" : "2026-W44";
+  const post = carousel <= 7 ? carousel : carousel - 7;
+  const pp = String(post).padStart(2, "0");
+  const ss = String(slide).padStart(2, "0");
+  return `${SLIDES_BASE}/before-i-do/${round}/images/post-${pp}-${ss}.png`;
+}
+
+/**
  * The client's own 60-day workbook, extracted and tracked in the content
  * repository. Her wording is used verbatim; nothing here rewrites it.
  */
@@ -70,7 +89,7 @@ export async function loadCarousels(): Promise<FeedItem[]> {
       id: `c${i + 1}-s${s + 1}`,
       role: s === 0 ? "cover" : s === texts.length - 1 ? "final" : "body",
       text,
-      image: `/content/c${i + 1}-s${s + 1}.png`,
+      image: slideSource(i + 1, s + 1),
     }));
 
     return {

@@ -24,3 +24,8 @@ rounds/*/*/BeforeIDo-*/
 rounds/*/*/BeforeIDo-*.zip
 # download.zip IS tracked - it is what the app serves to whoever posts.
 !rounds/*/*/download.zip
+
+# The studio's static export is built into app/ and committed - but its own
+# build artefacts are not.
+studio/out
+studio/.next

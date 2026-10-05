@@ -8,7 +8,7 @@
     "start": "next start",
     "sync:content": "node scripts/sync-content.mjs",
     "predev": "node scripts/sync-content.mjs",
-    "prebuild": "node scripts/sync-content.mjs"
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

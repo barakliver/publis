@@ -1,0 +1,6 @@
+:HL["/publis/app/_next/static/chunks/28efst3yexdip.css","style"]
+:HL["/publis/app/_next/static/media/FrankRuhlLibre_300.p.1qdap--fm8eya.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/publis/app/_next/static/media/FrankRuhlLibre_400.p.3le3i5xocmrj8.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/publis/app/_next/static/media/FrankRuhlLibre_500.p.2pmmdje3xy5o1.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+:HL["/publis/app/_next/static/media/Rubik.p.1cclpw92ff792.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"vggjG_ajqSkL3arwH-G0T"}
