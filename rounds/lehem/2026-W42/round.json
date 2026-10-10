@@ -17,7 +17,7 @@
   "ends": "2026-10-18",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T08:23:50.981Z",
+  "generated_at": "2026-10-10T19:13:06.290Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -64,14 +64,7 @@
           "layout": "product",
           "headline": "תייגו את מי ששומר לכם אחד"
         }
-      ],
-      "images": [
-        "images/story-02-01.png",
-        "images/story-02-02.png",
-        "images/story-02-03.png",
-        "images/story-02-04.png"
-      ],
-      "image": "images/story-02-01.png"
+      ]
     },
     {
       "id": "post-01",
@@ -92,11 +85,7 @@
           "align": "top",
           "headline": "שלושה דורות"
         }
-      ],
-      "images": [
-        "images/post-01.png"
-      ],
-      "image": "images/post-01.png"
+      ]
     },
     {
       "id": "story-03",
@@ -133,14 +122,7 @@
           "dark": true,
           "headline": "תייגו את מי שחייב לטעום"
         }
-      ],
-      "images": [
-        "images/story-03-01.png",
-        "images/story-03-02.png",
-        "images/story-03-03.png",
-        "images/story-03-04.png"
-      ],
-      "image": "images/story-03-01.png"
+      ]
     },
     {
       "id": "post-02",
@@ -162,11 +144,7 @@
           "ink": "dark",
           "headline": "קמח, מים, זמן"
         }
-      ],
-      "images": [
-        "images/post-02.png"
-      ],
-      "image": "images/post-02.png"
+      ]
     },
     {
       "id": "story-04",
@@ -201,14 +179,7 @@
           "headline": "בואו מוקדם",
           "subline": "הם נגמרים"
         }
-      ],
-      "images": [
-        "images/story-04-01.png",
-        "images/story-04-02.png",
-        "images/story-04-03.png",
-        "images/story-04-04.png"
-      ],
-      "image": "images/story-04-01.png"
+      ]
     },
     {
       "id": "post-03",
@@ -229,11 +200,7 @@
           "align": "top",
           "headline": "קיפול, קירור, קיפול"
         }
-      ],
-      "images": [
-        "images/post-03.png"
-      ],
-      "image": "images/post-03.png"
+      ]
     },
     {
       "id": "story-05",
@@ -271,14 +238,7 @@
           "headline": "שלחו לחברה",
           "subline": "שחייבת להזמין אתכם"
         }
-      ],
-      "images": [
-        "images/story-05-01.png",
-        "images/story-05-02.png",
-        "images/story-05-03.png",
-        "images/story-05-04.png"
-      ],
-      "image": "images/story-05-01.png"
+      ]
     },
     {
       "id": "post-04",
@@ -297,11 +257,7 @@
           "layout": "product",
           "headline": "הריבה של סבא"
         }
-      ],
-      "images": [
-        "images/post-04.png"
-      ],
-      "image": "images/post-04.png"
+      ]
     },
     {
       "id": "story-06",
@@ -337,14 +293,7 @@
           "headline": "הזמינו מראש",
           "subline": "שישי נגמר מהר"
         }
-      ],
-      "images": [
-        "images/story-06-01.png",
-        "images/story-06-02.png",
-        "images/story-06-03.png",
-        "images/story-06-04.png"
-      ],
-      "image": "images/story-06-01.png"
+      ]
     },
     {
       "id": "post-05",
@@ -364,11 +313,7 @@
           "dark": true,
           "headline": "בצק פסטה, טרי"
         }
-      ],
-      "images": [
-        "images/post-05.png"
-      ],
-      "image": "images/post-05.png"
+      ]
     },
     {
       "id": "story-01",
@@ -406,14 +351,7 @@
           "headline": "היום ומחרתיים",
           "subline": "אחר כך שוב בשלישי"
         }
-      ],
-      "images": [
-        "images/story-01-01.png",
-        "images/story-01-02.png",
-        "images/story-01-03.png",
-        "images/story-01-04.png"
-      ],
-      "image": "images/story-01-01.png"
+      ]
     },
     {
       "id": "post-06",
@@ -434,11 +372,7 @@
           "align": "top",
           "headline": "שישי"
         }
-      ],
-      "images": [
-        "images/post-06.png"
-      ],
-      "image": "images/post-06.png"
+      ]
     }
   ]
 }
