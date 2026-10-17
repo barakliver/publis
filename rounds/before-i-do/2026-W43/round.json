@@ -16,7 +16,7 @@
   "ends": "2026-10-25",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T22:03:16.941Z",
+  "generated_at": "2026-10-17T17:50:03.551Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -78,18 +78,7 @@
           "dark": true,
           "headline": "שמרו לערב הבא שלכם"
         }
-      ],
-      "images": [
-        "images/post-01-01.png",
-        "images/post-01-02.png",
-        "images/post-01-03.png",
-        "images/post-01-04.png",
-        "images/post-01-05.png",
-        "images/post-01-06.png",
-        "images/post-01-07.png",
-        "images/post-01-08.png"
-      ],
-      "image": "images/post-01-01.png"
+      ]
     },
     {
       "id": "post-02",
@@ -137,18 +126,7 @@
           "dark": true,
           "headline": "שלחו למי שאמר לי לא משנה"
         }
-      ],
-      "images": [
-        "images/post-02-01.png",
-        "images/post-02-02.png",
-        "images/post-02-03.png",
-        "images/post-02-04.png",
-        "images/post-02-05.png",
-        "images/post-02-06.png",
-        "images/post-02-07.png",
-        "images/post-02-08.png"
-      ],
-      "image": "images/post-02-01.png"
+      ]
     },
     {
       "id": "post-03",
@@ -200,19 +178,7 @@
           "dark": true,
           "headline": "שמרו לפני הסבב"
         }
-      ],
-      "images": [
-        "images/post-03-01.png",
-        "images/post-03-02.png",
-        "images/post-03-03.png",
-        "images/post-03-04.png",
-        "images/post-03-05.png",
-        "images/post-03-06.png",
-        "images/post-03-07.png",
-        "images/post-03-08.png",
-        "images/post-03-09.png"
-      ],
-      "image": "images/post-03-01.png"
+      ]
     },
     {
       "id": "post-04",
@@ -260,18 +226,7 @@
           "dark": true,
           "headline": "שמרו לשיחה ביניכם"
         }
-      ],
-      "images": [
-        "images/post-04-01.png",
-        "images/post-04-02.png",
-        "images/post-04-03.png",
-        "images/post-04-04.png",
-        "images/post-04-05.png",
-        "images/post-04-06.png",
-        "images/post-04-07.png",
-        "images/post-04-08.png"
-      ],
-      "image": "images/post-04-01.png"
+      ]
     },
     {
       "id": "post-05",
@@ -319,18 +274,7 @@
           "dark": true,
           "headline": "שמרו לשיחת תקציב"
         }
-      ],
-      "images": [
-        "images/post-05-01.png",
-        "images/post-05-02.png",
-        "images/post-05-03.png",
-        "images/post-05-04.png",
-        "images/post-05-05.png",
-        "images/post-05-06.png",
-        "images/post-05-07.png",
-        "images/post-05-08.png"
-      ],
-      "image": "images/post-05-01.png"
+      ]
     },
     {
       "id": "post-06",
@@ -375,17 +319,7 @@
           "dark": true,
           "headline": "שלחו לבן הזוג"
         }
-      ],
-      "images": [
-        "images/post-06-01.png",
-        "images/post-06-02.png",
-        "images/post-06-03.png",
-        "images/post-06-04.png",
-        "images/post-06-05.png",
-        "images/post-06-06.png",
-        "images/post-06-07.png"
-      ],
-      "image": "images/post-06-01.png"
+      ]
     },
     {
       "id": "post-07",
@@ -433,18 +367,7 @@
           "dark": true,
           "headline": "שמרו לפני הספק הבא"
         }
-      ],
-      "images": [
-        "images/post-07-01.png",
-        "images/post-07-02.png",
-        "images/post-07-03.png",
-        "images/post-07-04.png",
-        "images/post-07-05.png",
-        "images/post-07-06.png",
-        "images/post-07-07.png",
-        "images/post-07-08.png"
-      ],
-      "image": "images/post-07-01.png"
+      ]
     }
   ]
 }
