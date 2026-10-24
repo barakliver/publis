@@ -16,7 +16,7 @@
   "ends": "2026-11-01",
   "timezone": "Asia/Jerusalem",
   "mode": "dry",
-  "generated_at": "2026-10-04T22:03:27.410Z",
+  "generated_at": "2026-10-24T18:01:53.801Z",
   "approval": {
     "status": "pending",
     "approved_by": null,
@@ -76,18 +76,7 @@
           "dark": true,
           "headline": "שמרו לחלוקת משימות"
         }
-      ],
-      "images": [
-        "images/post-01-01.png",
-        "images/post-01-02.png",
-        "images/post-01-03.png",
-        "images/post-01-04.png",
-        "images/post-01-05.png",
-        "images/post-01-06.png",
-        "images/post-01-07.png",
-        "images/post-01-08.png"
-      ],
-      "image": "images/post-01-01.png"
+      ]
     },
     {
       "id": "post-02",
@@ -135,18 +124,7 @@
           "dark": true,
           "headline": "שמרו לפגישת התקציב"
         }
-      ],
-      "images": [
-        "images/post-02-01.png",
-        "images/post-02-02.png",
-        "images/post-02-03.png",
-        "images/post-02-04.png",
-        "images/post-02-05.png",
-        "images/post-02-06.png",
-        "images/post-02-07.png",
-        "images/post-02-08.png"
-      ],
-      "image": "images/post-02-01.png"
+      ]
     }
   ]
 }
